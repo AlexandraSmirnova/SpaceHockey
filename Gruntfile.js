@@ -2,6 +2,28 @@ module.exports = function(grunt){
   /* Функция обертка, все внутри нее */
 
 	grunt.initConfig({
+				watch: {
+            fest: {
+                files: ['templates/*.xml'],
+                tasks: ['fest'],
+                options: {
+                    interrupt: true,
+                    atBegin: true
+                }
+            },
+						server: {
+                files: [
+                    'public_html/js/**/*.js', /* следим за статикой*/
+                    'public_html/css/**/*.css'
+                ],
+                options: {
+                    interrupt: true,
+                    livereload: true /* перезагрузить страницу */
+                }
+            }
+
+        },
+
         shell: {				
 
 					server: { /* Подзадача */
@@ -33,13 +55,21 @@ module.exports = function(grunt){
  								}
 						 } /* grunt-fest-templates */
 
-				} /* grunt-fest */
+				},
+				concurrent: {
+            target: ['watch', 'shell'],
+            options: {
+                logConcurrentOutput: true /* Вывод логов */
+            }
+        }
+   /* grunt-fest */
 
     });
-
+	grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-fest');
-	grunt.registerTask('default', [ 'fest', 'shell' ]);
+	grunt.registerTask('default', ['concurrent']); /* задача по умолчанию */
 
 }
 
