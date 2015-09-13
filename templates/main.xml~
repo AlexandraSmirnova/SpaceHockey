@@ -1,9 +1,11 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div>
         <h1>Space Hockey</h1>
-				<button class="js-scoreboard">Start Game</button>								
-				<div class="js-start-game"><button >Start Game</button></div>
-				<div class="js-login"><button >Start Game</button></div>
+				<ul>
+					<li><button class="js-scoreboard btn btn-primary">ScoreBoard</button></li>								
+					<li><button class="js-start-game btn btn-primary">Start Game</button></li>
+					<li><button class="js-login btn btn-primary">Login</button></li>
+				</ul>
     </div>
 
 </fest:template>

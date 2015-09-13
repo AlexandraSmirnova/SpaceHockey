@@ -3,6 +3,7 @@
     <meta charset="utf-8" />
     <title>Start page</title>
     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <script src="/js/lib/jquery.js"></script>
     <script src="/js/tmpl/main.js"></script>
     <script src="/js/tmpl/scoreboard.js"></script>
@@ -10,6 +11,7 @@
     <script src="/js/tmpl/login.js"></script>
 </head><body>
     <div id="page"></div>
+		<div id="header">Space Hockey</div>
     <script>
 				var $page = $('#page'),
 						currentScreen = 'main';
@@ -74,7 +76,7 @@
 						// Инициализируем обработчики событий
 						$page.find('.js-scoreboard').on('click', showScoreboardScreen);
 						$page.find('.js-start-game').on('click', showGameScreen);
-						$page.find('.js-login').on('click', showGameScreen);
+						$page.find('.js-login').on('click', showLoginScreen);
 				}
 
 				/* Деструктор экрана "Главный" */
