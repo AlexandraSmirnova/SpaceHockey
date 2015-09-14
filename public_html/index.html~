@@ -10,8 +10,9 @@
     <script src="/js/tmpl/game.js"></script>
     <script src="/js/tmpl/login.js"></script>
 </head><body>
+				<div id="header">Space Hockey</div>
     <div id="page"></div>
-		<div id="header">Space Hockey</div>
+
     <script>
 				var $page = $('#page'),
 						currentScreen = 'main';
