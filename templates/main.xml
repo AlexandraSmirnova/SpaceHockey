@@ -3,9 +3,9 @@
     <div class = "container">
         <h1>Main Menu</h1>
 					
-					<div class = "min_wrapper"><a href = "#scoreboard" class="btn btn-primary">ScoreBoard</a></div>							
-					<div class = "min_wrapper"><a href = "#game" class="btn btn-primary">Start Game</a></div>
-					<div class = "min_wrapper"><a href = "#login" class="btn btn-primary">Login</a></div>
+					<div class = "menu_item"><a href = "#scoreboard" class="btn btn-primary">ScoreBoard</a></div>						
+				  <div class = "menu_item"><a href = "#game" class="btn btn-primary">Start Game</a></div>
+					<div class = "menu_item"><a href = "#login" class="btn btn-primary">Login</a></div>
 
     </div>
 
