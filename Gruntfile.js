@@ -45,13 +45,13 @@ module.exports = function(grunt){
 					dest: 'public_html/js/tmpl' /* результирующая директория */
 				}],
 				options: { 							
-					template: function (data) { /* формат функции-шаблона */
-						return grunt.template.process(
-							/* присваиваем функцию-шаблон переменной */
-							'var <%= name %>Tmpl = <%= contents %> ;',
-							{data: data}
-						);
-					}	
+					template: function (data) {
+							return grunt.template.process(
+									// 'var <%= name %>Tmpl = <%= contents %> ;',
+									'define(function () { return <%= contents %> ; });',
+									{data: data}
+							);
+					}
  				}
 			} /* grunt-fest-templates */
 
