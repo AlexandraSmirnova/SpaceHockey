@@ -6,7 +6,7 @@
 					<div class = "menu-item"><a href = "#scoreboard" class="menu-item__link btn btn-primary">ScoreBoard</a></div>						
 				  <div class = "menu-item"><a href = "#game" class="menu-item__link btn btn-primary ">Start Game</a></div>
 					<div class = "menu-item"><a href = "#login" class="menu-item__link btn btn-primary">Login</a></div>
-
+					<div class = "menu-item"><a href = "#register" class="menu-item__link btn btn-primary">Registration</a></div>
     </div>
 
 </fest:template>
