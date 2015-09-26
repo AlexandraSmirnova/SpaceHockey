@@ -1,11 +1,11 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-		<div id = "header"> Space Hockey</div>
+		<div class = "header"> Space Hockey</div>
     <div class = "container">
         <h1>Main Menu</h1>
 					
-					<div class = "menu_item"><a href = "#scoreboard" class="btn btn-primary">ScoreBoard</a></div>						
-				  <div class = "menu_item"><a href = "#game" class="btn btn-primary">Start Game</a></div>
-					<div class = "menu_item"><a href = "#login" class="btn btn-primary">Login</a></div>
+					<div class = "menu-item"><a href = "#scoreboard" class="menu-item__link btn btn-primary">ScoreBoard</a></div>						
+				  <div class = "menu-item"><a href = "#game" class="menu-item__link btn btn-primary ">Start Game</a></div>
+					<div class = "menu-item"><a href = "#login" class="menu-item__link btn btn-primary">Login</a></div>
 
     </div>
 
