@@ -3,7 +3,7 @@
 	<div class = "container">
 			<h1>Login</h1>
 
-        <form method="post" action="/api/v1/auth/signin">
+        <form method="post" action="/api/v1/auth/signin" id = "idForm" >
             <div class = "form-div">
 								<label for="login">Login:<br/>
 								<input type="text" class = "form-div__input" name="login" id = "login" /></label>
@@ -14,7 +14,8 @@
 								<input type="password" class = "form-div__input" name="password" id = "password" /></label>
 						</div>
 				
-            <div class = "form-div"><button type="submit"   class = "submit-btn btn btn-success  " >GO!</button></div>
+            <div class = "form-div"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
+						<a class="submit-btn btn btn-primary" href="#register">Register</a>
         </form>
    
 	</div>
