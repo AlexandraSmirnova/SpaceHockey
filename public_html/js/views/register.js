@@ -24,9 +24,9 @@ define([
             $(this.el).html(this.template());
 									
 						$("#idForm").on("submit", function(event) {
-								var url = "/signup";
-								event.preventDefautlt();
-								
+								var url = "/auth/signup";
+								//event.preventDefautlt();
+								alert("ха"+url);
 								if(check()){
 									$.ajax({
 												 type: "POST",

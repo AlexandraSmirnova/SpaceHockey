@@ -17,8 +17,9 @@ define([
             $(this.el).html(this.template());
 						
 						$("#idForm").on("submit", function(event) {
-								var url = "/signin";
-								event.preventDefautlt();
+								var url = "/api/v1/auth/signin";
+								alert(url);
+								//event.preventDefautlt();
 
 								$.ajax({
 											 type: "POST",
@@ -27,7 +28,7 @@ define([
 											 
 											 success: function(data)
 											 {
-													 window.location.replace("/#main");
+													 window.location.replace("/#game");
 												   //postDispatcher(data);
 											 }
 										 });
