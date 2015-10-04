@@ -9,9 +9,7 @@ define([
     var View = Backbone.View.extend({
 				el: $("#page"),
         template: tmpl,
-        initialize: function () {
-            // TODO
-        },
+
         render: function () {
 						
             $(this.el).html(this.template());
@@ -38,10 +36,10 @@ define([
             return this;
         },
         show: function () {
-            // TODO
+          	 this.$el.render();
         },
         hide: function () {
-            // TODO
+             this.$el.empty();
         }
 
     });

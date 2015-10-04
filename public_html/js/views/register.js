@@ -9,9 +9,6 @@ define([
     var View = Backbone.View.extend({
 			  el: $("#page"),
         template: tmpl,
-        initialize: function () {
-            // TODO
-        },
 				
 				check: function(){
 					pass1 = $('#password').val();
@@ -27,7 +24,7 @@ define([
 								var url = "/auth/signup";
 								//event.preventDefautlt();
 								alert("ха"+url);
-								if(check()){
+								if(this.check()){
 									$.ajax({
 												 type: "POST",
 												 url: url,
@@ -45,10 +42,10 @@ define([
             return this;
         },
         show: function () {
-            // TODO
+            this.$el.render();
         },
         hide: function () {
-            // TODO
+            this.$el.empty();
         }
 
     });

@@ -40,4 +40,22 @@
 	min-width: 200px;
 }
 
+.score-list{
+	min-width: 300px;
+	max-width: 400px !important;
+	margin: 0 auto;
+	text-align: left;
+	background-color: #d0e3f7;
+	border-radius: 10px;
+}
+
+.score-list__item{
+
+	/*border: black 1px solid;*/
+}
+
+.score-list__item_head{
+	/*background-color: #a358e8;
+	border-radius: 20px;*/
+}
 
