@@ -3,7 +3,7 @@
 	<div class = "container">
 			<h1>Login</h1>
 
-        <form method="post" id = "idForm" >
+        <form  id = "idForm" >
             <div class = "form-div">
 								<label for="login">Login:<br/>
 								<input type="text" class = "form-div__input" name="login" id = "login" /></label>
