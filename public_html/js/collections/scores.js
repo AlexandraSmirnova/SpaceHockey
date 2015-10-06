@@ -14,11 +14,21 @@ define([
 			new PlayerModel({name:'Max', score: 1340}),
 			new PlayerModel({name:'Rita', score: 2240}),
 			new PlayerModel({name:'Tom', score: 3420}),
+			new PlayerModel({name:'Linda', score: 1420}),
+			new PlayerModel({name:'Ben', score: 2620}),
 			new PlayerModel({name:'David', score: 3410})
 		];
 
     var PlayerCollection = Backbone.Collection.extend({
-			model: PlayerModel
+			model: PlayerModel,
+
+			comparator: function (playerA, playerB) {
+				var scoreDiff = playerB.get('score') - playerA.get('score');
+				if (scoreDiff === 0) {
+					 return playerA.get('name') < playerB.get('name') ? -1 : 1;
+				}
+				return scoreDiff;
+			}
     });
 
     return new PlayerCollection(players);

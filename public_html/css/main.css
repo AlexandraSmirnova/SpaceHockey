@@ -4,7 +4,7 @@
 
 .header{
 	background-color: #0660ff;
-	color:#fff;
+	color:	#fff; 
 	margin: 0 auto;
 	text-align: center;
 	padding: 20px;
@@ -22,13 +22,21 @@
 }
 
 .menu-item__link{
-	min-width: 300px;
+	width: 100%;
+	max-width: 300px;
+	min-width: 100px;
 	padding: 15px !important;
 	border-radius: 10px/15px !important;
 }
 
 .form-div{
 	margin: 10px
+}
+
+.form-div_errors{
+	max-width: 300px;
+	margin: 0 auto;
+	display: none;
 }
 
 .form-div__input{
@@ -41,7 +49,7 @@
 }
 
 .score-list{
-	min-width: 300px;
+	/*min-width: 100px;*/
 	max-width: 400px !important;
 	margin: 0 auto;
 	text-align: left;
@@ -59,3 +67,7 @@
 	border-radius: 20px;*/
 }
 
+
+.back-button{
+	margin-top: 10px;
+}

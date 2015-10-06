@@ -4,6 +4,7 @@
 			<h1>Login</h1>
 
         <form  id = "idForm" >
+						<div class = "form-div form-div_errors alert alert-danger"></div>
             <div class = "form-div">
 								<label for="login">Login:<br/>
 								<input type="text" class = "form-div__input" name="login" id = "login" /></label>
@@ -19,6 +20,6 @@
         </form>
    
 	</div>
-	<a href="#main" class="btn btn-primary">Back to the Future</a>
+	<fest:include src="./backbutton.xml" context="json"/>
 </fest:template>
 
