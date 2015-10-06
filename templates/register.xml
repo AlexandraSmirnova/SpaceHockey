@@ -3,7 +3,7 @@
 	<div class = "container">
 	<h1>Registration</h1>
 					
-		      <form id = "idForm" >
+		      <form id = "idFormSignup" >
 							<div class = "form-div form-div_errors alert alert-danger"></div>
 		          <div class = "form-div">
 									<label for="login">Login*:<br/>
@@ -24,9 +24,8 @@
 									<label for="password2">Input your password again*:<br/>
 									<input type="password" class = "form-div__input" name="password2" id = "password2" /></label>
 							</div>
-						
-				
-		          <div class = "form-div"><button type="submit"   class = "submit-btn btn btn-success  " >GO!</button></div>
+										
+		          <div class = "form-div"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
 		      </form>
   </div>
 	<fest:include src="./backbutton.xml" context="json"/>

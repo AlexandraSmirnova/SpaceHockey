@@ -10,45 +10,80 @@ define([
 			  el: $("#page"),
         template: tmpl,
 				
-				check: function(){
-					pass1 = $('#password').val();
-					pass2 = $('#password2').val();
-					alert(pass1+ " " + pass2 );
-					return pass1 === pass2;
+				events: {
+            "submit #idFormSignup": "submitSignup",
+            "click a": "hide"
 				},
 
         render: function () {
             $(this.el).html(this.template());
-									
-						$("#idForm").on("submit", function(event) {
-								var url = "/auth/signup";
-								//event.preventDefautlt();
-								alert("ха"+url);
-								if(this.check()){
+				},
+
+				submitSignup: function(event) {
+
+					if(validateForm()){	
 									$.ajax({
 												 type: "POST",
-												 url: url,
+												 url: "/auth/signup",
 												 data: $(this).serialize(),
 													
-												 success: function(data)
-												 {
+												 success: function(data){
 														 window.location.replace("/#main");
-														 //postDispatcher(data);
 												 }
-											 });
-										}
-									});
-							
-            return this;
+									 });
+						}
+																
+            return false;
         },
+
         show: function () {
             this.$el.render();
         },
+
         hide: function () {
             this.$el.empty();
         }
 
     });
+
+		function validateForm(){
+ 				var valid = checkName() && checkPasswords() && checkEmail();
+				if(!valid)
+						$('.form-div_errors').css('display', 'block');		
+        return valid;
+    }
+		
+		function checkPasswords(){
+		    var userPassword1 = $("input[name = password]").val();
+				var userPassword2 = $("input[name = password2]").val();
+				if (userPassword1 == '' || userPassword2 == '' ) {
+            $('.form-div_errors').text("Input your password in both fields!");
+            return false;
+        }
+        if (userPassword1 != userPassword2 ) {
+            $('.form-div_errors').text("Passwords should be the same! Input again, please.");
+            return false;
+        }
+				return true;
+		}
+
+		function checkName(){
+			var userName = $("input[name = login]").val();
+        if (userName == '') {
+            $('.form-div_errors').text("Input your login, please!");
+						return false;				
+				}		
+				return true;
+		}
+
+		function checkEmail(){
+			var userEmail = $("input[name = email]").val();
+        if (userEmail == '') {
+            $('.form-div_errors').text("Input your email, please!");
+						return false;				
+				}		
+				return true;
+		}
 
     return new View();
 });
