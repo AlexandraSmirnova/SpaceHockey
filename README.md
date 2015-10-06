@@ -6,4 +6,4 @@ To see these project some techologies should be installed on your computer
 - java environment , version 8
 
 After download don't forget enter next command: 
-npm install
+(sudo) npm install
