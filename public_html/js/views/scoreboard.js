@@ -1,11 +1,11 @@
 define([
     'backbone',
     'tmpl/scoreboard',
-		'collections/scores'
+	'collections/scores'
 ], function(	
     Backbone,
     tmpl,
-		playerCollection
+	playerCollection
 ){
 
     var ScoreBoardView = Backbone.View.extend({				
@@ -15,10 +15,10 @@ define([
         render: function () {
             this.$el.html(this.template);
 
-						var self = this;             
-		        playerCollection.forEach(function(num){
-		          self.$el.find('.score-list').append('<tr class= "score-list__item"><th>'+num.get('name')+'</th><th>'+num.get('score')+'<th><tr>');
-		        });
+			var self = this;             
+			playerCollection.forEach(function(num){
+				self.$el.find('.score-list').append('<tr class= "score-list__item"><th>'+num.get('name')+'</th><th>'+num.get('score')+'<th><tr>');
+			});
         },
 
         show: function () {

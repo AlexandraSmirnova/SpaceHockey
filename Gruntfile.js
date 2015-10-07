@@ -64,7 +64,7 @@ module.exports = function(grunt){
                 logConcurrentOutput: true /* Вывод логов */
             }
         }
-   /* grunt-fest */
+	/* grunt-fest */
 
     });
 
