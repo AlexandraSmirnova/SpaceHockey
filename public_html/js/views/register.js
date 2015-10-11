@@ -22,10 +22,16 @@ define([
 	submitSignup: function(event) {
 
 	    if(validateForm()){	
+		var formData = {
+		    "login":$("input[name = login]").val(),
+		    "email":$("input[name = emqqil]").val(),
+		    "password":$("input[name = password]").val() 
+		};
 		$.ajax({
 		    type: "POST",
 		    url: "/api/v1/auth/signin",
-		    data: $(this).serialize(),
+		    dataType: 'json',
+		    data: formData,
 										
 		    success: function(data){
 			window.location.replace("/#game");
