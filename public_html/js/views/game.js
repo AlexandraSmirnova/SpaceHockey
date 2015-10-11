@@ -7,7 +7,7 @@ define([
 ){
 
     var View = Backbone.View.extend({
-			  el: $("#page"),
+		el: $("#page"),
         template: tmpl,
      
         render: function () {

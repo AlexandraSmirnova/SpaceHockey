@@ -12,6 +12,11 @@
 	border-radius: 15px;
 }
 
+.head-title{
+	text-align: center;
+	font-size: 36px;
+}
+
 .container{
 	text-align: center;
 }
@@ -25,8 +30,8 @@
 	width: 100%;
 	max-width: 300px;
 	min-width: 100px;
-	padding: 15px !important;
-	border-radius: 10px/15px !important;
+	padding: 15px;
+	border-radius: 10px/15px ;
 }
 
 .form-div{
@@ -50,7 +55,7 @@
 
 .score-list{
 	/*min-width: 100px;*/
-	max-width: 400px !important;
+	max-width: 400px;
 	margin: 0 auto;
 	text-align: left;
 	background-color: #d0e3f7;
@@ -58,7 +63,6 @@
 }
 
 .score-list__item{
-
 	/*border: black 1px solid;*/
 }
 

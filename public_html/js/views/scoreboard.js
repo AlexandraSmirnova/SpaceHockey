@@ -11,14 +11,31 @@ define([
     var ScoreBoardView = Backbone.View.extend({				
         el: $("#page"),
         template: tmpl,
+		
+		initialize: function () {
+           
+			$.ajax({
+				url: "utils/score_list.html",
+				context: this,
+				success: function(response) {
+					this.playerTemplate = response;
+					this.renderPlayerTemplate();
+				}
+			});
+        },
 
         render: function () {
             this.$el.html(this.template);
-
-			var self = this;             
-			playerCollection.forEach(function(num){
-				self.$el.find('.score-list').append('<tr class= "score-list__item"><th>'+num.get('name')+'</th><th>'+num.get('score')+'<th><tr>');
-			});
+			
+			if (this.playerTemplate) {
+                this.renderPlayerTemplate(); 
+            }
+        },
+		
+		renderPlayerTemplate: function() {
+            var players  = this.collection.toJSON();
+            var playersHtml = _.template( this.playerTemplate, {players: players});
+            $('.score-list').html(playersHtml); 
         },
 
         show: function () {
@@ -30,6 +47,6 @@ define([
 
     });
  
-    return  new ScoreBoardView();
+    return  new ScoreBoardView({collection: playerCollection});
 });
 

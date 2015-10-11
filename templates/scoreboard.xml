@@ -1,7 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-	<div class = "header"> Space Hockey</div>
+	<fest:script>var json = {title: 'ScoreBoard' };</fest:script>
+	<fest:include src="./header.xml" context="json"/>
 	<div class = "container">
-		<h1>ScoreBoard</h1>
 		<table class = 'score-list table' >
 			<tr class = 'score-list__item score-list__item_head' 	>
 	 	   <th> Player </th>
