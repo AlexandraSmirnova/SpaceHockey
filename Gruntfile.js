@@ -1,63 +1,63 @@
 module.exports = function(grunt){
-  /* Функция обертка, все внутри нее */
+    /* Функция обертка, все внутри нее */
 
-	grunt.initConfig({
+    grunt.initConfig({
 
-		watch: {
+	watch: {
 
-	        fest: {
-   		        files: ['templates/*.xml'],
-       			tasks: ['fest'],
-           		options: {
-                   	interrupt: true,
-                   	atBegin: true
+	    fest: {
+   		files: ['templates/*.xml'],
+       		tasks: ['fest'],
+           	options: {
+		    interrupt: true,
+		    atBegin: true
                 }
-            },
-			server: {
-                files: [
-                    'public_html/js/**/*.js', /* следим за статикой*/
-                    'public_html/css/**/*.css'
-                ],
-                options: {
+	    },
+	    server: {
+		files: [
+		    'public_html/js/**/*.js', /* следим за статикой*/
+		    'public_html/css/**/*.css'
+		],
+		options: {
                     interrupt: true,
                     livereload: true /* перезагрузить страницу */
                 }
             }
 
-        },
+	},
 
-        shell: {				
-
-			server: { /* Подзадача */
-				command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+	shell: {				
+	    server: { /* Подзадача */
+		//command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+		command: 'java -cp Server.jar main.Main 8080'
 						/* запуск сервера */
-			}
+	    }
 
-		}, /* grunt-shell */
+	}, /* grunt-shell */
 				
-		fest: {
+	fest: {
 			
-			templates: { /* Цель */
-				files: [{
-					expand: true,
-					cwd: 'templates', /* исходная директория */
-					src: '*.xml', /* имена шаблонов */
-					dest: 'public_html/js/tmpl' /* результирующая директория */
-				}],
-				options: { 							
-					template: function (data) {
-							return grunt.template.process(
-									// 'var <%= name %>Tmpl = <%= contents %> ;',
-									'define(function () { return <%= contents %> ; });',
-									{data: data}
-							);
-					}
- 				}
-			} /* grunt-fest-templates */
+	    templates: { /* Цель */
+		files: [{
+		    expand: true,
+		    cwd: 'templates', /* исходная директория */
+		    src: '*.xml', /* имена шаблонов */
+		    dest: 'public_html/js/tmpl' /* результирующая директория */
+		}],
+		options: { 							
+		    template: function (data) {
+			return grunt.template.process(
+			    // 'var <%= name %>Tmpl = <%= contents %> ;',
+			    'define(function () { return <%= contents %> ; });',
+			    {data: data}
+			);
+		    }
+ 		}
+	    } /* grunt-fest-templates */
 
-		},
+	},
 
-		concurrent: {
+	concurrent: {
 
             target: ['watch', 'shell'],
             options: {
@@ -68,12 +68,12 @@ module.exports = function(grunt){
 
     });
 
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-concurrent');
-	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-fest');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-fest');
 
-	grunt.registerTask('default', ['concurrent']); /* задача по умолчанию */
+    grunt.registerTask('default', ['concurrent']); /* задача по умолчанию */
 
 }
 

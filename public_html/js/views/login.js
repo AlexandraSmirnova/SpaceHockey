@@ -11,7 +11,7 @@ define([
 	template: tmpl,
 	
 	events: {
-	    "submit #idFormSignin": "submitSignin",
+	    "submit .form_signin": "submitSignin",
 	    "click a": "hide"
 	},
 
@@ -24,17 +24,26 @@ define([
 				
 	    if(validateForm()){
 		var formData = {
-		    "login":$("input[name = login]").val(),
-		    "password":$("input[name = password]").val() 
+		    'login': $("input[name = login]").val(),
+		    'password': $("input[name = password]").val() 
 		};
 		$.ajax({
 		    type: "POST",
-		    url: "/api/v1/auth/signin",
-		    dataType: 'json',
-		    data: formData,
-												 
+		    url: "/auth/signin",		   
+		    data: formData,												 
 		    success: function(data){
-			window.location.replace("/#game");					
+			alert(data);
+			data =  JSON.parse(data);
+
+			if(data["status"] == "200"){
+                             console.log("ajax success");
+                             Backbone.history.navigate('', { trigger: true });
+			 }
+			else{
+                            var $error = $(".form__row_errors"); 
+                            $error.append("I'm error!");
+                            $error.show();
+                        }
 		    }
 		});
 	    }
@@ -54,14 +63,14 @@ define([
     function validateForm(){
  	var valid = checkName() && checkPassword();
 	if(!valid)
-	    $('.form-div_errors').css('display', 'block');		
+	    $('.form__row_errors').css('display', 'block');		
         return valid;
     }
 
     function checkName(){
 	var userName = $("input[name = login]").val();
         if (userName == '') {
-	    $('.form-div_errors').text("Input your login, please!");
+	    $('.form__row_errors').text("Input your login, please!");
 	    return false;				
 	}		
 	return true;
@@ -70,7 +79,7 @@ define([
     function checkPassword(){
 	var userPassword = $("input[name = password]").val();
 	if (userPassword == '') {
-	    $('.form-div_errors').text("Input your password, please!");
+	    $('.form__row_errors').text("Input your password, please!");
 	    return false;				
 	}		
 	return true;

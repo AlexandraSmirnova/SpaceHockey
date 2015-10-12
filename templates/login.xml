@@ -1,25 +1,25 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-	<fest:script>var json = {title: 'Login' };</fest:script>
-	<fest:include src="./header.xml" context="json"/>
-	<div class = "container">
+  <fest:script>var json = {title: 'Login' };</fest:script>
+  <fest:include src="./header.xml" context="json"/>
+  <div class = "container">
 
-		<form  id = "idFormSignin" >
-			<div class = "form-div form-div_errors alert alert-danger"></div>
-			<div class = "form-div">
-				<label for="login">Login:<br/>
-				<input type="text" class = "form-div__input" name="login" id = "login" /></label>
-			</div>
+    <form  class = "form form_signin" id = "idFormSignin" >
+      <div class = "form__row form__row_errors alert alert-danger"></div>
+      <div class = "form__row">
+	<label for="login">Login:<br/>
+	<input type="text" class = "form__input" name="login" id = "login" /></label>
+      </div>
 							
-			<div class = "form-div">
-				<label for="password">Password:<br/>
-				<input type="password" class = "form-div__input" name="password" id = "password" /></label>
-			</div>
+      <div class = "form__row">
+	<label for="password">Password:<br/>
+	<input type="password" class = "form__input" name="password" id = "password" /></label>
+      </div>
 				
-			<div class = "form-div"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
-			<a class="submit-btn btn btn-primary" href="#register">Register</a>
-        </form>
+      <div class = "form__row"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
+      <a class="submit-btn btn btn-primary" href="#register">Register</a>
+    </form>
    
-	</div>
-	<fest:include src="./backbutton.xml" context="json"/>
+  </div>
+  <fest:include src="./backbutton.xml" context="json"/>
 </fest:template>
 
