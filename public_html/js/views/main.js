@@ -9,7 +9,8 @@ define([
     var Main = Backbone.View.extend({
         el: $("#page"),
         template: tmpl,
-     		render: function () {
+
+     	render: function () {
             this.$el.html(this.template);
             return this;
         },

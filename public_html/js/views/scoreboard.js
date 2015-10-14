@@ -1,38 +1,38 @@
 define([
     'backbone',
     'tmpl/scoreboard',
-	'collections/scores'
+    'collections/scores'
 ], function(	
     Backbone,
     tmpl,
-	playerCollection
+    playerCollection
 ){
 
     var ScoreBoardView = Backbone.View.extend({				
-        el: $("#page"),
+	el: $("#page"),
         template: tmpl,
 		
-		initialize: function () {
+	initialize: function () {
            
-			$.ajax({
-				url: "utils/score_list.html",
-				context: this,
-				success: function(response) {
-					this.playerTemplate = response;
-					this.renderPlayerTemplate();
-				}
-			});
+	    $.ajax({
+		url: "utils/score_list.html",
+		context: this,
+		success: function(response) {
+		    this.playerTemplate = response;
+		    this.renderPlayerTemplate();
+		}
+	    });
         },
 
         render: function () {
             this.$el.html(this.template);
 			
-			if (this.playerTemplate) {
+	    if (this.playerTemplate) {
                 this.renderPlayerTemplate(); 
             }
         },
 		
-		renderPlayerTemplate: function() {
+	renderPlayerTemplate: function() {
             var players  = this.collection.toJSON();
             var playersHtml = _.template( this.playerTemplate, {players: players});
             $('.score-list').html(playersHtml); 

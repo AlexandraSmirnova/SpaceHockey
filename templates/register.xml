@@ -26,7 +26,7 @@
     </div>										
     <div class = "form__row"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
   </form>
-
+  <fest:include src="./backbutton.xml" context="json"/>
 </div>
-<fest:include src="./backbutton.xml" context="json"/>
+
 </fest:template>

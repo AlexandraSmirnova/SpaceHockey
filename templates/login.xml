@@ -18,8 +18,8 @@
       <div class = "form__row"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
       <a class="submit-btn btn btn-primary" href="#register">Register</a>
     </form>
-   
+    <fest:include src="./backbutton.xml" context="json"/>
   </div>
-  <fest:include src="./backbutton.xml" context="json"/>
+  
 </fest:template>
 

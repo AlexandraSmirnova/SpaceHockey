@@ -8,6 +8,7 @@
 	<th>Score  </th>
       </tr>
     </table>
+    <fest:include src="./backbutton.xml" context="json"/>
   </div>
-  <fest:include src="./backbutton.xml" context="json"/>
+
 </fest:template>
