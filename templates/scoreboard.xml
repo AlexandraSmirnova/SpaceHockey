@@ -1,0 +1,14 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+  <fest:script>var json = {title: 'ScoreBoard' };</fest:script>
+  <fest:include src="./header.xml" context="json"/>
+  <div class = "container">
+    <table class = 'score-list table' >
+      <tr class = 'score-list__item score-list__item_head' 	>
+	<th>Player </th>
+	<th>Score  </th>
+      </tr>
+    </table>
+    <fest:include src="./backbutton.xml" context="json"/>
+  </div>
+
+</fest:template>

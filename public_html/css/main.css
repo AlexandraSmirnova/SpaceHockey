@@ -1,0 +1,90 @@
+body{
+    background-image: url(../images/prosto_cosmos.jpg);
+    background-color: #1a00aa ;
+    color: #fff;
+}
+
+#page{
+    margin: 20px;
+}
+
+.header{
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 600px;
+    background-color: #0550cc;
+    color:	#fff; 
+    text-align: center;
+    font-size: 42px;
+    letter-spacing: 12px;
+    border-radius: 15px;
+}
+
+.head-title{
+    text-align: center;
+    font-size: 36px;
+    color: #ffff88;
+}
+
+.container{
+    text-align: center;
+    background: rgba(55, 75, 255, 0.2);
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.menu__item{
+    margin: 10px;
+}
+
+.menu__link{
+    width: 100%;
+    max-width: 300px;
+    min-width: 100px;
+    padding: 15px;
+    border-radius: 50px/30px ;
+}
+
+.form__row{
+    margin: 10px;
+}
+
+.form__row_errors{
+    max-width: 300px;
+    margin: 0 auto;
+    display: none;
+}
+
+.form__input{
+   min-width: 200px;	
+   border-radius: 5px;
+}
+
+.submit-btn{
+    min-width: 200px;
+}
+
+.score-list{
+/*min-width: 100px;*/
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+    background-color: #d0e3f7;
+    border-radius: 10px;
+}
+
+.score-list__item{
+	/*border: black 1px solid;*/
+}
+
+.score-list__item_head{
+	/*background-color: #a358e8;
+	border-radius: 20px;*/
+}
+
+
+.back-button{
+    margin-top: 10px;
+    float: left;
+}

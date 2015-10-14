@@ -1,0 +1,22 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+<fest:script>var json = {title: 'Main Menu' };</fest:script>
+<fest:include src="./header.xml" context="json"/>
+<div class = "container">
+  <div class = "menu">
+    <div class = "menu__item">
+      <a href = "#scoreboard" class="menu__link btn btn-primary">ScoreBoard</a>
+    </div>						
+    <div class = "menu__item">
+      <a href = "#game" class="menu__link btn btn-primary ">Start Game</a>
+    </div>
+    <div class = "menu__item">
+      <a href = "#login" class="menu__link btn btn-primary" id ="logBtn">Login</a>
+    </div>
+    <div class = "menu__item">
+      <a href = "#register" class="menu__link btn btn-primary" id ="regBtn">
+      Registration</a>
+    </div>
+  </div>
+</div>
+
+</fest:template>
