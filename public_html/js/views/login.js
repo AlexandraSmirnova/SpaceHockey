@@ -1,10 +1,13 @@
 define([
     'backbone',
-    'tmpl/login'
+    'tmpl/login',
+    'utils/validator'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    Validator
 ){
+    var validator = new Validator("login");
 
     var View = Backbone.View.extend({
 	el: $("#page"),
@@ -16,13 +19,13 @@ define([
 	},
 
         render: function () {						
-            $(this.el).html(this.template());																								 
-            return this;
+            $(this.el).html(this.template());	
+	    return this;
         },
 
 	submitSignin: function(event) {
-				
-	    if(validateForm()){
+	    validator.validateForm();
+	    if(validator.form_valid){
 		var formData = {
 		    'login': $("input[name = login]").val(),
 		    'password': $("input[name = password]").val() 
@@ -60,29 +63,5 @@ define([
 
     });
 
-    function validateForm(){
- 	var valid = checkName() && checkPassword();
-	if(!valid)
-	    $('.form__row_errors').css('display', 'block');		
-        return valid;
-    }
-
-    function checkName(){
-	var userName = $("input[name = login]").val();
-        if (userName == '') {
-	    $('.form__row_errors').text("Input your login, please!");
-	    return false;				
-	}		
-	return true;
-    }
-		
-    function checkPassword(){
-	var userPassword = $("input[name = password]").val();
-	if (userPassword == '') {
-	    $('.form__row_errors').text("Input your password, please!");
-	    return false;				
-	}		
-	return true;
-    }
     return new View();
 });
