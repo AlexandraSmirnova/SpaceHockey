@@ -10,13 +10,17 @@ define([
     var validator = new Validator("login");
 
     var View = Backbone.View.extend({
-	el: $("#page"),
+//	el: $("#page"),
 	template: tmpl,
 	
 	events: {
-	    "submit .form_signin": "submitSignin",
-	    "click a": "hide"
+	    "submit .form_signin": "submitSignin"
 	},
+	
+	initialize: function () { 
+	    $('.page').append(this.el);            
+            this.render();
+        },
 
         render: function () {						
             $(this.el).html(this.template());	
@@ -55,10 +59,11 @@ define([
 	},
 
         show: function () {
-	    this.$el.render();
+	    this.$el.show();
+	    this.trigger("show", this);
         },
         hide: function () {
-	    this.$el.empty();
+	    this.$el.hide();
         }
 
     });

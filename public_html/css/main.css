@@ -1,9 +1,9 @@
 body{
-    background-image: url(../images/prosto_cosmos.jpg);
+    background-image: url(../img/prosto_cosmos.jpg);
     color: #fff;
 }
 
-#page{
+.page{
     margin: 20px;
 }
 
