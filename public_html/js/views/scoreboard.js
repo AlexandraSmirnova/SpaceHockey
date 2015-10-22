@@ -12,12 +12,12 @@ define([
      var scoremodel = new playerModel();
 
     var ScoreBoardView = Backbone.View.extend({				
-	el: $("#page"),
         template: tmpl,
 	collection: playerCollection,
 		
 	initialize: function () {
-           
+	   $('.page').append(this.el);            
+           this.render();
         },
 
         render: function () {
@@ -26,10 +26,12 @@ define([
 		
 
         show: function () {
-            this.$el.render();
+	    this.trigger('show', this);
+            this.$el.show();
+
         },
         hide: function () {
-            this.$el.empty();
+            this.$el.hide();
         }
 
     });

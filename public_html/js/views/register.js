@@ -1,27 +1,34 @@
 define([
     'backbone',
-    'tmpl/register'
+    'tmpl/register',
+    'utils/validator'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    Validator
 ){
+    var validator = new Validator("register");
 
     var View = Backbone.View.extend({
-	el: $("#page"),
 	template: tmpl,
 				
 	events: {
-	    "submit .form_signup": "submitSignup",
-	    "click a": "hide"
+	    "submit .form_signup": "submitSignup"
 	},
+
+	initialize: function () { 
+	    $('.page').append(this.el);            
+            this.render();
+        },
 
 	render: function () {
 	    $(this.el).html(this.template());
 	},
 
 	submitSignup: function(event) {
-
-	    if(validateForm()){	
+	    
+	    validator.validateForm();
+	    if(validator.form_valid){	
 		var formData = {
 		    'login': $("input[name = login]").val(),
 		    'password': $("input[name = password]").val(),
@@ -51,8 +58,9 @@ define([
 	    return false;
 	},
 
-	show: function () {
-	    this.$el.render();
+	show: function () {	  
+	    this.trigger("show", this);
+	    this.$el.show();
 	},
 
 	hide: function () {
@@ -60,45 +68,6 @@ define([
 	}
 
     });
-
-    function validateForm(){
-	var valid = checkName() && checkPasswords() && checkEmail();
-	if(!valid)
-	    $('.form__row_errors').css('display', 'block');		
-	return valid;
-    }
-		
-    function checkPasswords(){
-	var userPassword1 = $("input[name = password]").val();
-	var userPassword2 = $("input[name = password2]").val();
-	if (userPassword1 == '' || userPassword2 == '' ) {
-	    $('.form__row_errors').text("Input your password in both fields!");
-	    return false;
-        }
-        if (userPassword1 != userPassword2 ) {
-            $('.form__row_errors').text("Passwords should be the same! Input again, please.");
-            return false;
-        }
-	return true;
-    }
-
-    function checkName(){
-	var userName = $("input[name = login]").val();
-	if (userName == '') {
-	    $('.form__row_errors').text("Input your login, please!");
-	    return false;				
-	}		
-	return true;
-    }
-
-    function checkEmail(){
-	var userEmail = $("input[name = email]").val();
-	if (userEmail == '') {
-	    $('.form__row_errors').text("Input your email, please!");
-	    return false;				
-	}		
-	return true;
-    }
 
     return new View();
 });
