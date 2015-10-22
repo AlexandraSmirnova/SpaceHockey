@@ -22,7 +22,9 @@ define([
         },
 
 	render: function () {
+	    console.log("register rendered");
 	    $(this.el).html(this.template());
+	    return this;
 	},
 
 	submitSignup: function(event) {
@@ -59,12 +61,13 @@ define([
 	},
 
 	show: function () {	  
-	    this.trigger("show", this);
+	    
 	    this.$el.show();
+	    this.trigger("show", this);
 	},
 
 	hide: function () {
-	    this.$el.empty();
+	    this.$el.hide();
 	}
 
     });

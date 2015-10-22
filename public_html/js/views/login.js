@@ -12,7 +12,7 @@ define([
     var View = Backbone.View.extend({
 //	el: $("#page"),
 	template: tmpl,
-	
+		   
 	events: {
 	    "submit .form_signin": "submitSignin"
 	},
