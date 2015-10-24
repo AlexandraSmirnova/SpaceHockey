@@ -2,12 +2,15 @@ define([
     'backbone',
     'tmpl/register',
     'utils/validator'
+   // 'models/user'
 ], function(
     Backbone,
     tmpl,
     Validator
+ //   User
 ){
-    var validator = new Validator("register");
+    var formClass = ".form_signup";
+    var validator = new Validator(formClass);
 
     var View = Backbone.View.extend({
 	template: tmpl,
@@ -22,19 +25,18 @@ define([
         },
 
 	render: function () {
-	    console.log("register rendered");
 	    $(this.el).html(this.template());
 	    return this;
 	},
 
 	submitSignup: function(event) {
-	    
+	    validator.clearErrors();
 	    validator.validateForm();
 	    if(validator.form_valid){	
 		var formData = {
-		    'login': $("input[name = login]").val(),
-		    'password': $("input[name = password]").val(),
-		    'email': $("input[name = email]").val()			
+		    'login':    $(formClass + " input[name = login]").val(),
+		    'password': $(formClass + " input[name = password]").val(),
+		    'email':    $(formClass + " input[name = email]").val()
 		};
 
 		$.ajax({
@@ -43,14 +45,20 @@ define([
 		    data: formData,
 										
 		    success: function(data){
+			alert(data);
 			data =  JSON.parse(data);
 			if(data["status"] == "200"){
                              console.log("ajax success");
+			    /* var user = new User({login: formData['login'],
+						 password: formData['password'],
+						 email: formData['email'],
+						 url = formData['login']+"/ ",
+						 });*/
                              Backbone.history.navigate('', { trigger: true });
 			 }
 			else{
                             var $error = $(".form__row_errors"); 
-                            $error.append("I'm error!");
+                            $error.append("User cann't be registrated. Try to change your input data");
                             $error.show();
                         }
 			//window.location.replace("/#game");
@@ -61,7 +69,7 @@ define([
 	},
 
 	show: function () {	  
-	    
+	    validator.clearErrors()
 	    this.$el.show();
 	    this.trigger("show", this);
 	},

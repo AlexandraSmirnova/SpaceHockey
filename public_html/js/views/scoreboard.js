@@ -9,7 +9,6 @@ define([
     playerModel,
     playerCollection
 ){
-     var scoremodel = new playerModel();
 
     var ScoreBoardView = Backbone.View.extend({				
         template: tmpl,
@@ -36,6 +35,6 @@ define([
 
     });
  
-    return  new ScoreBoardView({model: scoremodel});
+    return  new ScoreBoardView();
 });
 
