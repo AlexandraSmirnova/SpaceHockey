@@ -49,14 +49,18 @@ define([
 			data =  JSON.parse(data);
 			if(data["status"] == "200"){
                              console.log("ajax success");
-			     Backbone.history.navigate('', { trigger: true });
+			     var user = new User({login: formData['login'],
+						 password: formData['password'],
+						 email: formData['email'],
+						 url: formData['login']+"/ ",
+						 });
+                             Backbone.history.navigate('', { trigger: true });
 			 }
 			else{
                             var $error = $(".form__row_errors"); 
                             $error.append("User cann't be registrated. Try to change your input data");
                             $error.show();
                         }
-			//window.location.replace("/#game");
 		    }
 		});
 	    }																

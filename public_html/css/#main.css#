@@ -39,7 +39,7 @@ body{
 }
 
 .menu__item_logout{
-/*    display: none;*/
+    display: none;
 }
 
 .menu__link{

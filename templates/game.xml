@@ -1,4 +1,4 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
+<fest:template xmlns:fest="http://fest.mail.ru" context = "user_info">
   <div class = 'head-title'>Let's go! </div>
-  <fest:include src="./backbutton.xml" context="json"/>
+  <fest:include src="./backbutton.xml"/>
 </fest:template>
