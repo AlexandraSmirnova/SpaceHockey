@@ -1,3 +1,4 @@
+
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
 <fest:script>var json = {title: 'Registration' };</fest:script>
 <fest:include src="./header.xml" context="json"/>

@@ -6,10 +6,11 @@
     <div class = "menu__item">
       <a href = "#scoreboard" class="menu__link btn btn-primary">ScoreBoard</a>
     </div>						
-    <div class = "menu__item">
-      <a href = "#game" class="menu__link btn btn-primary ">Start Game</a>
-    </div>
-    <fest:if test="user_info.logged_in == false">
+
+    <fest:if test="!user_info">
+      <div class = "menu__item">     
+	<a href = "#login" class="menu__link btn btn-primary ">Start Game</a>
+      </div>
       <div class = "menu__item menu__item_login">
 	<a href = "#login" class="menu__link btn btn-primary">Login</a>
       </div>
@@ -18,8 +19,12 @@
 	<a href = "#register" class="menu__link btn btn-primary">Registration</a>
       </div>
     </fest:if>
-    <fest:if test="user_info.logged_in == true">
-      <div class = "menu__item ">
+
+    <fest:if test="user_info">
+      <div class = "menu__item">      
+	<a href = "#game" class="menu__link btn btn-primary ">Start Game</a>
+      </div>
+      <div class = "menu__item  menu__item_logout">
 	<a href = "#" class="menu__link btn btn-primary">Logout</a>
       </div>
     </fest:if>

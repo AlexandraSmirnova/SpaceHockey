@@ -4,20 +4,18 @@ function(
 ){
     // модуль, отвечающий за разлогинивание
 
-    var logoutItem = ".menu__item_logout";
-    var regItem    = ".menu__item_reg";
-    var logoutItem = ".menu__item_logout"; 
-
     var SignoutManager = function(){
 	
-	exitReguest: function(event){
+	this.exitRequest = function(event){
+	    console.log("xi!!");
+	    localStorage.clear();
 	    $.ajax({
-		    type: "POST",
+		    type: "GET",
 		    url: "/auth/signout",		    
 										
 		    success: function(data){
-			alert(data);
-			showMenuItems();
+			alert(data);		
+			localStorage.clear();
 			data =  JSON.parse(data);
 			if(data["status"] == "200"){
                              console.log("ajax success");
@@ -26,17 +24,10 @@ function(
 		
 		    }
 		});
-	},
+	};
 
-	showMenuItems: function(){
-	    $(loginItem).show();
-	    $(regItem).show();
-	    $(logoutItem).hide();
-	    
-	}
-    }
-    
-    $(logoutItem ).on( 'click', SignoutManager.exitReguest(event));
-    return SignoutManager;
+    };
+        
+    return new SignoutManager();
 
 });

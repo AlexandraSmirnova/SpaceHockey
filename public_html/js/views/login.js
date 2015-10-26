@@ -43,8 +43,7 @@ define([
 		    'login':    $(form_class + " input[name = login]").val(),
 		    'password': $(form_class +" input[name = password]").val() 
 		};
-		//that.user.set(formData);
-		//that.user.save();
+
 		$.ajax({
 		    type: "POST",
 		    url: "/auth/signin",		   
@@ -52,9 +51,8 @@ define([
 
 		    success: function(data){
 			data =  JSON.parse(data);
-			if(data["status"] == "200"){
-			    alert("Welcome!");    
-                            formData.logged_in = true;
+			if(data["status"] == "200"){   
+			    localStorage.setItem( 'user', JSON.stringify(formData) );
 			    that.user.set(formData);
 			    that.user.save();			   
 			    Backbone.history.navigate('', {trigger: true});
