@@ -9,7 +9,6 @@ define([
     User,
     SignoutManager
 ){
-  // var user = new User({logged_in: false});
     var logoutItem = ".menu__item_logout";
 
     var Main = Backbone.View.extend({
@@ -20,19 +19,21 @@ define([
 	    "click .menu__item_logout": "logout"
 	},
 	
-	logout: function(){
-	    SignoutManager.exitRequest();
-	    this.render();
-	},
-
 	initialize: function () {
             $('.page').append(this.el);
             this.render();
-	    this.listenTo(this.user, 'change', this.render);	   
+	    that = this;
+	    this.listenTo(this.user, 'change', function(){ alert("Model changed!"); that.render();} );	   
+	    	   
         },
-        
+
+	logout: function(){
+	    SignoutManager.exitRequest(this.user);
+	    this.render();
+	},
+	        
      	render: function () {
-            this.$el.html(this.template(JSON.parse(localStorage.getItem("user"))));//this.user.toJSON());
+            this.$el.html(this.template(JSON.parse(localStorage.getItem("user"))));
         },
 
         show: function () {
@@ -44,8 +45,6 @@ define([
             this.$el.hide();
         },
 	
-
-
     });
 
 

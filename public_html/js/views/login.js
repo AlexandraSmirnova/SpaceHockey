@@ -2,18 +2,17 @@ define([
     'backbone',
     'tmpl/login',
     'utils/validator',
-    //'utils/signin',  
+    'utils/signin',  
     'models/user'
 ], function(
     Backbone,
     tmpl,
     Validator,
-    //SigninManager,
+    SigninManager,
     User
 ){
     var form_class = ".form_signin";
     var validator = new Validator(form_class);
-    //var signinManager = new SigninManager();
 
     var View = Backbone.View.extend({
 	template: tmpl,
@@ -36,34 +35,9 @@ define([
 	submitSignin: function(event) {
 	    validator.clearErrors();
 	    validator.validateForm();
-	    var that = this;
 
 	    if(validator.form_valid){
-		var formData = {
-		    'login':    $(form_class + " input[name = login]").val(),
-		    'password': $(form_class +" input[name = password]").val() 
-		};
-
-		$.ajax({
-		    type: "POST",
-		    url: "/auth/signin",		   
-		    data: formData,
-
-		    success: function(data){
-			data =  JSON.parse(data);
-			if(data["status"] == "200"){   
-			    localStorage.setItem( 'user', JSON.stringify(formData) );
-			    that.user.set(formData);
-			    that.user.save();			   
-			    Backbone.history.navigate('', {trigger: true});
-			 }
-			else{
-                            var $error = $(".form__row_errors"); 
-                            $error.append("Login or password is incorrect!");
-                            $error.show();
-                        }
-		    }
-		});
+		SigninManager.signinRequest(this.user);
 	    }
 	    return false;
 

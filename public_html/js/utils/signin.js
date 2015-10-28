@@ -2,23 +2,44 @@ define(['backbone'],
 function(
     Backbone
 ){
-    // модуль, который отвечает за действия производимые после входа игрока
-
-    var loginItem  = ".menu__item_login";
-    var regItem    = ".menu__item_reg";
-    var logoutItem = ".menu__item_logout"; 
+      
+    var form_class = ".form_signin";
 
     var SigninManager = function(){
 	
-	// пока здесь только сокрытие кнопок меню
-	this.hideMenuItems = function(){
-	    $(loginItem).hide();
-	    $(regItem).hide();
-	    $(logoutItem).show();
-	    
+	this.signinRequest = function(model){
+	    console.log("request");
+	    var formData = {
+		'login':    $(form_class + " input[name = login]").val(),
+		'password': $(form_class +" input[name = password]").val() 
+	    };
+
+	    $.ajax({
+		type: "POST",
+		url: "/auth/signin",		   
+		data: formData,
+
+		success: function(data){
+		    data =  JSON.parse(data);
+		    if(data["status"] == "200"){   
+			localStorage.setItem( 'user', JSON.stringify(formData) );
+			model.set(formData);
+			model.save();			   
+			Backbone.history.navigate('', {trigger: true});
+		    }
+		    else{
+			var $error = $(".form__row_errors"); 
+			$error.append("Login or password is incorrect!");
+			$error.show();
+		    }
+		}
+	    });
 	}
     }
+	
 
-    return SigninManager;
+
+
+    return   new SigninManager();
 
 });
