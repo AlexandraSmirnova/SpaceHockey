@@ -17,11 +17,13 @@ function(
 	    $.ajax({
 		type: "POST",
 		url: "/auth/signin",		   
-		data: formData,
+		data: JSON.stringify(formData),
 
 		success: function(data){
+		    alert(data);
 		    data =  JSON.parse(data);
-		    if(data["status"] == "200"){   
+
+		    if(parseInt(data["status"]) == "200"){   
 			localStorage.setItem( 'user', JSON.stringify(formData) );
 			model.set(formData);
 			model.save();			   

@@ -16,16 +16,18 @@ function(
 	    $.ajax({
 		type: "POST",
 		url: "/auth/signup",
-		data: formData,
+		data: JSON.stringify(formData),
 		
 		success: function(data){
 		    alert(data);
-		    data =  JSON.parse(data);
-		    if(data["status"] == "200"){
+		    data = JSON.parse(data);
+		    if(parseInt(data["status"]) == "200"){
+			
                         console.log("ajax success");
 			Backbone.history.navigate('', { trigger: true });
 		    }
 		    else{
+			alert(parseInt(data["status"], 10));
                         var $error = $(".form__row_errors"); 
                         $error.append("User cann't be registrated. Try to change your input data");
                         $error.show();
