@@ -23,11 +23,12 @@ function(
 		    alert(data);
 		    data =  JSON.parse(data);
 
-		    if(parseInt(data["status"]) == "200"){   
-			localStorage.setItem( 'user', JSON.stringify(formData) );
+		    if(parseInt(data["status"], 10) == "200"){ 
+			localStorage.clear();
+			localStorage.setItem( 'user', JSON.stringify(data) );
 			model.set(formData);
 			model.save();			   
-			Backbone.history.navigate('', {trigger: true});
+			Backbone.history.navigate('game', {trigger: true});
 		    }
 		    else{
 			var $error = $(".form__row_errors"); 

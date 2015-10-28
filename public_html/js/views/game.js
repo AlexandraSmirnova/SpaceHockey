@@ -15,7 +15,7 @@ define([
         },
 
         render: function () {
-            this.$el.html(this.template());
+            this.$el.html(this.template(JSON.parse(localStorage.getItem('user'))));
             return this;
         },
         show: function () {
