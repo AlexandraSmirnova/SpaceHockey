@@ -12,10 +12,8 @@ define([
             views.push(currentView);	  
 
             this.listenTo(currentView, 'show', function () {
-		//console.log(currentView.cid);
                 views.forEach(function (view) {
                     if (view.cid != currentView.cid && view != undefined)
-			//console.log("hide:" + view.cid);
                         view.hide();
                 });
             });
