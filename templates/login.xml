@@ -15,7 +15,7 @@
 	<input type="password" class = "form__input" name="password" id = "password" /></label>
       </div>
 				
-      <div class = "form__row"><button type="submit"   class = "submit-btn btn btn-success" >GO!</button></div>
+      <div class = "form__row"><button type="submit"   class = "submit-btn submit-btn_go btn btn-success" >GO!</button></div>
       <a class="submit-btn btn btn-primary" href="#register">Register</a>
     </form>
     <fest:include src="./backbutton.xml" />

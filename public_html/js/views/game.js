@@ -21,19 +21,19 @@ define([
             this.user = JSON.parse(localStorage.getItem('user'));
 	        $('.page').append(this.el);   
                         
-            if(this.user)         
-                this.render();  
+            if(this.user){         
+              this.render();  
+              //socket.init();
+          }
         },
 
         render: function () {
             
 
             this.$el.html(this.template(this.user));
-
-            //if ( this.user != null){
-                
-             //   socket.init();    
-            //}        
+            if(this.user)
+                socket.init(this.user);
+       
             return this;
         },
 
@@ -43,8 +43,8 @@ define([
 
         show: function () {
             this.$el.show();
-            if(this.user)
-                socket.init(this.user);
+            //if(this.user)
+            //    socket.init(this.user);
             this.trigger("show", this);
         },
         hide: function () {

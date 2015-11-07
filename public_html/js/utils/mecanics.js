@@ -24,7 +24,7 @@ function(
 
 				ws.onmessage = function (event) {
 					var data = JSON.parse(event.data);
-					if(data.status == "start"){
+					if(data.status == "start" ){
 						$("#wait").style.display = "none";
 						$("#gameplay").style.display = "block";
 						$("#enemyName").innerHTML = data.enemyName;

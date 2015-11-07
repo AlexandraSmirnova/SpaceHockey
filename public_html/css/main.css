@@ -1,6 +1,12 @@
+@font-face {
+    font-family: Canossa-Ultra;
+    src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
+}
+
 body{
-    background-image: url(../img/prosto_cosmos.jpg);
+	background-image: url(../img/prosto_cosmos.jpg);
     color: #fff;
+    font-family: Canossa-Ultra;
 }
 
 .page{
@@ -11,25 +17,31 @@ body{
     margin: 0 auto;
     padding: 10px;
     max-width: 600px;
-    background-color: #324ab2;/* #0550cc;*/
-    color:	#fff; 
+    min-width: 300px;
+    background-color: rgba(56, 6, 112, 0.6);
+    color:	#B0EC00;
+    text-shadow: #8841D4 2px 2px 0, #8841D4 -1px -1px 0, 
+                 #8841D4 -1px 1px 0, #8841D4 1px -1px 0;
     text-align: center;
-    font-size: 42px;
+    font-size: 56px;
     letter-spacing: 12px;
-    border-radius: 15px;
+    border-radius: 30px;
     box-shadow: 0 0 7px 3px #ff5588;
 }
 
 .head-title{
     text-align: center;
-    font-size: 36px;
-    color: #ffff88;
+    font-size: 46px;
+    color: #9C68D4;
+    text-shadow: #FCEF3F 2px 2px 0, #FCEF3F -1px -1px 0, 
+                 #FCEF3F -1px 1px 0, #FCEF3F 1px -1px 0;
 }
 
 .container{
     text-align: center;
     background: rgba(55, 75, 255, 0.2);
     max-width: 400px;
+    min-width: 300px;
     padding: 20px;
     border-radius: 15px;
 }
@@ -38,23 +50,38 @@ body{
     margin: 10px;
 }
 
-.menu__item_logout{
-/*    display: none;*/
-}
-
 .menu__link{
     width: 100%;
     max-width: 300px;
     min-width: 100px;
-    padding: 15px;
-    border-radius: 40px/30px;
-    box-shadow: inset 0 0 6px;
+    border: none;
+    font-size: 32px;    
+    color: rgba(10, 10, 10, 0.8);
+    background: none;
+    text-shadow: #7C0059 2px 2px 0, #7C0059 -1px -1px 0, 
+                 #7C0059 -1px 1px 0, #7C0059 1px -1px 0;
+    outline: none;
+
 }
 
+.menu__link:hover {
+	font-size: 48px;
+	text-decoration: none;
+	text-shadow: #7C0059 2px 2px 0, #7C0059 -2px -2px 0, 
+                 #7C0059 -2px 2px 0, #7C0059 2px -2px 0;
+	color: #9C68D4;                 
+}
 
+.form{
+	font-size: 24px;
+	color: #380570;
+	text-shadow: #ccc 2px 2px 0, #ccc -1px -1px 0, 
+                 #ccc -1px 1px 0, #ccc 1px -1px 0;
+    letter-spacing: 4px;             
+}
 
 .form__row{
-    margin: 10px;
+    margin: 10px;    
 }
 
 .form__row_errors{
@@ -64,14 +91,26 @@ body{
 }
 
 .form__input{
-   min-width: 200px;	
-   border-radius: 5px;
+   min-width: 150px;
+   max-width: 250px;	
+   border-radius: 10px;
+   height: 40px;
    color: #000;
 }
 
 .submit-btn{
-    min-width: 200px;
+    min-width: 250px;
+    height: 46px;
     box-shadow: inset 0 0 6px;
+    background-color: #380570; 
+    font-size: 26px;
+    color: #FCF371;
+    text-shadow: none;
+    border-radius: 10px;
+}
+
+.submit-btn_go{
+	background-color: #759D00;
 }
 
 .score-list{
@@ -84,16 +123,10 @@ body{
     box-shadow: 0 0 7px 3px;
 }
 
-/* tr in scoerboard table*/
-.score-list__item{
- 	/*border: black 1px solid;*/
-}
-
 .score-list__cell{
     text-align: center;
     padding: 5px;
     border-top: gray 2px solid;
-	/*border: black 1px solid;*/
 }
 
 .score-list__cell_head{
@@ -101,10 +134,8 @@ body{
 }
 
 .score-list__item_head{
-    color: #c71585;/*умеренный фиолетово-красный*/
+    color: #c71585;
     font-size: 20px;
-/*background-color: #a358e8;	
-border-radius: 20px;*/
 }
 
 
@@ -112,11 +143,14 @@ border-radius: 20px;*/
     margin-top: 10px;
     float: left;
     box-shadow: inset 0 0 6px;
+    background-color: #380570;
+ 	color:	#FCF371; 
+    font-size: 30px;
+    border-radius: 10px;
 }
 
 
 /* Game */
-
 .gameField{
     font-size: 20px;    
 }
