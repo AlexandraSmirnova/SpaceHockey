@@ -4,26 +4,30 @@ define([
     
 ],function(
     Backbone,
-    UserSync
-
+    userSync
 ){
+    
     var UserModel = Backbone.Model.extend({
-	
-	sync: UserSync,
-	
-	defaults: {	    
-	    url: "/",
-	    login: "",
-	    password: "",
-	    email: "",
-	    logged_in: false	    
-	},
-	
-	loginSuccess: function (data) {
-            this.login = data.name;
-	    this.password = data.password;
-            this.logged_in = true;
-            //this.trigger(this.loginCompleteEvent);
+        //sync: userSync,   // <-- it's very strange thing!
+        url: "/auth/signin",
+    
+        defaults: {        
+            
+            login: "",
+            password: "",
+            email: "",
+            logged_in: false        
+        },
+
+        initialize: function() {
+            console.log("This model has been initialized");
+        },
+        isLoggedIn: function() {
+            console.log("Check login");
+        },
+
+        loginSuccess: function (data) {
+            this.set(data);           
         },
     });
 

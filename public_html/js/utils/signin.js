@@ -1,6 +1,11 @@
-define(['backbone'],
+define([
+	'backbone',
+	'utils/ajax'
+],
 function(
-    Backbone
+    Backbone,
+    ajax
+    
 ){
       
     var form_class = ".form_signin";
@@ -9,25 +14,21 @@ function(
 	
 		this.signinRequest = function(model){
 		    console.log("request");
-		    var formData = {
+		    var dataAjax = {
 				'login':    $(form_class + " input[name = login]").val(),
 				'password': $(form_class +" input[name = password]").val() 
 		    };
 
-		    $.ajax({
-				type: "POST",
-				url: "/auth/signin",		   
-				data: JSON.stringify(formData),
-
-				success: function(data){
-				    alert(data);
-				    data =  JSON.parse(data);
-
-				    if(parseInt(data["status"], 10) == "200"){ 
-						localStorage.clear();
-						localStorage.setItem( 'user', JSON.stringify(data) );
-						model.set(formData);
-						model.save();			   
+		    $.when(ajax.sendAjax(dataAjax, "/auth/signin", "POST")).then(
+				function(response){				    
+				    response =  JSON.parse(response);				    
+				    console.log(response.status)
+				    if(response.status == "200"){ 				    
+						console.log(response.body.login);
+						model.set({
+							"login": response.body.login
+		  				});		   
+		  				//model.save();	
 						Backbone.history.navigate('game', {trigger: true});
 				    }
 				    else{
@@ -35,8 +36,11 @@ function(
 						$error.append("Login or password is incorrect!");
 						$error.show();
 				    }
+				},
+				function (error) {
+		 		 	console.log(error.statusText);
 				}
-		    });
+		    ); 
 		}
     }
 	

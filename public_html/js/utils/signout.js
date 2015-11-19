@@ -1,30 +1,33 @@
-define(['backbone'],
+define([
+    'backbone',
+    'utils/ajax'
+],
 function(
-    Backbone
+    Backbone,
+    ajax
 ){
     // модуль, отвечающий за разлогинивание
 
     var SignoutManager = function(){
-	
-	this.exitRequest = function(model){
-	    localStorage.clear();
-	    $.ajax({
-		    type: "GET",
-		    url: "/auth/signout",		    
-										
-		    success: function(data){
-			alert(data);		
-			localStorage.clear("user");
-			if(parseInt(data["status"]) == "200"){
-			    console.log("ajax success");
-			    model.set({"logged_in": false});
-			    model.save();
-			    Backbone.history.navigate('', { trigger: true });
-			 }
-		
-		    }
-		});
-	};
+    
+        this.exitRequest = function(model){
+            
+            $.when(ajax.sendAjax('', "/auth/signout", "GET")).then(                                                 
+                function (response) {          
+                    console.log("geted..response");   
+                    response = JSON.parse(response);                                
+                    if(response.status == "200"){
+                        console.log("ajax success");
+                        model.clear();
+                        Backbone.history.navigate('', { trigger: true });
+                     }
+                
+                },                
+                function (error) {
+                    console.log(error.statusText);
+                }
+            );
+        };
 
     };
         

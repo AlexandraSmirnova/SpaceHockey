@@ -1,7 +1,7 @@
-define(
-    ['backbone'],
-function(
-    Backbone
+define([
+    'models/user'
+],function(
+    User
 ){            
         
             
@@ -10,14 +10,14 @@ function(
             var started = false;            
             var finished = false;
 
-            var me = JSON.parse(localStorage.getItem("user"));
+            //var me = JSON.parse(localStorage.getItem("user"));
             var myName = null; 
             var enemyName = "";
 
             var ws;
 
             this.init = function(user) {
-                myName = user.login;                
+                myName = User.login;                
                 ws = new WebSocket("ws://localhost:8080/gameplay");
 
                 ws.onopen = function (event) {
@@ -27,7 +27,7 @@ function(
                 ws.onmessage = function (event) {
                     console.log("onmessage");
                     var data = JSON.parse(event.data);
-                    if(data.status == "start"){
+                    if(data.status == "start" && data.enemyName != myName){
                         $("#wait").hide();
                         $("#gameplay").show();
                         $("#enemyName").html(data.enemyName);

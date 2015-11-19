@@ -1,39 +1,46 @@
 define([
     'backbone',
     'game/socket',
-    'tmpl/game'
+    'tmpl/game',
+    'models/user'
 ], function(
     Backbone,
     socket,
-    tmpl
-
+    tmpl,
+    User
 ){
 
     var View = Backbone.View.extend({
         template: tmpl, 
-        user: null,
+        
 
         events: {
             "click .win_button": "sendMessage"
         },
 
-        initialize: function () {
-            this.user = JSON.parse(localStorage.getItem('user'));
-	        $('.page').append(this.el);   
-                        
-            if(this.user){         
-              this.render();  
-              //socket.init();
-          }
+        initialize: function () {        
+	        $('.page').append(this.el);                             
+            this.render();
+            self = this;
+            this.listenTo(User, 'change', function(){ self.render(); } );                                 
         },
 
-        render: function () {
-            
-
-            this.$el.html(this.template(this.user));
-            if(this.user)
-                socket.init(this.user);
-       
+        render: function () {     
+            console.log("render");   
+            user = User.get('login'); 
+            console.log("Game" + user);       
+            if(user){
+                console.log("if");
+                var userData = {
+                    'login': user
+                }
+                socket.init(userData);
+                this.$el.html(this.template(userData));
+                
+            }
+            else{
+                Backbone.history.navigate('login', {trigger: true});                
+            }
             return this;
         },
 
@@ -42,9 +49,7 @@ define([
         },
 
         show: function () {
-            this.$el.show();
-            //if(this.user)
-            //    socket.init(this.user);
+            this.$el.show();            
             this.trigger("show", this);
         },
         hide: function () {
@@ -53,5 +58,5 @@ define([
 
     });
 
-    return new View();
+    return new View({model: User});
 });

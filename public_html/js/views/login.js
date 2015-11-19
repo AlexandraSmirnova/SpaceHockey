@@ -15,45 +15,45 @@ define([
     var validator = new Validator(form_class);
 
     var View = Backbone.View.extend({
-	template: tmpl,
-	user: User,
+        template: tmpl,
+        //model: User,
 
-	events: {
-	    "submit .form_signin": "submitSignin"
-	},
-	
-	initialize: function () { 
-	    $('.page').append(this.el);            
+        events: {
+            "submit .form_signin": "submitSignin"
+        },
+        
+        initialize: function () { 
+            $('.page').append(this.el);            
             this.render();
         },
 
-        render: function () {						
-            $(this.el).html(this.template());	
-	    return this;
+        render: function () {                        
+            $(this.el).html(this.template());    
+            return this;
         },
 
-	submitSignin: function(event) {
-	    validator.clearErrors();
-	    validator.validateForm();
+        submitSignin: function(event) {
+            validator.clearErrors();
+            validator.validateForm();
 
-	    if(validator.form_valid){
-		SigninManager.signinRequest(this.user);
-	    }
-	    return false;
+            if(validator.form_valid){
+                SigninManager.signinRequest(this.model);
+            }
+            return false;
 
-	},
+        },
 
         show: function () {
-	    validator.clearErrors()
-	    this.$el.show();
-	    this.trigger("show", this);
+            validator.clearErrors()
+            this.$el.show();
+            this.trigger("show", this);
         },
 
         hide: function () {
-	    this.$el.hide();
+            this.$el.hide();
         }
 
     });
 
-    return new View();
+    return new View({model: User});
 });

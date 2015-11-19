@@ -15,40 +15,40 @@ define([
     var validator = new Validator(formClass);
 
     var View = Backbone.View.extend({
-	template: tmpl,
-				
-	events: {
-	    "submit .form_signup": "submitSignup"
-	},
+    template: tmpl,
+                
+    events: {
+        "submit .form_signup": "submitSignup"
+    },
 
-	initialize: function () { 
-	    $('.page').append(this.el);            
+    initialize: function () { 
+        $('.page').append(this.el);            
             this.render();
         },
 
-	render: function () {
-	    $(this.el).html(this.template());
-	    return this;
-	},
+    render: function () {
+        $(this.el).html(this.template());
+        return this;
+    },
 
-	submitSignup: function(event) {
-	    validator.clearErrors();
-	    validator.validateForm();
-	    if(validator.form_valid){
-		SignupManager.signupRequest();
-	    }																
-	    return false;
-	},
+    submitSignup: function(event) {
+        validator.clearErrors();
+        validator.validateForm();
+        if(validator.form_valid){
+            SignupManager.signupRequest();
+        }                                                                
+        return false;
+    },
 
-	show: function () {	  
-	    validator.clearErrors()
-	    this.$el.show();
-	    this.trigger("show", this);
-	},
+    show: function () {      
+        validator.clearErrors()
+        this.$el.show();
+        this.trigger("show", this);
+    },
 
-	hide: function () {
-	    this.$el.hide();
-	}
+    hide: function () {
+        this.$el.hide();
+    }
 
     });
 

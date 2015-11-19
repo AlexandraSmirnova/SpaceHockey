@@ -1,4 +1,4 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="user_info">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="user">
 <fest:script>var json = {title: 'Main Menu' };</fest:script>
 <fest:include src="./header.xml" context="json"/>
 <fest:script>
@@ -10,7 +10,7 @@
       <a href = "#scoreboard" class="menu__link">ScoreBoard</a>
     </div>
 
-    <fest:if test="!user_info">
+    <fest:if test="!user.login">
       <div class = "menu__item">     
         <a href = "#login" class="menu__link">Start Game</a>
       </div>
@@ -23,7 +23,7 @@
       </div>
     </fest:if>
 
-    <fest:if test="user_info">
+    <fest:if test="user.login">
       <div class = "menu__item">      
         <a href = "#game" class="menu__link">Start Game</a>
       </div>
