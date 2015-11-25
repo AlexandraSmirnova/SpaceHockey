@@ -3,11 +3,6 @@
   src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
 }
 
-@font-face {
-  font-family: Canossa-Ultra;
-  src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
-}
-
 .menu__item {
   margin: 10px;
 }
@@ -31,11 +26,6 @@
   color: #9C68D4;
 }
 
-@font-face {
-  font-family: Canossa-Ultra;
-  src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
-}
-
 .form {
   font-size: 26px;
   color: #380570;
@@ -44,7 +34,7 @@
 }
 
 .form__row {
-  margin: 10px;
+  margin: 7px;
 }
 
 .form__row_errors {
@@ -76,11 +66,6 @@
   background-color: #759D00;
 }
 
-@font-face {
-  font-family: Canossa-Ultra;
-  src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
-}
-
 .score-list {
   width: 100%;
   max-width: 380px;
@@ -103,11 +88,6 @@
 .score-list__item_head {
   color: #c71585;
   font-size: 20px;
-}
-
-@font-face {
-  font-family: Canossa-Ultra;
-  src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
 }
 
 /* Game */

@@ -1,15 +1,14 @@
-@import 'variables';
 
 .form{
 	font-size: $font-size-s;
 	color: #380570;
-	text-shadow: #ccc 2px 2px 0, #ccc -1px -1px 0, 
+  text-shadow: #ccc 2px 2px 0, #ccc -1px -1px 0, 
                  #ccc -1px 1px 0, #ccc 1px -1px 0;
-    letter-spacing: 4px;             
+  letter-spacing: 4px;             
 }
 
 .form__row{
-    margin: 10px;    
+    margin: 7px;    
 }
 
 .form__row_errors{
@@ -19,11 +18,11 @@
 }
 
 .form__input{
-   min-width: 150px;
-   max-width: 250px;	
-   border-radius: 10px;
-   height: 40px;
-   color: #000;
+  min-width: 150px;
+  max-width: 250px;	
+  border-radius: 10px;
+  height: 40px;
+  color: #000;
 }
 
 .submit-btn{
