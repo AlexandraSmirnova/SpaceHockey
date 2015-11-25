@@ -3,7 +3,7 @@ define([
     'tmpl/register',
     'utils/validator',
     'utils/signup',
-    'models/user'
+    'models/userProfile'
 ], function(
     Backbone,
     tmpl,

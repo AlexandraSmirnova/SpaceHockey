@@ -35,13 +35,15 @@ define([
             case 'update':
                 this.sync.call(this, 'create', model, options);  
                 break;
-
             case 'delete':
                 console.log('destroy');
                 options.type = 'GET';
                 Backbone.sync.call(this, method, model, options); 
                 break;        
-
+            case 'read':
+                console.log('read');
+                Backbone.sync.call(this, method, model, options);
+                break;
             default:
                 // Something probably went wrong
                 console.error('Unknown method:', method);

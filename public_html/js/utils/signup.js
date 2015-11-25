@@ -1,6 +1,6 @@
 define([
-	'backbone',
-	'utils/ajax'
+    'backbone',
+    'utils/ajax'
 ],
 function(
     Backbone,
@@ -11,31 +11,31 @@ function(
     var SignupManager = function(){
 
     this.signupRequest = function(){
-        var dataAjax = {
-            'login':    $(formClass + " input[name = login]").val(),
-            'password': $(formClass + " input[name = password]").val(),
-            'email':    $(formClass + " input[name = email]").val()
-        };
+            var dataAjax = {
+                'login':    $(formClass + " input[name = login]").val(),
+                'password': $(formClass + " input[name = password]").val(),
+                'email':    $(formClass + " input[name = email]").val()
+            };            
 
-        $.when(ajax.sendAjax(dataAjax, "/auth/signup", "POST")).then(
-			function (response) {       	      	            
-	            data = JSON.parse(response);
-	            if(parseInt(data["status"]) == "200"){	            
-	                console.log("ajax success");
-	                Backbone.history.navigate('', { trigger: true });
-	            }
-	            else{
-	                alert(parseInt(data["status"], 10));
-	                var $error = $(".form__row_errors"); 
-	                $error.append("User cann't be registrated. Try to change your input data");
-	                $error.show();
-	            }
-	        },
-	        function (error) {
-		 		console.log(error.statusText);
-			}
-        );
-    }
+            $.when(ajax.sendAjax(dataAjax, "/auth/signup", "POST")).then(
+                function (response) {                                 
+                    data = JSON.parse(response);
+                    if(parseInt(data["status"]) == "200"){                
+                        console.log("ajax success");
+                        Backbone.history.navigate('', { trigger: true });
+                    }
+                    else{
+                        alert(parseInt(data["status"], 10));
+                        var $error = $(".form__row_errors"); 
+                        $error.append("User cann't be registrated. Try to change your input data");
+                        $error.show();
+                    }
+                },
+                function (error) {
+                     console.log(error.statusText);
+                }
+            );
+        }
     }
 
     return   new SignupManager();

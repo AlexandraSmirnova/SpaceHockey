@@ -1,5 +1,5 @@
 define([
-    'models/user'
+    'models/userProfile'
 ],function(
     User
 ){            

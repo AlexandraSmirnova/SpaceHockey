@@ -2,12 +2,14 @@ define([
     'backbone',
     'game/socket',
     'tmpl/game',
-    'models/user'
+    'models/userProfile',
+    'game/gamePlay'
 ], function(
     Backbone,
     socket,
     tmpl,
-    User
+    User,
+    gamePlay
 ){
 
     var View = Backbone.View.extend({
@@ -25,18 +27,16 @@ define([
             this.listenTo(User, 'change', function(){ self.render(); } );                                 
         },
 
-        render: function () {     
-            console.log("render");   
-            user = User.get('login'); 
-            console.log("Game" + user);       
-            if(user){
-                console.log("if");
+        render: function () {                 
+            user = User.get('login');        
+            if(user){                
                 var userData = {
                     'login': user
                 }
-                socket.init(userData);
+               // socket.init(userData);               
                 this.$el.html(this.template(userData));
-                
+                var canvas = document.getElementById('gamefield');
+                gamePlay.start(canvas);
             }
             else{
                 Backbone.history.navigate('login', {trigger: true});                

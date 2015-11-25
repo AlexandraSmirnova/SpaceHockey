@@ -194,7 +194,7 @@ td, th {
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 @media print {
   *, :after, :before {
-    color: #000 !important;
+    color: black !important;
     text-shadow: none !important;
     background: 0 0 !important;
     -webkit-box-shadow: none !important;
@@ -248,7 +248,7 @@ td, th {
   }
 
   .btn > .caret, .dropup > .btn > .caret {
-    border-top-color: #000 !important;
+    border-top-color: black !important;
   }
 
   .label {
@@ -260,11 +260,11 @@ td, th {
   }
 
   .table td, .table th {
-    background-color: #fff !important;
+    background-color: white !important;
   }
 
   .table-bordered td, .table-bordered th {
-    border: 1px solid #ddd !important;
+    border: 1px solid #dddddd !important;
   }
 }
 @font-face {
@@ -272,6 +272,7 @@ td, th {
   src: url(../fonts/glyphicons-halflings-regular.eot);
   src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format("embedded-opentype"), url(../fonts/glyphicons-halflings-regular.woff2) format("woff2"), url(../fonts/glyphicons-halflings-regular.woff) format("woff"), url(../fonts/glyphicons-halflings-regular.ttf) format("truetype"), url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format("svg");
 }
+
 .glyphicon {
   position: relative;
   top: 1px;
@@ -1346,7 +1347,7 @@ td, th {
 
 html {
   font-size: 10px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
@@ -5475,26 +5476,32 @@ a.thumbnail.active, a.thumbnail:focus, a.thumbnail:hover {
   from {
     background-position: 40px 0;
   }
+
   to {
     background-position: 0 0;
   }
 }
+
 @-o-keyframes progress-bar-stripes {
   from {
     background-position: 40px 0;
   }
+
   to {
     background-position: 0 0;
   }
 }
+
 @keyframes progress-bar-stripes {
   from {
     background-position: 40px 0;
   }
+
   to {
     background-position: 0 0;
   }
 }
+
 .progress {
   height: 20px;
   margin-bottom: 20px;
@@ -6813,8 +6820,8 @@ button.close {
   margin: 1px;
   text-indent: -999px;
   cursor: pointer;
-  background-color: #000 \9;
-  background-color: transparent;
+  background-color: black \9;
+  background-color: rgba(0, 0, 0, 0);
   border: 1px solid #fff;
   border-radius: 10px;
 }
@@ -6923,6 +6930,7 @@ button.close {
 @-ms-viewport {
   width: device-width;
 }
+
 .visible-lg, .visible-md, .visible-sm, .visible-xs {
   display: none !important;
 }
@@ -7133,5 +7141,3 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
-
-/*# sourceMappingURL=bootstrap.css.map */

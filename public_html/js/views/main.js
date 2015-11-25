@@ -1,7 +1,7 @@
 define([
     'backbone',
     'tmpl/main',
-    'models/user',
+    'models/userProfile',
     'utils/signout'
 ], function(
     Backbone,
@@ -33,8 +33,8 @@ define([
         },
                 
         render: function () {        
-            console.log(User);
-            console.log(User.get('login'));
+            //console.log(User);
+            //console.log(User.get('login'));
             userlogin = User.get('login');
             var userData = {
                 "login": userlogin

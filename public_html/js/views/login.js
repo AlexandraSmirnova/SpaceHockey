@@ -3,7 +3,7 @@ define([
     'tmpl/login',
     'utils/validator',
     'utils/signin',  
-    'models/user'
+    'models/userProfile'
 ], function(
     Backbone,
     tmpl,
@@ -15,8 +15,7 @@ define([
     var validator = new Validator(form_class);
 
     var View = Backbone.View.extend({
-        template: tmpl,
-        //model: User,
+        template: tmpl,        
 
         events: {
             "submit .form_signin": "submitSignin"
