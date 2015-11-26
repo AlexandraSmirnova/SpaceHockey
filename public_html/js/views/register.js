@@ -23,8 +23,9 @@ define([
 
     initialize: function () { 
         $('.page').append(this.el);            
-            this.render();
-        },
+        this.render();
+        SignupManager.saveCache();
+    },
 
     render: function () {
         $(this.el).html(this.template());

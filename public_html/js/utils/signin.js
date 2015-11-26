@@ -8,15 +8,15 @@ function(
     
 ){
       
-    var form_class = ".form_signin";
+    var formClass = ".form_signin";
 
     var SigninManager = function(){
 	
 		this.signinRequest = function(model){
 		    console.log("request");
 		    var dataAjax = {
-				'login':    $(form_class + " input[name = login]").val(),
-				'password': $(form_class +" input[name = password]").val() 
+				'login':    $(formClass + " input[name = login]").val(),
+				'password': $(formClass +" input[name = password]").val() 
 		    };
 
 		    $.when(ajax.sendAjax(dataAjax, "/auth/signin", "POST")).then(
