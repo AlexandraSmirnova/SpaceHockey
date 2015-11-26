@@ -91,8 +91,13 @@
 }
 
 /* Game */
-.gameField {
+.gameplay {
   font-size: 20px;
+  display: none;
+}
+
+.gameOver {
+  display: none;
 }
 
 .win_button {

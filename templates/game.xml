@@ -1,28 +1,26 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">    
-
-          <div id="body">
-            <div id="hello">
+        <div>  
+            <div class="hello">
                 <p>Hello, <fest:space/> <fest:value>json.login</fest:value></p>
             </div>
 
-            <div id="wait">
+            <div class="wait">
                 <p>Prepare yourself. Wait for enemy!</p>
             </div>
 
-            <div id="gameplay" style="display: none">
+            <div class="gameplay" style="display: none">
                 <div class="score">
                     <p><fest:value>json.login</fest:value>: <fest:space/> <span id="myScore">0</span></p>
                     <p><span id="enemyName"></span>: <fest:space/> <span id="enemyScore">0</span></p>
                 </div>
             </div>
 
-            <div id="gameOver" style="display: none">
+            <div class="gameOver" style="display: none">
                 <p>Game over! You are <span id="win"></span></p>
                 <p>Result: <span id="win"></span></p>
         
-            </div>
+            </div>        
         </div>
-
    <canvas width="600" height="700" id="gamefield"></canvas>
   <fest:include src="./backbutton.xml" context="json"/>
 </fest:template>

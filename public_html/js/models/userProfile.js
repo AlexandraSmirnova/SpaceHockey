@@ -1,6 +1,6 @@
 define([
     'backbone',
-    'syncs/userSync'
+    'syncs/sync'
     
 ],function(
     Backbone,

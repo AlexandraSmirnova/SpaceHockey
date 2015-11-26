@@ -35,7 +35,7 @@ define([
                 }
                // socket.init(userData);               
                 this.$el.html(this.template(userData));
-                var canvas = document.getElementById('gamefield');
+                var canvas =  document.getElementById('gamefield');
                 gamePlay.start(canvas);
             }
             else{

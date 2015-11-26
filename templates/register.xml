@@ -24,7 +24,7 @@
       <label for="password2">Password again*:<br/>
       <input type="password" class = "form__input" name="password2" id = "password2" /></label>
     </div>										
-    <div class = "form__row"><button type="submit"   class = "submit-btn submit-btn_go btn btn-success" >GO!</button></div>
+    <div class = "form__row"><button type="submit" class = "submit-btn submit-btn_go btn btn-success" >GO!</button></div>
   </form>
   <fest:include src="./backbutton.xml" context="json"/>
 </div>

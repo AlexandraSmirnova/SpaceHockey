@@ -183,23 +183,23 @@ define([
                 enemyPlatform.direction = parseInt(data.second.direction, 10);
             }
             if(data.status == "start" && data.second.name != date.first.name){
-                $("#wait").hide();
-                $("#gameplay").show();
-                $("#enemyName").html(data.second.name);                            
+                $(".wait").hide();
+                $(".gameplay").show();
+                $(".enemyName").html(data.second.name);                            
             }
             if(data.status == "finish"){
-                $("#gameOver").show();
-                $("#gameplay").hide()
+                $(".gameOver").show();
+                $(".gameplay").hide()
                 if(data.gameState == 0)
-                    $("#win").html("dead heat!");
+                    $(".win").html("dead heat!");
                 else if (data.gameState == 1)
-                    $("#win").html("first winner!");
+                    $(".win").html("first winner!");
                 else if (data.gameState == 2)
-                    $("#win").html( "second winner!");
+                    $(".win").html( "second winner!");
                 }
                 if(data.status == "incrementScore"){
-                    $("#myScore").html(data.first.score);   
-                    $("#enemyScore").html(data.second.score);                 
+                    $(".myScore").html(data.first.score);   
+                    $(".enemyScore").html(data.second.score);                 
                 }
                 
         }
