@@ -1,25 +1,16 @@
 define([
     'backbone',
     'models/score',
-    'syncs/sync'
+    'syncs/sync',
+    'utils/ajax'
     ], function(
     Backbone,
     PlayerModel,
-    sync
+    sync,
+    ajax
 ){
+
         
-    var  players = [
-        new PlayerModel({name:'Jane', score: 1240}),
-        new PlayerModel({name:'Jhon', score: 350}),
-        new PlayerModel({name:'Jim', score: 3400}),
-        new PlayerModel({name:'Nonna', score: 3240}),
-        new PlayerModel({name:'Max', score: 1340}),
-        new PlayerModel({name:'Rita', score: 2240}),
-        new PlayerModel({name:'Tom', score: 3420}),
-        new PlayerModel({name:'Linda', score: 1420}),
-        new PlayerModel({name:'Ben', score: 2620}),
-        new PlayerModel({name:'David', score: 3410})
-    ];
     
     var PlayerCollection = Backbone.Collection.extend({
         model: PlayerModel,
@@ -34,6 +25,26 @@ define([
             return scoreDiff;
         }
     });
+    var players = [];
 
-    return new PlayerCollection(players);
+    $.when(ajax.sendAjax({},"/score?limit=10", "GET")).then(
+                function(response){                 
+                    response =  JSON.parse(response);                   
+                    console.log(response.status)
+                    if(response.status == "200"){                
+                        for(i = 0; i < response.body.scoreList.length; i++) {
+                            console.log(response.body.scoreList[i]);
+                            players.push(response.body.scoreList[i]);
+                            console.log(players[i]);
+                        }
+                    }
+                },
+                function (error) {
+                    console.log(error.statusText);
+                }
+            ); 
+    console.log(players);
+    var playerCollection = new PlayerCollection(players);
+    //playerCollection.fetch();
+    return playerCollection;
 });
