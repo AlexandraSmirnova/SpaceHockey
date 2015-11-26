@@ -20,33 +20,34 @@ function(
     }
 
     
-    function validateLogin(form){
+    function validateLogin(form) {
  	var valid = checkName(form) && checkPassword(form);
 	if(!valid)
 	    $('.form__row_errors').css('display', 'block');		
         return valid;
     }
 
-    function validateRegister(form){
+    function validateRegister(form) {
 	var valid = checkName(form) && checkPasswords(form) && checkEmail(form);
 	if(!valid)
 	    $('.form__row_errors').css('display', 'block');		
 	return valid;
     }
 		
-    function checkPasswords(form){
-	var userPassword1 = $(form.type + " input[name = password]").val();
-	var userPassword2 = $(form.type + " input[name = password2]").val();
+    function checkPasswords(form) {
+		var userPassword1 = $(form.type + " input[name = password]").val();
+		var userPassword2 = $(form.type + " input[name = password2]").val();
 
-	if (userPassword1 == '' || userPassword2 == '' ) {
-	    $('.form__row_errors').text("Input your password in both fields!");
-	    return false;
-        }
-        if (userPassword1 != userPassword2 ) {
+		if (userPassword1.length < 6) {
+			$('.form__row_errors').text("Your password must contain at least 6 symbols");
+			return false;
+
+		}
+	    if (userPassword1 != userPassword2 ) {
             $('.form__row_errors').text("Passwords should be the same!Input again, please.");
             return false;
-        }
-	return true;
+	    }
+		return true;
     }
 
     function checkName(form){

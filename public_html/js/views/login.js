@@ -35,6 +35,7 @@ define([
             validator.clearErrors();
             validator.validateForm();
 
+
             if(validator.form_valid){
                 SigninManager.signinRequest(this.model);
             }
