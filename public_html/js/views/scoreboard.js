@@ -13,7 +13,7 @@ define([
     var ScoreBoardView = Backbone.View.extend({				
         template: tmpl,
 	collection: playerCollection,
-		
+	tagName: 'div',
 	initialize: function () {
 	   $('.page').append(this.el);            
            this.render();
@@ -35,6 +35,6 @@ define([
 
     });
  
-    return  new ScoreBoardView();
+    return ScoreBoardView;
 });
 
