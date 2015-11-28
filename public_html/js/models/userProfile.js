@@ -9,7 +9,7 @@ define([
     
     var UserModel = Backbone.Model.extend({
         sync: userSync,   
-        url: "/auth/signin",
+        url: "/profile",
     
         defaults: {        
             

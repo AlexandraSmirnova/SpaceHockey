@@ -24,6 +24,7 @@ define([
         initialize: function () { 
             $('.page').append(this.el);            
             this.render();
+            SigninManager.saveCache();
         },
 
         render: function () {                        

@@ -24,11 +24,11 @@ require.config({
 });
 
 define([
-    'backbone',
-    'router'
-], function(
-    Backbone,
-    router
-){
+        'backbone',
+        'router'
+    ], function(
+        Backbone,
+        router
+    ){
     Backbone.history.start();
 });
