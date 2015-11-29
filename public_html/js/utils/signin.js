@@ -44,8 +44,7 @@ function(
 		};
         this.saveCache = function() {
             var elements = $(formClass + " input");
-            for (i = 0; i < elements.length; i++) {
-                console.log(elements[i]);
+            for (i = 0; i < elements.length; i++) {                
                 (function(element) {
                     var id = element.getAttribute('id');
                     element.value = sessionStorage.getItem(id); // обязательно наличие у элементов id

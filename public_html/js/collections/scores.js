@@ -1,17 +1,13 @@
 define([
     'backbone',
     'models/score',
-    'syncs/sync',
-    'utils/ajax'
+    'syncs/scoreSync'
     ], function(
     Backbone,
     PlayerModel,
-    sync,
-    ajax
+    sync
 ){
-
-        
-    
+          
     var PlayerCollection = Backbone.Collection.extend({
         model: PlayerModel,
         url: '/score?limit=10',
@@ -25,26 +21,8 @@ define([
             return scoreDiff;
         }
     });
-    var players = [];
-
-    $.when(ajax.sendAjax({},"/score?limit=10", "GET")).then(
-                function(response){                 
-                    response =  JSON.parse(response);                   
-                    console.log(response.status)
-                    if(response.status == "200"){                
-                        for(i = 0; i < response.body.scoreList.length; i++) {
-                            console.log(response.body.scoreList[i]);
-                            players.push(response.body.scoreList[i]);
-                            console.log(players[i]);
-                        }
-                    }
-                },
-                function (error) {
-                    console.log(error.statusText);
-                }
-            ); 
-    console.log(players);
-    var playerCollection = new PlayerCollection(players);
-    //playerCollection.fetch();
+   
+    var playerCollection = new PlayerCollection();
+    playerCollection.fetch();
     return playerCollection;
 });

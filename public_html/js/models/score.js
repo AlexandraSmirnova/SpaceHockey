@@ -5,10 +5,8 @@ define([
 ){
 
     var PlayerModel = Backbone.Model.extend({
-        url: '/scoreboard',
-        idAttribute: 'id_event',
     	defaults: {
-    		name: 'Unnamed player',
+    		login: 'Unnamed player',
     		score: 0
     	}	
     });

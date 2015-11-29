@@ -1,6 +1,6 @@
 define([
     'backbone',
-    'syncs/sync'
+    'syncs/userSync'
     
 ],function(
     Backbone,
@@ -11,8 +11,7 @@ define([
         sync: userSync,   
         url: "/profile",
     
-        defaults: {        
-            
+        defaults: {                    
             login: "",
             password: "",
             email: "",
@@ -31,10 +30,9 @@ define([
         },
     });
 
- var user = new UserModel();
- user.fetch();
-
- return user;
+    var user = new UserModel();
+    user.fetch();
+    return user;
 
 
 });

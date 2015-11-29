@@ -24,8 +24,7 @@ function(
                             console.log("ajax success");
                             Backbone.history.navigate('', { trigger: true });
                         }
-                        else{
-                            alert(parseInt(data["status"], 10));
+                        else{                            
                             var $error = $(".form__row_errors"); 
                             $error.append("User cann't be registrated. Try to change your input data");
                             $error.show();
@@ -39,8 +38,7 @@ function(
         };
         this.saveCache = function() {
             var elements = $(formClass + " input");
-            for (i = 0; i < elements.length; i++) {
-                console.log(elements[i]);
+            for (i = 0; i < elements.length; i++) {                
                 (function(element) {
                     var id = element.getAttribute('id');
                     element.value = sessionStorage.getItem(id); // обязательно наличие у элементов id

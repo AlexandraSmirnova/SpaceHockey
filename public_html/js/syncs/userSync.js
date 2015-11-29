@@ -1,7 +1,9 @@
 define([
-    'backbone'
+    'backbone',
+    'utils/ajax'
 ], function(
-    Backbone
+    Backbone,
+    ajax
 ){
 
     return function(method, model, options) {
@@ -42,10 +44,22 @@ define([
                 break;        
             case 'read':
                 console.log('read');
-                Backbone.sync.call(this, method, model, options);
+                $.when(ajax.sendAjax({}, options.url || this.url, "POST")).then(
+                    function(response){                 
+                        resp =  JSON.parse(response);                   
+                        console.log(resp.body);
+                        console.log(resp.status);
+                        if (resp.status == '200')
+                            model.set(resp.body);
+                        else 
+                            console.log("UNAUTHORIZED");
+                    },
+                    function (error) {
+                        console.log(error.statusText);
+                    }
+                );  
                 break;
-            default:
-                // Something probably went wrong
+            default:                
                 console.error('Unknown method:', method);
                 break;
           }
@@ -53,18 +67,3 @@ define([
         
     };
 });
-
-
-/*var methods = {
-            'create': {
-                send: function() {
-                    $.ajax({
-            type: "POST",
-            url: '/auth/signin',
-                        data: JSON.stringify(model.toJSON())
-            });//ajax
-                }//send
-            },//create
-        };
-return methods[method].send();
-        */
