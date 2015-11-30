@@ -2,7 +2,7 @@ define([
 	'backbone',
 	'syncs/userSync'
 ], function (Backbone,
-			 userSync) {
+             userSync) {
 
 	var UserModel = Backbone.Model.extend({
 		sync: userSync,

@@ -3,8 +3,8 @@ define([
 	'models/score',
 	'syncs/scoreSync'
 ], function (Backbone,
-			 PlayerModel,
-			 sync) {
+             PlayerModel,
+             sync) {
 	var PlayerCollection = Backbone.Collection.extend({
 		model: PlayerModel,
 		url: '/score?limit=10',

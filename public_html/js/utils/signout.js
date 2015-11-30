@@ -3,7 +3,7 @@ define([
 		'utils/ajax'
 	],
 	function (Backbone,
-			  ajax) {
+	          ajax) {
 		// модуль, отвечающий за разлогинивание
 
 		var SignoutManager = function () {

@@ -27,6 +27,6 @@ define([
 	'backbone',
 	'router'
 ], function (Backbone,
-			 router) {
+             router) {
 	Backbone.history.start();
 });
