@@ -10,7 +10,7 @@ define([
 
 			this.exitRequest = function (model) {
 
-				$.when(ajax.sendAjax('', "/auth/signout", "GET")).then(
+				$.when(ajax.sendAjax('', "/auth/signout", "POST")).then(
 					function (response) {
 						console.log("geted..response");
 						response = JSON.parse(response);

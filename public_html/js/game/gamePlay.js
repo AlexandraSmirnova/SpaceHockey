@@ -173,19 +173,19 @@ define([
 	}
 
 	function analizeMessage() {
-		ws.onmessage = function (event) {
-			//myName = userModel.login;
+		ws.onmessage = function (event) {			
 
-			var data = JSON.parse(event.data);
-			console.log(data);
+			var data = JSON.parse(event.data);			
 			if (data.status == "movePlatform") {
 				myPlatform.direction = parseInt(data.first.direction, 10);
 				enemyPlatform.direction = parseInt(data.second.direction, 10);
 			}
-			if (data.status == "start" && data.second.name != date.first.name) {
+			if (data.status == "start" && data.second.name != data.first.name) {
 				$(".wait").hide();
 				$(".gameplay").show();
-				$(".enemyName").html(data.second.name);
+        $(".firstPlayer").html(data.first.name);
+				$(".secondPlayer").html(data.second.name);
+
 			}
 			if (data.status == "finish") {
 				$(".gameOver").show();
