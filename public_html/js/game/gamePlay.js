@@ -50,13 +50,18 @@ define([
 		this.sAngle = sAngle;
 		this.eAngle = eAngle;
 		this.color = "red";
+		this.image = new Image();
+		this.image.src = 'img/ball.png';
 
 		this.draw = function () {
+			context.drawImage(this.image,this.centerX-this.radius,this.centerY-this.radius, 20, 20);
+		}
+		/*this.draw = function () {
 			context.beginPath();
 			context.arc(this.centerX, this.centerY, this.radius, this.sAngle, this.eAngle, false);
 			context.fillStyle = this.color;
 			context.fill();
-		}
+		}*/
 	}
 
 	var gameField = new PlayField(40, 40, 500, 630);
