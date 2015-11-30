@@ -31,14 +31,12 @@ define([
 		}
 	}
 
-	function Platform(x, y, width, height, velocity, direction, color) {
+	function Platform(x, y, width, height, color) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.color = color;
-		this.velocity = velocity;
-		this.direction = direction;
 		this.draw = function () {
 			context.fillStyle = this.color;
 			context.fillRect(this.x, this.y, this.width, this.height);
@@ -50,10 +48,8 @@ define([
 		this.centerY = centerY;
 		this.radius = radius;
 		this.sAngle = sAngle;
-		this.eAngl2e = eAngle;
+		this.eAngle = eAngle;
 		this.color = "red";
-		this.speedX = 5;
-		this.speedY = 1;
 
 		this.draw = function () {
 			context.beginPath();
@@ -61,16 +57,11 @@ define([
 			context.fillStyle = this.color;
 			context.fill();
 		}
-
-		this.move = function () {
-			this.centerX += this.speedX;
-			this.centerY += this.speedY;
-		}
 	}
 
 	var gameField = new PlayField(40, 40, 500, 630);
-	var myPlatform = new Platform(235, 80, 100, 20, 4, Direction.STOP, "red");
-	var enemyPlatform = new Platform(235, 610, 100, 20, 4, Direction.STOP, "red");
+	var myPlatform = new Platform(235, 80, 100, 20, "red");
+	var enemyPlatform = new Platform(235, 610, 100, 20, "red");
 	var ball = new Ball(100, 100, 10, 0, Math.PI * 2, false);
 	var left = false, right = false, send = false;
 
@@ -89,24 +80,15 @@ define([
 		}, 1000 / FPS);
 	}
 
-	function collisionCheck() {
-		if (myPlatform.x <= gameField.x) {
-			console.log("collision");
-		}
-	}
-
 	function draw() {
 		gameField.clear();
 		gameField.draw();
 		myPlatform.draw();
 		enemyPlatform.draw();
-		collisionCheck();
-		//ball.draw();
+		ball.draw();
 	}
 
 	function update() {
-		myPlatform.move();
-		enemyPlatform.move();
 		if (input.isDown('LEFT') && !right) {
 			left = true;
 			right = false;
@@ -154,14 +136,17 @@ define([
 	function analizeMessage() {
 		ws.onmessage = function (event) {
 			var data = JSON.parse(event.data);
-			if (data.status == "movePlatform") {
-				myPlatform.direction = parseInt(data.first.direction, 10);
-				enemyPlatform.direction = parseInt(data.second.direction, 10);
+			console.log(data);
+			if (data.status == "worldInfo") {
+				myPlatform.x = parseInt(data.first.positionX, 10);
+				enemyPlatform.x = parseInt(data.second.positionX, 10);
+				ball.centerX = parseInt(data.ball.positionX, 10);
+				ball.centerY = parseInt(data.ball.positionY, 10);
 			}
 			if (data.status == "start" && data.second.name != data.first.name) {
 				$(".wait").hide();
 				$(".gameplay").show();
-		$(".firstPlayer").html(data.first.name);
+				$(".firstPlayer").html(data.first.name);
 				$(".secondPlayer").html(data.second.name);
 
 			}

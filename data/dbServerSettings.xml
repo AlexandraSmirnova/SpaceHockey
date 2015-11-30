@@ -3,7 +3,7 @@
     <driverClass>com.mysql.jdbc.Driver</driverClass>
     <connectionUrl>jdbc:mysql://localhost:3306/SpaceHockey</connectionUrl>
     <username>root</username>
-    <password>123</password>
+    <password>said1995</password>
     <showSql>false</showSql>
     <mode>validate</mode>
 </class>
