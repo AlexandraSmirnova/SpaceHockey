@@ -1,8 +1,6 @@
 define([
     'backbone'
-], function (
-    Backbone
-) {
+], function (Backbone) {
 
     var views = [];
     var $page = $(".page");

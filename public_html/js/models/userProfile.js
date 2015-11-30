@@ -1,38 +1,33 @@
 define([
-    'backbone',
-    'syncs/userSync'
-    
-],function(
-    Backbone,
-    userSync
-){
-    
-    var UserModel = Backbone.Model.extend({
-        sync: userSync,   
-        url: "/profile",
-    
-        defaults: {                    
-            login: "",
-            password: "",
-            email: "",
-            logged_in: false        
-        },
+	'backbone',
+	'syncs/userSync'
+], function (Backbone,
+			 userSync) {
 
-        initialize: function() {
-            console.log("This model has been initialized");
-        },
-        isLoggedIn: function() {
-            console.log("Check login");
-        },
+	var UserModel = Backbone.Model.extend({
+		sync: userSync,
+		url: "/profile",
 
-        loginSuccess: function (data) {
-            this.set(data);           
-        },
-    });
+		defaults: {
+			login: "",
+			password: "",
+			email: "",
+			logged_in: false
+		},
 
-    var user = new UserModel();
-    user.fetch();
-    return user;
+		initialize: function () {
+			console.log("This model has been initialized");
+		},
+		isLoggedIn: function () {
+			console.log("Check login");
+		},
 
+		loginSuccess: function (data) {
+			this.set(data);
+		}
+	});
 
+	var user = new UserModel();
+	user.fetch();
+	return user;
 });
