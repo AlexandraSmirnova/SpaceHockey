@@ -5,11 +5,13 @@ define([
 ) {
 
     var views = [];
+    var $page = $(".page");
 
     var Manager = Backbone.View.extend({
 
-        addView: function (currentView) {
-            views.push(currentView);	  
+        addView: function (currentView) {           
+            $page.append(currentView.$el);
+            views.push(currentView);      
 
             this.listenTo(currentView, 'show', function () {
                 views.forEach(function (view) {

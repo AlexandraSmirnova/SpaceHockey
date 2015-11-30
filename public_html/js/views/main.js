@@ -13,14 +13,13 @@ define([
 
     var Main = Backbone.View.extend({
         template: tmpl,        
-        
+        model: User,
+
         events: {
             "click .menu__item_logout": "logout"
         },
         
-        initialize: function () {            
-            $('.page').append(this.el);
-            console.log("initialize");
+        initialize: function () {                       
             this.render();
             that = this;
             this.listenTo(User, 'change', function(){                                 
@@ -32,9 +31,7 @@ define([
             this.render();
         },
                 
-        render: function () {        
-            //console.log(User);
-            //console.log(User.get('login'));
+        render: function () {                
             userlogin = User.get('login');
             var userData = {
                 "login": userlogin
@@ -53,5 +50,5 @@ define([
         
     });
 
-    return new Main({model: User});
+    return new Main();
 });

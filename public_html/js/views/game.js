@@ -21,7 +21,6 @@ define([
         },
 
         initialize: function () {        
-	        $('.page').append(this.el);                             
             this.render();
             self = this;
             this.listenTo(User, 'change', function(){ self.render(); } );                                 

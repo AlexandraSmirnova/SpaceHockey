@@ -16,13 +16,13 @@ define([
 
     var View = Backbone.View.extend({
         template: tmpl,        
+        model: User,
 
         events: {
             "submit .form_signin": "submitSignin"
         },
         
-        initialize: function () { 
-            $('.page').append(this.el);            
+        initialize: function () {             
             this.render();
             SigninManager.saveCache();
         },
@@ -56,5 +56,5 @@ define([
 
     });
 
-    return new View({model: User});
+    return new View();
 });

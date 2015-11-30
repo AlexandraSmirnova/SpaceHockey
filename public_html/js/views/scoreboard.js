@@ -3,29 +3,28 @@ define([
     'tmpl/scoreboard',
     'models/score',
     'collections/scores'
-], function(	
+], function(    
     Backbone,
     tmpl,
     playerModel,
     playerCollection
 ){
 
-    var ScoreBoardView = Backbone.View.extend({				
+    var ScoreBoardView = Backbone.View.extend({             
         template: tmpl,
-	collection: playerCollection,
-		
-	initialize: function () {
-	   $('.page').append(this.el);            
+        collection: playerCollection,
+        
+        initialize: function () {     
            this.render();
         },
 
         render: function () {
             this.$el.html(this.template(this.collection.toJSON()));
         },
-		
+        
 
         show: function () {
-	    this.trigger('show', this);
+           this.trigger('show', this);
             this.$el.show();
 
         },
@@ -35,6 +34,6 @@ define([
 
     });
  
-    return  new ScoreBoardView();
+    return new ScoreBoardView();
 });
 

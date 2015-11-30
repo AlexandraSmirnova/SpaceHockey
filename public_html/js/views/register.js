@@ -21,8 +21,7 @@ define([
         "submit .form_signup": "submitSignup"
     },
 
-    initialize: function () { 
-        $('.page').append(this.el);            
+    initialize: function () {         
         this.render();
         SignupManager.saveCache();
     },
