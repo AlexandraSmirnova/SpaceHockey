@@ -2,7 +2,7 @@ define([
 	'backbone',
 	'utils/ajax'
 ], function (Backbone,
-			 ajax) {
+             ajax) {
 	return function (method, model, options) {
 		options || (options = {});
 		switch (method) {

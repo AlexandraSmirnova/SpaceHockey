@@ -124,7 +124,7 @@ var requirejs, require, define;
 		}
 
 		function i(a,
-				   j, b, f) {
+		           j, b, f) {
 			var l, d, e = null, i = j ? j.name : null, k = a, p = !0, m = "";
 			a || (p = !1, a = "_@r" + (K += 1));
 			a = g(a);
@@ -154,7 +154,7 @@ var requirejs, require, define;
 		}
 
 		function s(a,
-				   j, b) {
+		           j, b) {
 			var f = a.id, c = n(m, f);
 			if (t(q, f) && (!c || c.defineEmitComplete))"defined" === j && b(q[f]); else if (c = r(a), c.error && "error" === j)b(c.error); else c.on(j, b)
 		}

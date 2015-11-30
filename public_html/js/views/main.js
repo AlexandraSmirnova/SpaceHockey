@@ -1,54 +1,53 @@
 define([
-    'backbone',
-    'tmpl/main',
-    'models/userProfile',
-    'utils/signout'
-], function(
-    Backbone,
-    tmpl,
-    User,
-    SignoutManager
-){
-    var logoutItem = ".menu__item_logout";
+	'backbone',
+	'tmpl/main',
+	'models/userProfile',
+	'utils/signout'
+], function (Backbone,
+             tmpl,
+             User,
+             SignoutManager) {
+	var logoutItem = ".menu__item_logout";
 
-    var Main = Backbone.View.extend({
-        template: tmpl,        
-        model: User,
+	var Main = Backbone.View.extend({
+		template: tmpl,
+		model: User,
 
-        events: {
-            "click .menu__item_logout": "logout"
-        },
-        
-        initialize: function () {                       
-            this.render();
-            that = this;
-            this.listenTo(User, 'change', function(){                                 
-                that.render();} );                         
-        },
+		events: {
+			"click .menu__item_logout": "logout"
+		},
 
-        logout: function(){
-            SignoutManager.exitRequest(this.model);            
-            this.render();
-        },
-                
-        render: function () {                
-            userlogin = User.get('login');
-            var userData = {
-                "login": userlogin
-            }
-            this.$el.html(this.template(userData));
-        },
+		initialize: function () {
+			this.render();
+			that = this;
+			this.listenTo(User, 'change', function () {
+				that.render();
+			});
+		},
 
-        show: function () {
-            this.trigger('show', this);
-            this.$el.show();
-        },
+		logout: function () {
+			SignoutManager.exitRequest(this.model);
+			this.render();
+		},
 
-        hide: function () {
-            this.$el.hide();
-        },
-        
-    });
+		render: function () {
+			userlogin = User.get('login');
+			var userData = {
+				"login": userlogin
+			}
+			this.$el.html(this.template(userData));
+		},
 
-    return new Main();
+		show: function () {
+			this.trigger('show', this);
+			this.$el.show();
+		},
+
+		hide: function () {
+			this.$el.hide();
+		},
+
+	});
+
+	return new Main();
 });

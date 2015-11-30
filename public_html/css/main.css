@@ -14,14 +14,14 @@
   font-size: 34px;
   color: rgba(10, 10, 10, 0.8);
   background: none;
-  text-shadow: #7C0059 2px 2px 0, #7C0059 -1px -1px 0,  #7C0059 -1px 1px 0, #7C0059 1px -1px 0;
+  text-shadow: #7C0059 2px 2px 0, #7C0059 -1px -1px 0, #7C0059 -1px 1px 0, #7C0059 1px -1px 0;
   outline: none;
 }
 
 .menu__link:hover {
   font-size: 46px;
   text-decoration: none;
-  text-shadow: #7C0059 2px 2px 0, #7C0059 -2px -2px 0,  #7C0059 -2px 2px 0, #7C0059 2px -2px 0;
+  text-shadow: #7C0059 2px 2px 0, #7C0059 -2px -2px 0, #7C0059 -2px 2px 0, #7C0059 2px -2px 0;
   color: #9C68D4;
 }
 
@@ -123,7 +123,7 @@ body {
   min-width: 300px;
   background-color: rgba(56, 6, 112, 0.6);
   color: #B0EC00;
-  text-shadow: #8841D4 2px 2px 0, #8841D4 -1px -1px 0,  #8841D4 -1px 1px 0, #8841D4 1px -1px 0;
+  text-shadow: #8841D4 2px 2px 0, #8841D4 -1px -1px 0, #8841D4 -1px 1px 0, #8841D4 1px -1px 0;
   text-align: center;
   font-size: 56px;
   letter-spacing: 12px;
@@ -135,7 +135,7 @@ body {
   text-align: center;
   font-size: 46px;
   color: #9C68D4;
-  text-shadow: #FCEF3F 2px 2px 0, #FCEF3F -1px -1px 0,  #FCEF3F -1px 1px 0, #FCEF3F 1px -1px 0;
+  text-shadow: #FCEF3F 2px 2px 0, #FCEF3F -1px -1px 0, #FCEF3F -1px 1px 0, #FCEF3F 1px -1px 0;
 }
 
 .container {

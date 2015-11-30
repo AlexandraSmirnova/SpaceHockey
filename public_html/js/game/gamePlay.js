@@ -4,9 +4,9 @@ define([
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-			 input,
-			 gameWebSocket,
-			 userModel) {
+             input,
+             gameWebSocket,
+             userModel) {
 	var Direction = {
 		LEFT: 0,
 		RIGHT: 1,
@@ -98,6 +98,7 @@ define([
 
 	function start(canvas) {
 		ws = gameWebSocket.initConnect();
+		console.log("INIT CONNECT");
 		analizeMessage();
 		var FPS = 60;
 		CANVAS_WIDTH = canvas.width;

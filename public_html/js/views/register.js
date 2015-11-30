@@ -1,56 +1,54 @@
 define([
-    'backbone',
-    'tmpl/register',
-    'utils/validator',
-    'utils/signup',
-    'models/userProfile'
-], function(
-    Backbone,
-    tmpl,
-    Validator,
-    SignupManager,
-    User
-){
-    var formClass = ".form_signup";
-    var validator = new Validator(formClass);
+	'backbone',
+	'tmpl/register',
+	'utils/validator',
+	'utils/signup',
+	'models/userProfile'
+], function (Backbone,
+             tmpl,
+             Validator,
+             SignupManager,
+             User) {
+	var formClass = ".form_signup";
+	var validator = new Validator(formClass);
 
-    var View = Backbone.View.extend({
-    template: tmpl,
-                
-    events: {
-        "submit .form_signup": "submitSignup"
-    },
+	var View = Backbone.View.extend({
+		template: tmpl,
 
-    initialize: function () {         
-        this.render();
-        SignupManager.saveCache();
-    },
+		events: {
+			"submit .form_signup": "submitSignup"
+		},
 
-    render: function () {
-        $(this.el).html(this.template());
-        return this;
-    },
+		initialize: function () {
+			this.render();
+			SignupManager.saveCache();
+		},
 
-    submitSignup: function(event) {
-        validator.clearErrors();
-        validator.validateForm();
-        if(validator.form_valid){
-            SignupManager.signupRequest();
-        }                                                                
-        return false;
-    },
+		render: function () {
+			$(this.el).html(this.template());
+			return this;
+		},
 
-    show: function () {      
-        validator.clearErrors()
-        this.$el.show();
-        this.trigger("show", this);
-    },
+		submitSignup: function (event) {
+			validator.clearErrors();
+			validator.validateForm();
+			if (validator.form_valid) {
+				SignupManager.signupRequest();
+			}
+			return false;
+		},
 
-    hide: function () {
-        this.$el.hide();
-    }
+		show: function () {
+			validator.clearErrors()
+			this.$el.show();
+			this.trigger("show", this);
+		},
 
-    });
+		hide: function () {
+			this.$el.hide();
+		}
 
-    return new View();
+	});
+
+	return new View();
 });

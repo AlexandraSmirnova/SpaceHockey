@@ -1,24 +1,24 @@
-.score-list{
-    width: 100%;
-    max-width: 380px;
-    margin: 0 auto;
+.score-list {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
 
-    background-color: #7182d9;
-    border-radius: 10px;
-    box-shadow: 0 0 7px 3px;
+  background-color: #7182d9;
+  border-radius: 10px;
+  box-shadow: 0 0 7px 3px;
 }
 
-.score-list__cell{
-    text-align: center;
-    padding: 5px;
-    border-top: gray 2px solid;
+.score-list__cell {
+  text-align: center;
+  padding: 5px;
+  border-top: gray 2px solid;
 }
 
-.score-list__cell_head{
-    border-top: 0px ;
+.score-list__cell_head {
+  border-top: 0px;
 }
 
-.score-list__item_head{
-    color: #c71585;
-    font-size: $font-size-xs;
+.score-list__item_head {
+  color: #c71585;
+  font-size: $font-size-xs;
 }

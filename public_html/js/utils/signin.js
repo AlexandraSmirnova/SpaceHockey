@@ -3,7 +3,7 @@ define([
 		'utils/ajax'
 	],
 	function (Backbone,
-			  ajax) {
+	          ajax) {
 
 		var formClass = ".form_signin";
 
