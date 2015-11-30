@@ -3,8 +3,8 @@ define([
 	'lib/input',
 	'game/gameWebSocket'
 ], function (Backbone,
-             input,
-             gameWebSocket) {
+			input,
+			gameWebSocket) {
 	var Direction = {
 		LEFT: 0,
 		RIGHT: 1,
@@ -153,8 +153,6 @@ define([
 
 	function analizeMessage() {
 		ws.onmessage = function (event) {
-			//myName = userModel.login;
-
 			var data = JSON.parse(event.data);
 			if (data.status == "movePlatform") {
 				myPlatform.direction = parseInt(data.first.direction, 10);
@@ -163,7 +161,9 @@ define([
 			if (data.status == "start" && data.second.name != data.first.name) {
 				$(".wait").hide();
 				$(".gameplay").show();
-				$(".enemyName").html(data.second.name);
+		$(".firstPlayer").html(data.first.name);
+				$(".secondPlayer").html(data.second.name);
+
 			}
 			if (data.status == "finish") {
 				$(".gameOver").show();

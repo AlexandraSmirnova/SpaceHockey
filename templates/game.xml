@@ -10,14 +10,14 @@
 
             <div class="gameplay" style="display: none">
                 <div class="score">
-                    <p><fest:value>json.login</fest:value>: <fest:space/> <span id="myScore">0</span></p>
-                    <p><span id="enemyName"></span>: <fest:space/> <span id="enemyScore">0</span></p>
+                    <p><span class="firstPlayer"></span>:<fest:space/> <span class="myScore">0</span></p>
+                    <p><span class="secondPlayer"></span>: <fest:space/> <span class="enemyScore">0</span></p>
                 </div>
             </div>
 
             <div class="gameOver" style="display: none">
-                <p>Game over! You are <span id="win"></span></p>
-                <p>Result: <span id="win"></span></p>
+                <p>Game over! You are <span class="win"></span></p>
+                <p>Result: <span class = "win"></span></p>
         
             </div>        
         </div>
