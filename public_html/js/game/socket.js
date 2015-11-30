@@ -1,67 +1,65 @@
 define([
-    'models/userProfile'
-],function(
-    User
-){            
-        
-            
-        var Game = function(){
+	'models/userProfile'
+], function (User) {
 
-            var started = false;            
-            var finished = false;
 
-            //var me = JSON.parse(localStorage.getItem("user"));
-            var myName = null; 
-            var enemyName = "";
+	var Game = function () {
 
-            var ws;
+		var started = false;
+		var finished = false;
 
-            this.init = function(user) {
-                myName = User.login;                
-                ws = new WebSocket("ws://localhost:8080/gameplay");
+		//var me = JSON.parse(localStorage.getItem("user"));
+		var myName = null;
+		var enemyName = "";
 
-                ws.onopen = function (event) {
-                    console.log("connection opened");                    
-                }
+		var ws;
 
-                ws.onmessage = function (event) {
-                    console.log("onmessage");
-                    var data = JSON.parse(event.data);
-                    if(data.status == "start" && data.enemyName != myName){
-                        $("#wait").hide();
-                        $("#gameplay").show();
-                        $("#enemyName").html(data.enemyName);
-                    }
+		this.init = function (user) {
+			myName = User.login;
+			ws = new WebSocket("ws://localhost:8080/gameplay");
 
-                    if(data.status == "finish"){
-                        $("#gameOver").show();
-                        $("#gameplay").hide();
+			ws.onopen = function (event) {
+				console.log("connection opened");
+			}
 
-                        if(data.win)
-                            $("#win").html("winner!");
-                        else
-                            $("#win").html("loser!");
-                    }
+			ws.onmessage = function (event) {
+				console.log("onmessage");
+				var data = JSON.parse(event.data);
+				if (data.status == "start" && data.enemyName != myName) {
+					$("#wait").hide();
+					$("#gameplay").show();
+					$("#enemyName").html(data.enemyName);
+				}
 
-                    if(data.status == "increment" && data.name == myName){
+				if (data.status == "finish") {
+					$("#gameOver").show();
+					$("#gameplay").hide();
 
-                        $("#myScore").html(data.score);
-                    }    
+					if (data.win)
+						$("#win").html("winner!");
+					else
+						$("#win").html("loser!");
+				}
 
-                    if(data.status == "increment" && data.name == $("#enemyName").html()){
-                        $("#enemyScore").html(data.score);
-                    }
-                }
+				if (data.status == "increment" && data.name == myName) {
 
-            };
+					$("#myScore").html(data.score);
+				}
 
-            this.sendMessage = function() {
-                var message = "{}";
-                ws.send(message);
-            };
-        }
+				if (data.status == "increment" && data.name == $("#enemyName").html()) {
+					$("#enemyScore").html(data.score);
+				}
+			}
 
-        return new Game();
+		};
+
+		this.sendMessage = function () {
+			var message = "{}";
+			ws.send(message);
+		};
+	}
+
+	return new Game();
 });
             
             

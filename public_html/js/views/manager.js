@@ -1,25 +1,23 @@
 define([
-    'backbone'
-], function (
-    Backbone
-) {
+	'backbone'
+], function (Backbone) {
 
-    var views = [];
+	var views = [];
 
-    var Manager = Backbone.View.extend({
+	var Manager = Backbone.View.extend({
 
-        addView: function (currentView) {
-            views.push(currentView);	  
+		addView: function (currentView) {
+			views.push(currentView);
 
-            this.listenTo(currentView, 'show', function () {
-                views.forEach(function (view) {
-                    if (view.cid != currentView.cid && view != undefined)
-                        view.hide();
-                });
-            });
-        }
+			this.listenTo(currentView, 'show', function () {
+				views.forEach(function (view) {
+					if (view.cid != currentView.cid && view != undefined)
+						view.hide();
+				});
+			});
+		}
 
-    });
+	});
 
-    return new Manager();
+	return new Manager();
 });

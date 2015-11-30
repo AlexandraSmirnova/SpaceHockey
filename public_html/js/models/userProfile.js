@@ -1,10 +1,8 @@
 define([
 	'backbone',
 	'syncs/userSync'
-],function(
-	Backbone,
-	userSync
-){
+], function (Backbone,
+			 userSync) {
 
 	var UserModel = Backbone.Model.extend({
 		sync: userSync,
@@ -17,10 +15,10 @@ define([
 			logged_in: false
 		},
 
-		initialize: function() {
+		initialize: function () {
 			console.log("This model has been initialized");
 		},
-		isLoggedIn: function() {
+		isLoggedIn: function () {
 			console.log("Check login");
 		},
 

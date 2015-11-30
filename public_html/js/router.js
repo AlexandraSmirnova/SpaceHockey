@@ -6,15 +6,13 @@ define([
 	'views/scoreboard',
 	'views/register',
 	'views/manager'
-], function(
-	Backbone,
-	gamePage,
-	mainPage,
-	loginPage,
-	scoreboardPage,
-	registerPage,
-	viewManager
-){
+], function (Backbone,
+			 gamePage,
+			 mainPage,
+			 loginPage,
+			 scoreboardPage,
+			 registerPage,
+			 viewManager) {
 	var Router = Backbone.Router.extend({
 		routes: {
 			'scoreboard': 'scoreboardAction',
@@ -23,8 +21,8 @@ define([
 			'register': 'registerAction',
 			'*default': 'defaultActions'
 		},
-	
-	initialize: function () {	    
+
+		initialize: function () {
 			viewManager.addView(scoreboardPage);
 			viewManager.addView(loginPage);
 			viewManager.addView(mainPage);
@@ -32,23 +30,23 @@ define([
 			viewManager.addView(registerPage);
 		},
 
-	defaultActions: function () {
-		mainPage.show();
-	},
+		defaultActions: function () {
+			mainPage.show();
+		},
 
-	scoreboardAction: function () {
-		scoreboardPage.show();
-	},
+		scoreboardAction: function () {
+			scoreboardPage.show();
+		},
 
-	gameAction: function () {
-		gamePage.show();
-	},
+		gameAction: function () {
+			gamePage.show();
+		},
 
-	loginAction: function () {
-		loginPage.show();
-	},
+		loginAction: function () {
+			loginPage.show();
+		},
 
-	registerAction: function () {
+		registerAction: function () {
 			registerPage.show();
 		}
 	});

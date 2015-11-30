@@ -1,60 +1,58 @@
 define([
-    'backbone',
-    'tmpl/login',
-    'utils/validator',
-    'utils/signin',  
-    'models/userProfile'
-], function(
-    Backbone,
-    tmpl,
-    Validator,
-    SigninManager,
-    User
-){
-    var form_class = ".form_signin";
-    var validator = new Validator(form_class);
+	'backbone',
+	'tmpl/login',
+	'utils/validator',
+	'utils/signin',
+	'models/userProfile'
+], function (Backbone,
+			 tmpl,
+			 Validator,
+			 SigninManager,
+			 User) {
+	var form_class = ".form_signin";
+	var validator = new Validator(form_class);
 
-    var View = Backbone.View.extend({
-        template: tmpl,        
+	var View = Backbone.View.extend({
+		template: tmpl,
 
-        events: {
-            "submit .form_signin": "submitSignin"
-        },
-        
-        initialize: function () { 
-            $('.page').append(this.el);            
-            this.render();
-            SigninManager.saveCache();
-        },
+		events: {
+			"submit .form_signin": "submitSignin"
+		},
 
-        render: function () {                        
-            $(this.el).html(this.template());    
-            return this;
-        },
+		initialize: function () {
+			$('.page').append(this.el);
+			this.render();
+			SigninManager.saveCache();
+		},
 
-        submitSignin: function(event) {
-            validator.clearErrors();
-            validator.validateForm();
+		render: function () {
+			$(this.el).html(this.template());
+			return this;
+		},
+
+		submitSignin: function (event) {
+			validator.clearErrors();
+			validator.validateForm();
 
 
-            if(validator.form_valid){
-                SigninManager.signinRequest(this.model);
-            }
-            return false;
+			if (validator.form_valid) {
+				SigninManager.signinRequest(this.model);
+			}
+			return false;
 
-        },
+		},
 
-        show: function () {
-            validator.clearErrors()
-            this.$el.show();
-            this.trigger("show", this);
-        },
+		show: function () {
+			validator.clearErrors()
+			this.$el.show();
+			this.trigger("show", this);
+		},
 
-        hide: function () {
-            this.$el.hide();
-        }
+		hide: function () {
+			this.$el.hide();
+		}
 
-    });
+	});
 
-    return new View({model: User});
+	return new View({model: User});
 });

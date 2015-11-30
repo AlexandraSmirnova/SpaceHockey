@@ -3,16 +3,13 @@ define([
 	'tmpl/scoreboard',
 	'models/score',
 	'collections/scores'
-], function(
-	Backbone,
-	tmpl,
-	playerModel,
-	playerCollection
-){
+], function (Backbone,
+			 tmpl,
+			 playerModel,
+			 playerCollection) {
 	var ScoreBoardView = Backbone.View.extend({
 		template: tmpl,
 		collection: playerCollection,
-		
 		initialize: function () {
 			$('.page').append(this.el);
 			this.render();
