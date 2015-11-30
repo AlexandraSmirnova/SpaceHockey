@@ -1,12 +1,10 @@
 define([
 	'backbone',
 	'lib/input',
-	'game/gameWebSocket',
-	'models/userProfile'
+	'game/gameWebSocket'
 ], function (Backbone,
              input,
-             gameWebSocket,
-             userModel) {
+             gameWebSocket) {
 	var Direction = {
 		LEFT: 0,
 		RIGHT: 1,
@@ -28,7 +26,6 @@ define([
 			context.strokeStyle = this.color;
 			context.strokeRect(this.x, this.y, this.width, this.height);
 		}
-
 		this.clear = function () {
 			context.clearRect(this.x, this.y, this.width, this.height);
 		}
@@ -42,28 +39,9 @@ define([
 		this.color = color;
 		this.velocity = velocity;
 		this.direction = direction;
-		this.clamp = function (min, max) {
-			this.x = Math.min(Math.max(this.x, min), max);
-			console.log(this.x);
-		}
 		this.draw = function () {
 			context.fillStyle = this.color;
 			context.fillRect(this.x, this.y, this.width, this.height);
-		}
-		this.move = function () {
-			switch (this.direction) {
-				case Direction.LEFT:
-					this.x -= this.velocity;
-					break;
-				case Direction.RIGHT:
-					this.x += this.velocity;
-					break;
-				case Direction.STOP:
-					break;
-				default:
-					console.log("Bad direction");
-					break;
-			}
 		}
 	}
 
@@ -178,12 +156,11 @@ define([
 			//myName = userModel.login;
 
 			var data = JSON.parse(event.data);
-			console.log(data);
 			if (data.status == "movePlatform") {
 				myPlatform.direction = parseInt(data.first.direction, 10);
 				enemyPlatform.direction = parseInt(data.second.direction, 10);
 			}
-			if (data.status == "start" && data.second.name != date.first.name) {
+			if (data.status == "start" && data.second.name != data.first.name) {
 				$(".wait").hide();
 				$(".gameplay").show();
 				$(".enemyName").html(data.second.name);
