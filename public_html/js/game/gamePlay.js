@@ -184,7 +184,7 @@ define([
 			if (data.status == "start" && data.second.name != data.first.name) {
 				$(".wait").hide();
 				$(".gameplay").show();
-        $(".firstPlayer").html(data.first.name);
+        		$(".firstPlayer").html(data.first.name);
 				$(".secondPlayer").html(data.second.name);
 
 			}
