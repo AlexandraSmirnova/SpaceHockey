@@ -20,18 +20,18 @@ define([
 
 		initialize: function () {
 			this.render();
-			self = this;
+			var self = this;
 			this.listenTo(User, 'change', function () {
 				self.render();
 			});
 		},
 
 		render: function () {
-			user = User.get('login');
+			var user = User.get('login');
 			if (user) {
 				var userData = {
 					'login': user
-				}
+				};
 				// socket.init(userData);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');

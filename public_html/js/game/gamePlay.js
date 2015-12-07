@@ -15,17 +15,17 @@ define([
 	var CANVAS_HEIGHT;
 	var ws = undefined;
 
-	function PlayField(x, y, width, height) {
+	function PlayField(x, y, width, height, color) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.color = "green";
+		this.color = color;
 
 		this.draw = function () {
 			context.strokeStyle = this.color;
 			context.strokeRect(this.x, this.y, this.width, this.height);
-		}
+		};
 		this.clear = function () {
 			context.clearRect(this.x, this.y, this.width, this.height);
 		}
@@ -43,31 +43,22 @@ define([
 		}
 	}
 
-	function Ball(centerX, centerY, radius, sAngle, eAngle) {
+	function Ball(centerX, centerY, radius) {
 		this.centerX = centerX;
 		this.centerY = centerY;
 		this.radius = radius;
-		this.sAngle = sAngle;
-		this.eAngle = eAngle;
-		this.color = "red";
 		this.image = new Image();
 		this.image.src = 'img/ball.png';
 
 		this.draw = function () {
 			context.drawImage(this.image,this.centerX-this.radius,this.centerY-this.radius, 20, 20);
-		}
-		/*this.draw = function () {
-			context.beginPath();
-			context.arc(this.centerX, this.centerY, this.radius, this.sAngle, this.eAngle, false);
-			context.fillStyle = this.color;
-			context.fill();
-		}*/
+		};
 	}
 
-	var gameField = new PlayField(40, 40, 500, 630);
+	var gameField = new PlayField(40, 40, 500, 630, "green");
 	var myPlatform = new Platform(235, 80, 100, 20, "red");
 	var enemyPlatform = new Platform(235, 610, 100, 20, "red");
-	var ball = new Ball(100, 100, 10, 0, Math.PI * 2, false);
+	var ball = new Ball(100, 100, 10);
 	var left = false, right = false, send = false;
 
 	function start(canvas) {
