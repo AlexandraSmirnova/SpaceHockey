@@ -3,7 +3,7 @@ define([
 ], function (userModel) {
 	function initConnect() {
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
-		ws.onopen = function (event) {
+		ws.onopen = function () {
 			console.log("Open");
 		}
 		var myName = null;
