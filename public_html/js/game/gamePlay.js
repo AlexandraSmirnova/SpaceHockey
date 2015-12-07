@@ -14,6 +14,7 @@ define([
 	var CANVAS_WIDTH;
 	var CANVAS_HEIGHT;
 	var ws = undefined;
+	var gameStarted = false;
 
 	function PlayField(x, y, width, height) {
 		this.x = x;
@@ -71,7 +72,8 @@ define([
 	var left = false, right = false, send = false;
 
 	function start(canvas) {
-		ws = gameWebSocket.initConnect();
+		gameStarted = true;
+		ws = gameWebSocket.initConnect();		
 		console.log("INIT CONNECT");
 		analizeMessage();
 		var FPS = 60;
@@ -165,6 +167,7 @@ define([
 					$(".win").html("first winner!");
 				else if (data.gameState == 2)
 					$(".win").html("second winner!");
+				gameStarted = false;
 			}
 			if (data.status == "incrementScore") {
 				$(".myScore").html(data.first.score);
@@ -174,7 +177,10 @@ define([
 		}
 	}
 
-	return {
+	var Game = Backbone.View.extend({
+		gameStarted: gameStarted,
 		start: start
-	}
+	});
+
+	return new Game();
 });

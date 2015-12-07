@@ -8,7 +8,7 @@
 			<p>Prepare yourself. Wait for enemy!</p>
 		</div>
 
-		<div class="gameplay" style="display: none">
+		<div class="gameplay">
 			<div class="score">
 				<p class="score__player score__player_first">
 					<span class="firstPlayer"></span>:<fest:space/><span class="myScore">0</span>
@@ -19,10 +19,10 @@
 			</div>
 		</div>
 
-		<div class="gameOver" style="display: none">
+		<div class="gameOver">
 			<p>Game over! You are <span class="win"></span></p>
 			<p>Result: <span class = "win"></span></p>
-		
+			<a class="submit-btn btn btn-primary" href="#game">Restart</a>
 		</div>                    
 		<canvas width="600" height="700" id="gamefield"></canvas>
 		<fest:include src="./backbutton.xml" context="json"/>
