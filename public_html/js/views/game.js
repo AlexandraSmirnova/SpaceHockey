@@ -26,19 +26,19 @@ define([
 		},
 
 		render: function () {
-			user = User.get('login');
+			var user = User.get('login');
 			console.log("render!");
 			if (user) {
 				var userData = {
 					'login': user
-				}
-				// socket.init(userData);
+				}			
 				console.log(gamePlay.gameStarted);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
 				if(gamePlay.gameStarted == false){
 					console.log("gameStarted");
 					gamePlay.start(canvas);
+					console.log(gamePlay.gameStarted);
 				}
 				else{
 					Backbone.history.navigate('', {trigger: true});			
