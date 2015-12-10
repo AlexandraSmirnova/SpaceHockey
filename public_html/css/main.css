@@ -99,7 +99,15 @@
 .gameField {
   text-align: center;
   margin: 0 auto;
-  width: 580px;
+  width: 600px;
+  min-height: 100px;
+  background: rgba(55, 75, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  font-size: 34px;
+  color: #FCEF3F;
 }
 
 .gameOver {
@@ -107,7 +115,7 @@
 }
 
 .score__player {
-  min-width: 100px;
+  width: 150px;
   padding: 10px;
   border-radius: 7px;
   background-color: rgba(56, 6, 112, 0.7);
@@ -116,15 +124,14 @@
 
 .score__player_first {
   text-align: left;
-  /*background-color: $red-violet-color;	*/
 }
 
 .score__player_second {
   position: relative;
   top: -58px;
-  right: -480px;
+  right: -430px;
+  margin-bottom: -65px;
   text-align: right;
-  /*background-color: $green-color;	*/
 }
 
 .win_button {

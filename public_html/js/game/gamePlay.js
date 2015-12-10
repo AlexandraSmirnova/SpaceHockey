@@ -1,10 +1,12 @@
 define([
 	'backbone',
 	'lib/input',
-	'game/gameWebSocket'
+	'game/gameWebSocket',
+	'models/userProfile'
 ], function (Backbone,
 			input,
-			gameWebSocket) {
+			gameWebSocket,
+			User) {
 
 
 	var Direction = {
@@ -134,9 +136,11 @@ define([
 
 	var Game = Backbone.View.extend({
 		gameStarted: false,
+		playerName: null,
 
 		start: function(canvas) {
 			this.gameStarted = true;
+			this.playerName = User.get("login");
 			ws = gameWebSocket.initConnect();	
 			console.log(this.gameStarted);	
 			console.log("INIT CONNECT");
@@ -172,14 +176,19 @@ define([
 
 				}
 				if (data.status == "finish") {
+					console.log(data);
 					$(".gameOver").show();
 					$(".gameplay").hide()
 					if (data.gameState == 0)
-						$(".win").html("dead heat!");
+						$(".gameOver__winner").html("dead heat!");
 					else if (data.gameState == 1)
-						$(".win").html("first winner!");
+						$(".gameOver__winner").html("first winner!");
 					else if (data.gameState == 2)
-						$(".win").html("second winner!");
+						$(".gameOver__winner").html("second winner!");
+					if(data.first.name == self.playerName)
+						$(".gameOver__score").html("wwr!");
+					else
+						$(".gameOver__score").html("2!");
 					self.gameStarted = false;
 				}
 				if (data.status == "incrementScore") {
