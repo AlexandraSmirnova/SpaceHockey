@@ -1,8 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">    
 	<div class = "gameField">       	
-		<div class="hello">
-			
-		</div>
 
 		<div class="wait">
 			<p>Hello, <fest:space/> <fest:value>json.login</fest:value></p>

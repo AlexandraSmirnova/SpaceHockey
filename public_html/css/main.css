@@ -106,12 +106,22 @@
   padding: 10px;
   padding-bottom: 70px;
   box-sizing: border-box;
-  font-size: 34px;
+  font-size: 20px;
   color: #FCEF3F;
 }
 
 .gameOver {
   display: none;
+}
+
+.wait {
+  animation: scale 3s linear;
+}
+
+@keyframes scale {
+  100% {
+    transform: scale(4) scale(0.25);
+  }
 }
 
 .score__player {
