@@ -1,11 +1,11 @@
 define([
 	'backbone',
-	'syncs/userSync'
+	'syncs/playerSync'
 ], function (Backbone,
-             userSync) {
+             playerSync) {
 
 	var UserModel = Backbone.Model.extend({
-		sync: userSync,
+		sync: playerSync,
 		url: "/profile",
 
 		defaults: {
@@ -15,16 +15,49 @@ define([
 			logged_in: false
 		},
 
-		initialize: function () {
-			console.log("This model has been initialized");
-		},
+        registration: function(param, callback){              
+            this.sync('create', this, {callback: callback, param: param});
+        },
+
+        login: function(param, callback){
+            this.sync('update', this, {callback: callback, param: param});
+        },
+
+        logout: function(callback){
+            this.sync('delete', this, {callback: callback});
+        },
+
 		isLoggedIn: function () {
-			console.log("Check login");
+			return this.logged_in;
 		},
 
 		loginSuccess: function (data) {
-			this.set(data);
-		}
+            console.log(data.login)
+			this.login = data.login;
+		},
+
+        loginUnsuccess: function (data) {
+            
+        },
+
+        regSuccess: function (data) {
+            
+        },
+
+        regUnsuccess: function (data) {
+            
+        },
+
+
+        logoutSuccess: function (data) {
+            
+        },
+
+        logoutUnsuccess: function (data) {
+            
+        },
+
+
 	});
 
 	var user = new UserModel();

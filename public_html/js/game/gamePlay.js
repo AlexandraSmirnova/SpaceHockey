@@ -177,7 +177,7 @@ define([
 				}
 				if (data.status == "finish") {
 					console.log(data);					
-					$("..gameOver").show();
+					$(".gameOver").show();
 					$(".gameplay").hide()
 					if (data.gameState == 0)
 						$(".gameOver__winner").html("dead heat!");

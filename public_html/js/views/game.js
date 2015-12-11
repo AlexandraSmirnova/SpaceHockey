@@ -31,18 +31,17 @@ define([
 			if (user) {
 				var userData = {
 					'login': user
-				}			
-				console.log(gamePlay.gameStarted);
+				}						
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				if(gamePlay.gameStarted == false){
+				//if(gamePlay.gameStarted == false){
 					console.log("gameStarted");
 					gamePlay.start(canvas);
 					console.log(gamePlay.gameStarted);
-				}
-				else{
-					Backbone.history.navigate('', {trigger: true});			
-				}
+				//}
+				//else{
+				//	Backbone.history.navigate('', {trigger: true});			
+				//}
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
