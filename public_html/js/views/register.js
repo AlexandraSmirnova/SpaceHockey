@@ -1,27 +1,26 @@
 define([
 	'backbone',
 	'tmpl/register',
-	'utils/validator',
-	'utils/signup',
+	'utils/validator',	
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
-             Validator,
-             SignupManager,
+             Validator,             
              User) {
+
 	var formClass = ".form_signup";
 	var validator = new Validator(formClass);
 
 	var View = Backbone.View.extend({
 		template: tmpl,
+        model: User,
 
 		events: {
 			"submit .form_signup": "submitSignup"
 		},
 
 		initialize: function () {
-			this.render();
-			SignupManager.saveCache();
+			this.render();			
 		},
 
 		render: function () {
@@ -33,7 +32,25 @@ define([
 			validator.clearErrors();
 			validator.validateForm();
 			if (validator.form_valid) {
-				SignupManager.signupRequest();
+                var data = {
+                    'login': $(formClass + " input[name = login]").val(),
+                    'password': $(formClass + " input[name = password]").val(),
+                    'email': $(formClass + " input[name = email]").val()
+                };
+                this.model.registration(data, {
+                    success: function(response){
+                            console.log(response);
+                            data = JSON.parse(response);                            
+                            if (parseInt(data["status"]) == "200") {                                
+                                Backbone.history.navigate('', {trigger: true});
+                            }
+                            else {
+                                var $error = $(".form__row_errors");
+                                $error.append("User cann't be registrated. Try to change your input data");
+                                $error.show();
+                            }
+                    }
+                });				
 			}
 			return false;
 		},

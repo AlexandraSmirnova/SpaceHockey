@@ -1,12 +1,10 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">    
-	<div class = "gameField">        
-		<div class="hello">
-			<p>Hello, <fest:space/> <fest:value>json.login</fest:value></p>
-		</div>
+	<div class = "gameField">       	
 
 		<div class="wait">
+			<p>Hello, <fest:space/> <fest:value>json.login</fest:value></p>
 			<p>Prepare yourself. Wait for enemy!</p>
-		</div>
+		</div>		
 
 		<div class="gameplay">
 			<div class="score">
@@ -17,15 +15,17 @@
 					<span class="secondPlayer"></span>:<fest:space/><span class="enemyScore">0</span>
 				</p>
 			</div>
+			<canvas width="580" height="700" id="gamefield"></canvas>
 		</div>
 
 		<div class="gameOver">
-			<p>Game over! You are <span class="win"></span></p>
-			<p>Result: <span class = "win"></span></p>
+			<p>Game over! You are <fest:space/> <span class="gameOver__winner"></span></p>
+			<p>Result: <fest:space/> <span class="gemeOver__score"></span></p>
 			<a class="submit-btn btn btn-primary" href="#game">Restart</a>
-		</div>                    
-		<canvas width="600" height="700" id="gamefield"></canvas>
+		</div>      
 		<fest:include src="./backbutton.xml" context="json"/>
+		
+		
 	</div>
   
 </fest:template>

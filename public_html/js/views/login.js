@@ -2,15 +2,14 @@ define([
 	'backbone',
 	'tmpl/login',
 	'utils/validator',
-	'utils/signin',
 	'models/userProfile'
 ], function (Backbone,
-             tmpl,
-             Validator,
-             SigninManager,
-             User) {
-	var form_class = ".form_signin";
-	var validator = new Validator(form_class);
+			 tmpl,
+			 Validator,
+			 User) {
+
+	var formClass = ".form_signin";
+	var validator = new Validator(formClass);
 
 	var View = Backbone.View.extend({
 		template: tmpl,
@@ -20,9 +19,8 @@ define([
 			"submit .form_signin": "submitSignin"
 		},
 
-		initialize: function () {
-			this.render();
-			SigninManager.saveCache();
+		initialize: function () {			
+			this.render();			
 		},
 
 		render: function () {
@@ -34,9 +32,30 @@ define([
 			validator.clearErrors();
 			validator.validateForm();
 
-
 			if (validator.form_valid) {
-				SigninManager.signinRequest(this.model);
+				var user = this.model;
+				var data = {
+					'login': $(formClass + " input[name = login]").val(),
+					'password': $(formClass + " input[name = password]").val()
+				};
+				this.model.login(data, {
+					success: function (response) {
+						response = JSON.parse(response);
+						console.log(response.status)
+						if (response.status == "200") {
+							console.log(response.body.login);
+							user.set({
+								"login": response.body.login
+							});							
+							Backbone.history.navigate('game', {trigger: true});
+						}
+						else {
+							var $error = $(".form__row_errors");
+							$error.append("Login or password is incorrect!");
+							$error.show();
+						}
+					},
+				});				
 			}
 			return false;
 

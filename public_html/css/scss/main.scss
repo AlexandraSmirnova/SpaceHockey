@@ -11,12 +11,12 @@ body {
 }
 
 .page {
-  margin: 20px;
+  margin: 10px;
 }
 
 .header {
   margin: 0 auto;
-  padding: 10px;
+  padding: 5px;
   max-width: 600px;
   min-width: 300px;
   background-color: rgba(56, 6, 112, 0.6);
@@ -43,17 +43,17 @@ body {
   background: rgba(55, 75, 255, 0.2);
   max-width: 400px;
   min-width: 300px;
-  min-height: 310px;
-  padding: 20px;
+  min-height: 270px;
+  padding: 5px;
   border-radius: 15px;
 }
 
 .back-button {
-  margin-top: 10px;
+  margin-top: 5px;
   float: left;
   box-shadow: inset 0 0 6px;
   background-color: #380570;
   color: #FCF371;
-  font-size: $font-size-m;
+  font-size: $font-size-s;
   border-radius: 10px;
 }

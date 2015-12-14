@@ -4,19 +4,38 @@
   display: none;
 }
 
-.gameField{
+.gameField{  
   text-align: center;
   margin: 0 auto;
-  width: 580px;
+  width: 600px;
+  min-height: 100px;
+  background: rgba(55, 75, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  font-size: $font-size-xs; 
+  color: #FCEF3F;
 }
-
 
 .gameOver {
   display: none;
 }
 
+.wait{
+  animation:scale 3s linear;
+}
+
+@keyframes scale { 
+  100%
+  { 
+    transform:scale(4) scale(0.25); 		
+  }
+}
+
 .score__player{
-  width: 100px;
+  
+  width: 150px;
   padding: 10px;
   border-radius: 7px;
   background-color: rgba(56, 6, 112, 0.7);
@@ -25,16 +44,16 @@
 
 .score__player_first{
   text-align: left;  
-  /*background-color: $red-violet-color;	*/
 }
 
 .score__player_second{
   position: relative;
   top: -58px;
-  right: -480px;
-  text-align: right; 
-  /*background-color: $green-color;	*/
+  right: -430px;
+  margin-bottom: -65px;
+  text-align: right;     
 }
+
 .win_button {
   padding-top: 40px;
   padding-bottom: 40px;

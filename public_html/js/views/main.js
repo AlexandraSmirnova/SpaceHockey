@@ -1,12 +1,10 @@
 define([
 	'backbone',
 	'tmpl/main',
-	'models/userProfile',
-	'utils/signout'
+	'models/userProfile'
 ], function (Backbone,
              tmpl,
-             User,
-             SignoutManager) {
+             User){
 
 	var Main = Backbone.View.extend({
 		template: tmpl,
@@ -24,8 +22,17 @@ define([
 			});
 		},
 
-		logout: function () {
-			SignoutManager.exitRequest(this.model);
+		logout: function () {			
+            this.model.logout({
+                success: function (response) {                        
+                        response = JSON.parse(response);
+                        if (response.status == "200") {
+                            console.log("ajax success");
+                            User.clear();
+                            Backbone.history.navigate('', {trigger: true});
+                        }
+                },
+            });
 			this.render();
 		},
 

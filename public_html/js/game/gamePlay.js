@@ -1,10 +1,14 @@
 define([
 	'backbone',
 	'lib/input',
-	'game/gameWebSocket'
+	'game/gameWebSocket',
+	'models/userProfile'
 ], function (Backbone,
 			input,
-			gameWebSocket) {
+			gameWebSocket,
+			User) {
+
+
 	var Direction = {
 		LEFT: 0,
 		RIGHT: 1,
@@ -62,21 +66,7 @@ define([
 	var ball = new Ball(100, 100, 10);
 	var left = false, right = false, send = false;
 
-	function start(canvas) {
-		gameStarted = true;
-		ws = gameWebSocket.initConnect();		
-		console.log("INIT CONNECT");
-		analizeMessage();
-		var FPS = 60;
-		CANVAS_WIDTH = canvas.width;
-		CANVAS_HEIGHT = canvas.height;
-		context = canvas.getContext('2d');
-
-		setInterval(function () {
-			update();
-			draw();
-		}, 1000 / FPS);
-	}
+	
 
 	function draw() {
 		gameField.clear();
@@ -131,46 +121,71 @@ define([
 		}
 	}
 
-	function analizeMessage() {
-		ws.onmessage = function (event) {
-			var data = JSON.parse(event.data);
-			console.log(data);
-			if (data.status == "worldInfo") {
-				myPlatform.x = parseInt(data.first.positionX, 10);
-				enemyPlatform.x = parseInt(data.second.positionX, 10);
-				ball.centerX = parseInt(data.ball.positionX, 10);
-				ball.centerY = parseInt(data.ball.positionY, 10);
-			}
-			if (data.status == "start" && data.second.name != data.first.name) {
-				$(".wait").hide();
-				$(".gameplay").show();
 
-				$(".firstPlayer").html(data.first.name);
-				$(".secondPlayer").html(data.second.name);
-
-			}
-			if (data.status == "finish") {
-				$(".gameOver").show();
-				$(".gameplay").hide()
-				if (data.gameState == 0)
-					$(".win").html("dead heat!");
-				else if (data.gameState == 1)
-					$(".win").html("first winner!");
-				else if (data.gameState == 2)
-					$(".win").html("second winner!");
-				gameStarted = false;
-			}
-			if (data.status == "incrementScore") {
-				$(".myScore").html(data.first.score);
-				$(".enemyScore").html(data.second.score);
-			}
-
-		}
-	}
 
 	var Game = Backbone.View.extend({
-		gameStarted: gameStarted,
-		start: start
+		gameStarted: false,
+		playerName: null,
+
+		start: function(canvas) {
+			this.gameStarted = true;
+			this.playerName = User.get("login");
+			ws = gameWebSocket.initConnect();	
+			console.log(this.gameStarted);	
+			console.log("INIT CONNECT");
+			this.analizeMessage();
+			var FPS = 60;
+			CANVAS_WIDTH = canvas.width;
+			CANVAS_HEIGHT = canvas.height;
+			context = canvas.getContext('2d');
+
+			setInterval(function () {
+				update();
+				draw();
+			}, 1000 / FPS);
+		},
+
+		analizeMessage: 	function() {
+			var self = this;
+
+			ws.onmessage = function (event) {
+				var data = JSON.parse(event.data);				
+				if (data.status == "worldInfo") {
+					myPlatform.x = parseInt(data.first.positionX, 10);
+					enemyPlatform.x = parseInt(data.second.positionX, 10);
+					ball.centerX = parseInt(data.ball.positionX, 10);
+					ball.centerY = parseInt(data.ball.positionY, 10);
+				}
+				if (data.status == "start" && data.second.name != data.first.name) {
+					$(".wait").hide();
+					$(".gameplay").show();
+
+					$(".firstPlayer").html(data.first.name);
+					$(".secondPlayer").html(data.second.name);
+
+				}
+				if (data.status == "finish") {
+					console.log(data);					
+					$(".gameOver").show();
+					$(".gameplay").hide()
+					if (data.gameState == 0)
+						$(".gameOver__winner").html("dead heat!");
+					else if (data.gameState == 1)
+						$(".gameOver__winner").html("first winner!");
+					else if (data.gameState == 2)
+						$(".gameOver__winner").html("second winner!");
+					if(data.first.name == self.playerName)
+						$(".gameOver__score").html("wwr!");
+					else
+						$(".gameOver__score").html("2!");
+					self.gameStarted = false;
+				}
+				if (data.status == "incrementScore") {
+					$(".myScore").html(data.first.score);
+					$(".enemyScore").html(data.second.score);
+				}
+			}
+		}
 	});
 
 	return new Game();

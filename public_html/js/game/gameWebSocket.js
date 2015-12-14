@@ -4,9 +4,9 @@ define([
 	function initConnect() {
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
 		ws.onopen = function () {
-			console.log("Open");
+			console.log("Open");			
 		}
-//		var myName = null;
+		//var playerName = null;
 //		var enemyName = "";
 
 		return ws;

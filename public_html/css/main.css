@@ -99,15 +99,33 @@
 .gameField {
   text-align: center;
   margin: 0 auto;
-  width: 580px;
+  width: 600px;
+  min-height: 100px;
+  background: rgba(55, 75, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  font-size: 20px;
+  color: #FCEF3F;
 }
 
 .gameOver {
   display: none;
 }
 
+.wait {
+  animation: scale 3s linear;
+}
+
+@keyframes scale {
+  100% {
+    transform: scale(4) scale(0.25);
+  }
+}
+
 .score__player {
-  width: 100px;
+  width: 150px;
   padding: 10px;
   border-radius: 7px;
   background-color: rgba(56, 6, 112, 0.7);
@@ -116,15 +134,14 @@
 
 .score__player_first {
   text-align: left;
-  /*background-color: $red-violet-color;	*/
 }
 
 .score__player_second {
   position: relative;
   top: -58px;
-  right: -480px;
+  right: -430px;
+  margin-bottom: -65px;
   text-align: right;
-  /*background-color: $green-color;	*/
 }
 
 .win_button {
@@ -141,12 +158,12 @@ body {
 }
 
 .page {
-  margin: 20px;
+  margin: 10px;
 }
 
 .header {
   margin: 0 auto;
-  padding: 10px;
+  padding: 5px;
   max-width: 600px;
   min-width: 300px;
   background-color: rgba(56, 6, 112, 0.6);
@@ -171,17 +188,17 @@ body {
   background: rgba(55, 75, 255, 0.2);
   max-width: 400px;
   min-width: 300px;
-  min-height: 310px;
-  padding: 20px;
+  min-height: 270px;
+  padding: 5px;
   border-radius: 15px;
 }
 
 .back-button {
-  margin-top: 10px;
+  margin-top: 5px;
   float: left;
   box-shadow: inset 0 0 6px;
   background-color: #380570;
   color: #FCF371;
-  font-size: 34px;
+  font-size: 26px;
   border-radius: 10px;
 }
