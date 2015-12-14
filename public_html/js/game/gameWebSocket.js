@@ -6,8 +6,8 @@ define([
 		ws.onopen = function () {
 			console.log("Open");
 		}
-		var myName = null;
-		var enemyName = "";
+//		var myName = null;
+//		var enemyName = "";
 
 		return ws;
 	}

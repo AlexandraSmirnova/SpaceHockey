@@ -13,9 +13,8 @@ define([
 	var View = Backbone.View.extend({
 		template: tmpl,
 
-
 		events: {
-			"click .win_button": "sendMessage"
+			"click .submit-btn": "restart"
 		},
 
 		initialize: function () {
@@ -33,9 +32,16 @@ define([
 					'login': user
 				};
 				// socket.init(userData);
+				console.log(gamePlay.gameStarted);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				gamePlay.start(canvas);
+				if(gamePlay.gameStarted == false){
+					console.log("gameStarted");
+					gamePlay.start(canvas);
+				}
+				else{
+					Backbone.history.navigate('', {trigger: true});			
+				}
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
@@ -43,8 +49,9 @@ define([
 			return this;
 		},
 
-		sendMessage: function () {
-			socket.sendMessage();
+		restart: function () {
+			console.log("restart!");
+			this.render();
 		},
 
 		show: function () {

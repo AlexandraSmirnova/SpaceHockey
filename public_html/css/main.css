@@ -2,6 +2,7 @@
   font-family: Canossa-Ultra;
   src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
 }
+
 .menu__item {
   margin: 10px;
 }
@@ -62,7 +63,7 @@
 }
 
 .submit-btn_go {
-  background-color: #759D00;
+  background-color: #759d00;
 }
 
 .score-list {
@@ -85,7 +86,7 @@
 }
 
 .score-list__item_head {
-  color: #c71585;
+  color: mediumvioletred;
   font-size: 20px;
 }
 
@@ -95,8 +96,35 @@
   display: none;
 }
 
+.gameField {
+  text-align: center;
+  margin: 0 auto;
+  width: 580px;
+}
+
 .gameOver {
   display: none;
+}
+
+.score__player {
+  width: 100px;
+  padding: 10px;
+  border-radius: 7px;
+  background-color: rgba(56, 6, 112, 0.7);
+  box-shadow: 0 0 7px 3px #ff5588;
+}
+
+.score__player_first {
+  text-align: left;
+  /*background-color: $red-violet-color;	*/
+}
+
+.score__player_second {
+  position: relative;
+  top: -58px;
+  right: -480px;
+  text-align: right;
+  /*background-color: $green-color;	*/
 }
 
 .win_button {
@@ -157,5 +185,3 @@ body {
   font-size: 34px;
   border-radius: 10px;
 }
-
-/*# sourceMappingURL=main.css.map */

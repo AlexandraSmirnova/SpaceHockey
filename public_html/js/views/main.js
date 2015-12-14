@@ -7,7 +7,6 @@ define([
              tmpl,
              User,
              SignoutManager) {
-	var logoutItem = ".menu__item_logout";
 
 	var Main = Backbone.View.extend({
 		template: tmpl,
