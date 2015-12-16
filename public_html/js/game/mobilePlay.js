@@ -7,7 +7,18 @@ define([
              User) {
 	window.addEventListener('deviceorientation', function(event) {
 		if(event.alpha) {
-			console.log("GGGGGGG");
+			var alphaX = event.alpha;
+			if(alphaX > 20 && !alphaLeft) {
+				alphaLeft = true;
+				alphaRight = false;
+			} else if(alphaX < -20 && !alphaRight) {
+				alphaRight = true;
+				alphaLeft = false;
+			} else {
+				//console.log('mid® 20');
+				alphaLeft = false;
+				alphaRight = false;
+			}
 		}
 	});
 
@@ -15,6 +26,8 @@ define([
 	var CANVAS_WIDTH;
 	var CANVAS_HEIGHT;
 	var ws = undefined;
+	var alphaLeft;
+	var alphaRight;
 
 	function PlayField(x, y, width, height, color) {
 		this.x = x;
@@ -73,7 +86,7 @@ define([
 	}
 
 	function update() {
-		if (input.isDown('LEFT') && !right) {
+		if (alphaLeft && !right) {
 			left = true;
 			right = false;
 			if (!send) {
@@ -85,7 +98,7 @@ define([
 				send = true;
 			}
 		}
-		if (!input.isDown('LEFT') && left) {
+		if (!alphaLeft && left) {
 			left = false;
 			send = false;
 			var message = {
@@ -94,7 +107,7 @@ define([
 			}
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
-		if (input.isDown('RIGHT') && !left) {
+		if (alphaRight && !left) {
 			right = true;
 			left = false;
 			if (!send) {
@@ -106,7 +119,7 @@ define([
 				send = true;
 			}
 		}
-		if (!input.isDown('RIGHT') && right) {
+		if (!alphaRight && right) {
 			right = false;
 			send = false;
 			var message = {

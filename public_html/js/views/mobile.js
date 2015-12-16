@@ -32,7 +32,8 @@ define([
 			console.log('MOBILE RENDER START');
 			var user = User.get('login');
 			console.log(Modernizr);
-			if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
+			//if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
+			if(!Modernizr.deviceorientation || !Modernizr.devicemotion) {
 				this.$el.html('cant®');
 				return this;
 			}
