@@ -12,12 +12,23 @@ define([
              User,
              gamePlay) {
 
+	/*window.addEventListener('orientationchange',function () {
+		    if (window.orientation%180===0) {
+		    	console.log("portrait");
+		        // portrait
+		    } else {
+		    	console.log("landscape");
+		        // landscape
+		    }
+	});*/
+
 	var View = Backbone.View.extend({
 		template: tmpl,
 		started: false,
 
 		events: {
 			"click .submit-btn": "restart"
+			//"orientationchange": "changeTmpl"		
 		},
 
 		initialize: function () {
@@ -40,19 +51,11 @@ define([
 			if (user) {
 				var userData = {
 					'login': user
-				};
-				// socket.init(userData);
-				console.log(gamePlay.gameStarted);
+				};					
 				this.$el.html(this.template(userData));
-				var canvas = document.getElementById('gamefield');
-				//if(gamePlay.gameStarted == false){
-				console.log("gameStarted");
+				var canvas = document.getElementById('gamefield');								
 				gamePlay.start(canvas);
-				console.log(gamePlay.gameStarted);
-				//}
-				//else{
-				//	Backbone.history.navigate('', {trigger: true});
-				//}
+				console.log(gamePlay.gameStarted);				
 				console.log("piu");
 			}
 			else {
@@ -62,10 +65,19 @@ define([
 			return this;
 		},
 
-		restart: function () {
-			console.log("restart!");
+		restart: function () {			
 			this.render();
 		},
+
+		/*changetmpl: function(){
+			if (window.orientation%180===0) {
+		    	console.log("portrait");
+		        // portrait
+		    } else {
+		    	console.log("landscape");
+		        // landscape
+		    }
+		},*/
 
 		show: function () {
 			if(this.started == false) {
@@ -78,6 +90,8 @@ define([
 		hide: function () {
 			this.$el.hide();
 		}
+
+
 
 	});
 

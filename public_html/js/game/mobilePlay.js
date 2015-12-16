@@ -5,6 +5,15 @@ define([
 ], function (Backbone,
              gameWebSocket,
              User) {
+
+
+	var context;
+	var CANVAS_WIDTH;
+	var CANVAS_HEIGHT;
+	var ws = undefined;
+	var alphaLeft;
+	var alphaRight;
+
 	window.addEventListener('deviceorientation', function(event) {
 		if(event.alpha) {
 			var alphaX = event.alpha;
@@ -22,12 +31,16 @@ define([
 		}
 	});
 
-	var context;
-	var CANVAS_WIDTH;
-	var CANVAS_HEIGHT;
-	var ws = undefined;
-	var alphaLeft;
-	var alphaRight;
+	window.addEventListener('orientationchange',function () {
+			console(window.orientation)
+		    if (window.orientation%180==0) {
+		    	console.log("portrait");
+		        // portrait
+		    } else {
+		    	console.log("landscape");
+		        // landscape
+		    }
+	});
 
 	function PlayField(x, y, width, height, color) {
 		this.x = x;
