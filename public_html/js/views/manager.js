@@ -14,11 +14,11 @@ define([
 			this.listenTo(currentView, 'show', function () {
 				views.forEach(function (view) {
 					if (view && view != currentView) {
-                        view.hide();
-                    }	
+						view.hide();
+					}
 				});
 			});
-		}
+		},
 
 	});
 

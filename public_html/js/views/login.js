@@ -41,13 +41,13 @@ define([
 				this.model.login(data, {
 					success: function (response) {
 						response = JSON.parse(response);
-						console.log(response.status)
+						console.log(response.status);
 						if (response.status == "200") {
 							console.log(response.body.login);
 							user.set({
-								"login": response.body.login
+								'login': response.body.login
 							});							
-							Backbone.history.navigate('game', {trigger: true});
+							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
 							var $error = $(".form__row_errors");

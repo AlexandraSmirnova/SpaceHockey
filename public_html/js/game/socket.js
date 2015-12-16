@@ -16,6 +16,7 @@ define([
 
 		this.init = function (user) {
 			myName = User.login;
+			console.log("entered socket init");
 			ws = new WebSocket("ws://localhost:8080/gameplay");
 
 			ws.onopen = function (event) {

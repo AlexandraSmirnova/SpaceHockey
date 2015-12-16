@@ -1,17 +1,20 @@
 define([
 	'backbone',
-	'lib/input',
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-			input,
-			gameWebSocket,
-			User) {
+             gameWebSocket,
+             User) {
+	window.addEventListener('deviceorientation', function(event) {
+		if(event.alpha) {
+			console.log("GGGGGGG");
+		}
+	});
+
 	var context;
 	var CANVAS_WIDTH;
 	var CANVAS_HEIGHT;
 	var ws = undefined;
-	//var gameStarted = false;
 
 	function PlayField(x, y, width, height, color) {
 		this.x = x;
@@ -59,7 +62,7 @@ define([
 	var ball = new Ball(100, 100, 10);
 	var left = false, right = false, send = false;
 
-	
+
 
 	function draw() {
 		gameField.clear();
@@ -121,11 +124,10 @@ define([
 		playerName: null,
 
 		start: function(canvas) {
-			console.log('ODIN RAZ');
 			this.gameStarted = true;
 			this.playerName = User.get("login");
 			ws = gameWebSocket.initConnect();
-			console.log(this.gameStarted);	
+			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
 			this.analizeMessage();
 			var FPS = 60;
@@ -143,7 +145,7 @@ define([
 			var self = this;
 
 			ws.onmessage = function (event) {
-				var data = JSON.parse(event.data);				
+				var data = JSON.parse(event.data);
 				if (data.status == "worldInfo") {
 					myPlatform.x = parseInt(data.first.positionX, 10);
 					enemyPlatform.x = parseInt(data.second.positionX, 10);
@@ -159,7 +161,7 @@ define([
 
 				}
 				if (data.status == "finish") {
-					console.log(data);					
+					console.log(data);
 					$(".gameOver").show();
 					$(".gameplay").hide()
 					if (data.gameState == 0)

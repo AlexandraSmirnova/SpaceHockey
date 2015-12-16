@@ -1,6 +1,7 @@
 define([
 	'backbone',
 	'views/game',
+	'views/mobile',
 	'views/main',
 	'views/login',
 	'views/scoreboard',
@@ -8,6 +9,7 @@ define([
 	'views/manager'
 ], function (Backbone,
              gamePage,
+             mobilePage,
              mainPage,
              loginPage,
              scoreboardPage,
@@ -18,6 +20,7 @@ define([
 		routes: {
 			'scoreboard': 'scoreboardAction',
 			'game': 'gameAction',
+			'mobile': 'mobileAction',
 			'login': 'loginAction',
 			'register': 'registerAction',
 			'*default': 'defaultActions'
@@ -28,6 +31,7 @@ define([
 			viewManager.addView(loginPage);
 			viewManager.addView(mainPage);
 			viewManager.addView(gamePage);
+			viewManager.addView(mobilePage);
 			viewManager.addView(registerPage);
 		},
 
@@ -41,6 +45,10 @@ define([
 
 		gameAction: function () {
 			gamePage.show();
+		},
+
+		mobileAction: function () {
+			mobilePage.show();
 		},
 
 		loginAction: function () {

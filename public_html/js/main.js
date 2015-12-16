@@ -9,6 +9,7 @@ require.config({
 		jquery: "lib/jquery",
 		underscore: "lib/underscore",
 		backbone: "lib/backbone",
+		modernizr: "lib/modernizr"
 	},
 	shim: {
 		// параметр shim позволяет добавить сторонние модули
@@ -19,6 +20,9 @@ require.config({
 		},
 		'underscore': {
 			exports: '_'
+		},
+		'modernizr': {
+			exports: 'Modernizr'
 		}
 	}
 });

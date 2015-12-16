@@ -1,10 +1,12 @@
 define([
 	'backbone',
+	'modernizr',
 	'game/socket',
-	'tmpl/game',
+	'tmpl/mobile',
 	'models/userProfile',
-	'game/gamePlay'
+	'game/mobilePlay'
 ], function (Backbone,
+             Modernizr,
              socket,
              tmpl,
              User,
@@ -27,27 +29,35 @@ define([
 		},
 
 		render: function () {
+			console.log('MOBILE RENDER START');
 			var user = User.get('login');
+			console.log(Modernizr);
+			if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
+				this.$el.html('cant®');
+				return this;
+			}
 			if (user) {
 				var userData = {
 					'login': user
 				};
 				// socket.init(userData);
-				console.log('in game.js gamestarted: ' + gamePlay.gameStarted);
+				console.log(gamePlay.gameStarted);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				if(gamePlay.gameStarted === false){
-					console.log("gameStarted");
-					gamePlay.start(canvas);
-					console.log('in if' + gamePlay.gameStarted);
-				}
-				//else{
-				//	Backbone.history.navigate('', {trigger: true});			
+				//if(gamePlay.gameStarted == false){
+				console.log("gameStarted");
+				gamePlay.start(canvas);
+				console.log(gamePlay.gameStarted);
 				//}
+				//else{
+				//	Backbone.history.navigate('', {trigger: true});
+				//}
+				console.log("piu");
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
 			}
+			console.log('CONSOLE RENDER STOP');
 			return this;
 		},
 
@@ -57,7 +67,6 @@ define([
 		},
 
 		show: function () {
-			console.log(this.started);
 			if(this.started == false) {
 				this.render();
 			}
