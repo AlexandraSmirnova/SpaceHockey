@@ -3,8 +3,8 @@ define([
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-             gameWebSocket,
-             User) {
+			 gameWebSocket,
+			 User) {
 
 
 	var context;
@@ -33,15 +33,15 @@ define([
 
 	window.addEventListener('orientationchange',function () {
 			console(window.orientation)
-		    if (window.orientation%180==0) {
-		    	console.log("portrait");
-		        // portrait
-		    } else {
-		    	console.log("landscape");
-		        // landscape
-		    }
+			if (window.orientation%180==0) {
+				console.log("portrait");
+				// portrait
+			} else {
+				console.log("landscape");
+				// landscape
+			}
 	});
-
+	
 	function PlayField(x, y, width, height, color) {
 		this.x = x;
 		this.y = y;

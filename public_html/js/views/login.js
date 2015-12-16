@@ -9,7 +9,7 @@ define([
 			 User) {
 
 	var formClass = ".form_signin";
-	var validator = new Validator(formClass);
+	var validator = new Validator();
 
 	var View = Backbone.View.extend({
 		template: tmpl,
@@ -30,7 +30,7 @@ define([
 
 		submitSignin: function (event) {
 			validator.clearErrors();
-			validator.validateForm();
+			validator.validateForm(formClass);
 
 			if (validator.form_valid) {
 				var user = this.model;

@@ -1,21 +1,23 @@
 define(['backbone'],
 	function (Backbone) {
 		// if typeForm = 1 -> it is login form, if typeForm = 0 -> register form
-		var Validator = function (typeForm) {
-			this.form_valid = false;
-			this.type = typeForm;
-			this.validateForm = function () {
-				if (typeForm == ".form_signin")
-					this.form_valid = validateLogin(this);
-				else if (typeForm == ".form_signup")
-					this.form_valid = validateRegister(this);
-			};
+		var Validator =  Backbone.View.extend({
+			form_valid: false,
+			type: null,
 
-			this.clearErrors = function () {
+			validateForm: function (form_class) {
+				this.type = form_class;
+				if (this.type == ".form_signin")
+					this.form_valid = validateLogin(this);
+				else if (this.type == ".form_signup")
+					this.form_valid = validateRegister(this);
+			},
+
+			clearErrors: function () {
 				$('.form__row_errors').text("");
 				$('.form__row_errors').css('display', 'none');
-			};
-		}
+			}
+		});
 
 
 		function validateLogin(form) {
