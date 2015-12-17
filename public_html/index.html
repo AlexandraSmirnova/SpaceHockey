@@ -10,19 +10,25 @@
 	<script type="text/javascript" src="js/fonts/cufon-yui.js"></script>
 	<script type="text/javascript" src="js/fonts/CalgaryShadow-Heavy.font.js"></script>
 	<script type="text/javascript" src="js/fonts/Canossa-Ultra.font.js"></script>
-	<!--<script type="text/javascript" src="js/lib/modernizr.js"></script>-->
 
 	<link rel="stylesheet" href="/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="/css/main.css"/>
+	<link rel="stylesheet" href="/css/main.min.css"/>
 </head>
 <body>
 
-<div class="page"></div>
-<!-- Require JS -->
-<script data-main="js/main" src="js/lib/require.js"></script>
+	<div class="page"></div>
 
-<!-- Livereload -->
-<script src="//localhost:35729/livereload.js"></script>
+<!--	<script src="/js/build.min.js"></script>
+	<script>
+		require(['main'], function(){
+			console.log('hello');
+		});
+	</script>-->
+	<!-- Require JS -->
+	<script data-main="js/main" src="js/lib/require.js"></script>
+
+	<!-- Livereload -->
+	<script src="//localhost:35729/livereload.js"></script>
 
 </body>
 </html>
