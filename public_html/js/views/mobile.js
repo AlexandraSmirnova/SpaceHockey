@@ -12,16 +12,6 @@ define([
 			 User,
 			 gamePlay) {
 
-	/*window.addEventListener('orientationchange',function () {
-			if (window.orientation%180===0) {
-				console.log("portrait");
-				// portrait
-			} else {
-				console.log("landscape");
-				// landscape
-			}
-	});*/
-
 	var View = Backbone.View.extend({
 		template: tmpl,
 		started: false,
