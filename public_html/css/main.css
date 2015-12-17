@@ -2,6 +2,7 @@
   font-family: Canossa-Ultra;
   src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf);
 }
+
 .menu__item {
   margin: 10px;
 }
@@ -62,7 +63,7 @@
 }
 
 .submit-btn_go {
-  background-color: #759D00;
+  background-color: #759d00;
 }
 
 .score-list {
@@ -85,7 +86,7 @@
 }
 
 .score-list__item_head {
-  color: #C71585;
+  color: mediumvioletred;
   font-size: 20px;
 }
 
@@ -122,6 +123,7 @@
     transform: scale(4) scale(0.25);
   }
 }
+
 .score__player {
   width: 150px;
   padding: 10px;
@@ -200,5 +202,3 @@ body {
   font-size: 26px;
   border-radius: 10px;
 }
-
-/*# sourceMappingURL=main.css.map */
