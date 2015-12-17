@@ -31,23 +31,6 @@ define([
 		}
 	});
 
-	var orientationchange = function () {
-		console.log("orientation: " + window.orientation);
-		//var gameF = $(".gameField");
-		var header = $(".header");
-		if (window.orientation%180==0) {
-			if(header) {
-				header.hide();
-			}
-		} else {
-			if(header) {
-				header.show();
-			}
-		}
-	};
-
-	window.addEventListener('orientationchange', orientationchange);
-
 	function PlayField(x, y, width, height, color) {
 		this.x = x;
 		this.y = y;

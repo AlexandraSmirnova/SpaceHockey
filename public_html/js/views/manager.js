@@ -6,7 +6,6 @@ define([
 	var $page = $(".page");
 
 	var Manager = Backbone.View.extend({
-
 		addView: function (currentView) {
 			$page.append(currentView.$el);
 			views.push(currentView);
@@ -19,8 +18,25 @@ define([
 				});
 			});
 		},
-
+		orientationchange : function () {
+			console.log("orientation: " + window.orientation);
+			//var gameF = $(".gameField");
+			var header = $(".header");
+			if (window.orientation%180==0) {
+				if(header) {
+					header.show();
+				}
+			} else {
+				if(header) {
+					header.hide();
+				}
+			}
+		}
 	});
 
-	return new Manager();
+	var manager = new Manager();
+	window.addEventListener('orientationchange', manager.orientationchange);
+	manager.orientationchange();
+
+	return manager;
 });
