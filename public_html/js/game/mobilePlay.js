@@ -3,8 +3,8 @@ define([
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-             gameWebSocket,
-             User) {
+			 gameWebSocket,
+			 User) {
 
 
 	var context;
@@ -31,16 +31,22 @@ define([
 		}
 	});
 
-	window.addEventListener('orientationchange',function () {
-			console(window.orientation)
-		    if (window.orientation%180==0) {
-		    	console.log("portrait");
-		        // portrait
-		    } else {
-		    	console.log("landscape");
-		        // landscape
-		    }
-	});
+	var orientationchange = function () {
+		console.log("orientation: " + window.orientation);
+		var gameF = $(".score");
+		if (window.orientation%180==0) {
+			var header = $(".header");
+			header.hide();
+			gameF.style.width = "100%";
+			gameF.style.height = "100%";
+		} else {
+			gameF.style.width = "50%";
+			gameF.style.height = "50%";
+			// landscape
+		}
+	};
+
+	window.addEventListener('orientationchange', orientationchange);
 
 	function PlayField(x, y, width, height, color) {
 		this.x = x;

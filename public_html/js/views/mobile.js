@@ -6,20 +6,20 @@ define([
 	'models/userProfile',
 	'game/mobilePlay'
 ], function (Backbone,
-             Modernizr,
-             socket,
-             tmpl,
-             User,
-             gamePlay) {
+			 Modernizr,
+			 socket,
+			 tmpl,
+			 User,
+			 gamePlay) {
 
 	/*window.addEventListener('orientationchange',function () {
-		    if (window.orientation%180===0) {
-		    	console.log("portrait");
-		        // portrait
-		    } else {
-		    	console.log("landscape");
-		        // landscape
-		    }
+			if (window.orientation%180===0) {
+				console.log("portrait");
+				// portrait
+			} else {
+				console.log("landscape");
+				// landscape
+			}
 	});*/
 
 	var View = Backbone.View.extend({
@@ -53,10 +53,9 @@ define([
 					'login': user
 				};					
 				this.$el.html(this.template(userData));
-				var canvas = document.getElementById('gamefield');								
+				var canvas = document.getElementById('gamefield');
 				gamePlay.start(canvas);
-				console.log(gamePlay.gameStarted);				
-				console.log("piu");
+				console.log(gamePlay.gameStarted);
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
@@ -71,12 +70,12 @@ define([
 
 		/*changetmpl: function(){
 			if (window.orientation%180===0) {
-		    	console.log("portrait");
-		        // portrait
-		    } else {
-		    	console.log("landscape");
-		        // landscape
-		    }
+				console.log("portrait");
+				// portrait
+			} else {
+				console.log("landscape");
+				// landscape
+			}
 		},*/
 
 		show: function () {

@@ -2,8 +2,8 @@
     <dialect>org.hibernate.dialect.MySQLDialect</dialect>
     <driverClass>com.mysql.jdbc.Driver</driverClass>
     <connectionUrl>jdbc:mysql://localhost:3306/SpaceHockey</connectionUrl>
-    <username>spaceuser</username>
-    <password>4321</password>
+    <username>root</username>
+    <password>said</password>
     <showSql>false</showSql>
     <mode>validate</mode>
 </class>
