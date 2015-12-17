@@ -22,15 +22,7 @@ define([
 			"touchstart .btn-right": "btnRighttart",
 			"touchend .btn-left": "btnEnd",
 			"touchend .btn-right": "btnEnd"
-		},
-
-		initialize: function () {
-			//this.render();
-			//var self = this;
-			//this.listenTo(User, 'change', function () {
-				//self.render();
-			//});
-		},
+		},		
 
 		render: function () {
 			console.log('MOBILE RENDER START');
@@ -47,8 +39,7 @@ define([
 				};					
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				gamePlay.start(canvas);
-				console.log(gamePlay.gameStarted);
+				gamePlay.start(canvas);				
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
