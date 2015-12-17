@@ -18,16 +18,16 @@ define([
 				});
 			});
 		},
-		orientationchange : function () {
+		orientationchange: function () {
 			console.log("orientation: " + window.orientation);
 			//var gameF = $(".gameField");
 			var header = $(".header");
-			if (window.orientation%180==0) {
-				if(header) {
+			if (window.orientation % 180 == 0) {
+				if (header) {
 					header.show();
 				}
 			} else {
-				if(header) {
+				if (header) {
 					header.hide();
 				}
 			}
@@ -35,6 +35,7 @@ define([
 	});
 
 	var manager = new Manager();
+
 	window.addEventListener('orientationchange', manager.orientationchange);
 	manager.orientationchange();
 

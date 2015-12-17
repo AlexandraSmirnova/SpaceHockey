@@ -19,6 +19,8 @@ define([
 		}
 	});
 	var playerCollection = new PlayerCollection();
+
 	playerCollection.fetch();
+
 	return playerCollection;
 });

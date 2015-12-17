@@ -1,33 +1,33 @@
 define([
 	'backbone'
-], function (Backbone) {
+], function () {
 
-	return function (method, collection, options) {
-        var url;
-        var requestType;
-        var successFunc;
-        var errorFunc;
+	return function (method, collection) {
+		var url;
+		var requestType;
+		var successFunc;
+		var errorFunc;
 
-		if (method == 'read'){
-            url = '/score?limit=10';
-            requestType = "GET";  
-            successFunc = function   (response) {               
-                resp = JSON.parse(response);
-                console.log(resp.body);
-                collection.set(resp.body.scoreList);
-            },
-            errorFunc = function (error) {
-                console.log(error.statusText);
-            }            
-        }
+		if (method == 'read') {
+			url = '/score?limit=10';
+			requestType = "GET";
+			successFunc = function (response) {
+				var resp = JSON.parse(response);
+				console.log(resp.body);
+				collection.set(resp.body.scoreList);
+			};
+			errorFunc = function (error) {
+				console.log(error.statusText);
+			}
+		}
 
-        var xhr = $.ajax({
-            type: requestType,
-            url: url,  
-            async: false,                              
-            success: successFunc,
-            error: errorFunc
-        });    
+		$.ajax({
+			type: requestType,
+			url: url,
+			async: false,
+			success: successFunc,
+			error: errorFunc
+		});
 
 	};
 });

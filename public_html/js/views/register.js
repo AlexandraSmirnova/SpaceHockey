@@ -1,12 +1,12 @@
 define([
 	'backbone',
 	'tmpl/register',
-	'utils/validator',	
+	'utils/validator',
 	'models/userProfile'
 ], function (Backbone,
-			 tmpl,
-			 Validator,             
-			 User) {
+             tmpl,
+             Validator,
+             User) {
 
 	var formClass = ".form_signup";
 	var validator = new Validator();
@@ -20,7 +20,7 @@ define([
 		},
 
 		initialize: function () {
-			this.render();			
+			this.render();
 		},
 
 		render: function () {
@@ -38,19 +38,19 @@ define([
 					'email': $(formClass + " input[name = email]").val()
 				};
 				this.model.registration(data, {
-					success: function(response){
-							console.log(response);
-							data = JSON.parse(response);                            
-							if (parseInt(data["status"]) == "200") {                                
-								Backbone.history.navigate('', {trigger: true});
-							}
-							else {
-								var $error = $(".form__row_errors");
-								$error.append("User cann't be registrated. Try to change your input data");
-								$error.show();
-							}
+					success: function (response) {
+						console.log(response);
+						data = JSON.parse(response);
+						if (parseInt(data["status"]) == "200") {
+							Backbone.history.navigate('', {trigger: true});
+						}
+						else {
+							var $error = $(".form__row_errors");
+							$error.append("User cann't be registrated. Try to change your input data");
+							$error.show();
+						}
 					}
-				});				
+				});
 			}
 			return false;
 		},

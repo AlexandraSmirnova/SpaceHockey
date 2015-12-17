@@ -4,7 +4,7 @@ define([
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
-             User){
+             User) {
 
 	var Main = Backbone.View.extend({
 		template: tmpl,
@@ -22,22 +22,22 @@ define([
 			});
 		},
 
-		logout: function () {			
-            this.model.logout({
-                success: function (response) {                        
-                        response = JSON.parse(response);
-                        if (response.status == "200") {
-                            console.log("ajax success");
-                            User.clear();
-                            Backbone.history.navigate('', {trigger: true});
-                        }
-                },
-            });
+		logout: function () {
+			this.model.logout({
+				success: function (response) {
+					response = JSON.parse(response);
+					if (response.status == "200") {
+						console.log("ajax success");
+						User.clear();
+						Backbone.history.navigate('', {trigger: true});
+					}
+				}
+			});
 			this.render();
 		},
 
 		render: function () {
-			userlogin = User.get('login');
+			var userlogin = User.get('login');
 			var userData = {
 				"login": userlogin
 			}
@@ -51,7 +51,7 @@ define([
 
 		hide: function () {
 			this.$el.hide();
-		},
+		}
 
 	});
 

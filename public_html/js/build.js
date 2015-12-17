@@ -10,423 +10,424 @@
 
 var requirejs, require, define;
 (function (undef) {
-    var main, req, makeMap, handlers,
-        defined = {},
-        waiting = {},
-        config = {},
-        defining = {},
-        hasOwn = Object.prototype.hasOwnProperty,
-        aps = [].slice,
-        jsSuffixRegExp = /\.js$/;
+	var main, req, makeMap, handlers,
+		defined = {},
+		waiting = {},
+		config = {},
+		defining = {},
+		hasOwn = Object.prototype.hasOwnProperty,
+		aps = [].slice,
+		jsSuffixRegExp = /\.js$/;
 
-    function hasProp(obj, prop) {
-        return hasOwn.call(obj, prop);
-    }
+	function hasProp(obj, prop) {
+		return hasOwn.call(obj, prop);
+	}
 
-    /**
-     * Given a relative module name, like ./something, normalize it to
-     * a real name that can be mapped to a path.
-     * @param {String} name the relative name
-     * @param {String} baseName a real name that the name arg is relative
-     * to.
-     * @returns {String} normalized name
-     */
-    function normalize(name, baseName) {
-        var nameParts, nameSegment, mapValue, foundMap, lastIndex,
-            foundI, foundStarMap, starI, i, j, part,
-            baseParts = baseName && baseName.split("/"),
-            map = config.map,
-            starMap = (map && map['*']) || {};
+	/**
+	 * Given a relative module name, like ./something, normalize it to
+	 * a real name that can be mapped to a path.
+	 * @param {String} name the relative name
+	 * @param {String} baseName a real name that the name arg is relative
+	 * to.
+	 * @returns {String} normalized name
+	 */
+	function normalize(name, baseName) {
+		var nameParts, nameSegment, mapValue, foundMap, lastIndex,
+			foundI, foundStarMap, starI, i, j, part,
+			baseParts = baseName && baseName.split("/"),
+			map = config.map,
+			starMap = (map && map['*']) || {};
 
-        //Adjust any relative paths.
-        if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
-            //otherwise, assume it is a top-level require that will
-            //be relative to baseUrl in the end.
-            if (baseName) {
-                name = name.split('/');
-                lastIndex = name.length - 1;
+		//Adjust any relative paths.
+		if (name && name.charAt(0) === ".") {
+			//If have a base name, try to normalize against it,
+			//otherwise, assume it is a top-level require that will
+			//be relative to baseUrl in the end.
+			if (baseName) {
+				name = name.split('/');
+				lastIndex = name.length - 1;
 
-                // Node .js allowance:
-                if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
-                    name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
-                }
+				// Node .js allowance:
+				if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
+					name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
+				}
 
-                //Lop off the last part of baseParts, so that . matches the
-                //"directory" and not name of the baseName's module. For instance,
-                //baseName of "one/two/three", maps to "one/two/three.js", but we
-                //want the directory, "one/two" for this normalization.
-                name = baseParts.slice(0, baseParts.length - 1).concat(name);
+				//Lop off the last part of baseParts, so that . matches the
+				//"directory" and not name of the baseName's module. For instance,
+				//baseName of "one/two/three", maps to "one/two/three.js", but we
+				//want the directory, "one/two" for this normalization.
+				name = baseParts.slice(0, baseParts.length - 1).concat(name);
 
-                //start trimDots
-                for (i = 0; i < name.length; i += 1) {
-                    part = name[i];
-                    if (part === ".") {
-                        name.splice(i, 1);
-                        i -= 1;
-                    } else if (part === "..") {
-                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
-                            //End of the line. Keep at least one non-dot
-                            //path segment at the front so it can be mapped
-                            //correctly to disk. Otherwise, there is likely
-                            //no path mapping for a path starting with '..'.
-                            //This can still fail, but catches the most reasonable
-                            //uses of ..
-                            break;
-                        } else if (i > 0) {
-                            name.splice(i - 1, 2);
-                            i -= 2;
-                        }
-                    }
-                }
-                //end trimDots
+				//start trimDots
+				for (i = 0; i < name.length; i += 1) {
+					part = name[i];
+					if (part === ".") {
+						name.splice(i, 1);
+						i -= 1;
+					} else if (part === "..") {
+						if (i === 1 && (name[2] === '..' || name[0] === '..')) {
+							//End of the line. Keep at least one non-dot
+							//path segment at the front so it can be mapped
+							//correctly to disk. Otherwise, there is likely
+							//no path mapping for a path starting with '..'.
+							//This can still fail, but catches the most reasonable
+							//uses of ..
+							break;
+						} else if (i > 0) {
+							name.splice(i - 1, 2);
+							i -= 2;
+						}
+					}
+				}
+				//end trimDots
 
-                name = name.join("/");
-            } else if (name.indexOf('./') === 0) {
-                // No baseName, so this is ID is resolved relative
-                // to baseUrl, pull off the leading dot.
-                name = name.substring(2);
-            }
-        }
+				name = name.join("/");
+			} else if (name.indexOf('./') === 0) {
+				// No baseName, so this is ID is resolved relative
+				// to baseUrl, pull off the leading dot.
+				name = name.substring(2);
+			}
+		}
 
-        //Apply map config if available.
-        if ((baseParts || starMap) && map) {
-            nameParts = name.split('/');
+		//Apply map config if available.
+		if ((baseParts || starMap) && map) {
+			nameParts = name.split('/');
 
-            for (i = nameParts.length; i > 0; i -= 1) {
-                nameSegment = nameParts.slice(0, i).join("/");
+			for (i = nameParts.length; i > 0; i -= 1) {
+				nameSegment = nameParts.slice(0, i).join("/");
 
-                if (baseParts) {
-                    //Find the longest baseName segment match in the config.
-                    //So, do joins on the biggest to smallest lengths of baseParts.
-                    for (j = baseParts.length; j > 0; j -= 1) {
-                        mapValue = map[baseParts.slice(0, j).join('/')];
+				if (baseParts) {
+					//Find the longest baseName segment match in the config.
+					//So, do joins on the biggest to smallest lengths of baseParts.
+					for (j = baseParts.length; j > 0; j -= 1) {
+						mapValue = map[baseParts.slice(0, j).join('/')];
 
-                        //baseName segment has  config, find if it has one for
-                        //this name.
-                        if (mapValue) {
-                            mapValue = mapValue[nameSegment];
-                            if (mapValue) {
-                                //Match, update name to the new value.
-                                foundMap = mapValue;
-                                foundI = i;
-                                break;
-                            }
-                        }
-                    }
-                }
+						//baseName segment has  config, find if it has one for
+						//this name.
+						if (mapValue) {
+							mapValue = mapValue[nameSegment];
+							if (mapValue) {
+								//Match, update name to the new value.
+								foundMap = mapValue;
+								foundI = i;
+								break;
+							}
+						}
+					}
+				}
 
-                if (foundMap) {
-                    break;
-                }
+				if (foundMap) {
+					break;
+				}
 
-                //Check for a star map match, but just hold on to it,
-                //if there is a shorter segment match later in a matching
-                //config, then favor over this star map.
-                if (!foundStarMap && starMap && starMap[nameSegment]) {
-                    foundStarMap = starMap[nameSegment];
-                    starI = i;
-                }
-            }
+				//Check for a star map match, but just hold on to it,
+				//if there is a shorter segment match later in a matching
+				//config, then favor over this star map.
+				if (!foundStarMap && starMap && starMap[nameSegment]) {
+					foundStarMap = starMap[nameSegment];
+					starI = i;
+				}
+			}
 
-            if (!foundMap && foundStarMap) {
-                foundMap = foundStarMap;
-                foundI = starI;
-            }
+			if (!foundMap && foundStarMap) {
+				foundMap = foundStarMap;
+				foundI = starI;
+			}
 
-            if (foundMap) {
-                nameParts.splice(0, foundI, foundMap);
-                name = nameParts.join('/');
-            }
-        }
+			if (foundMap) {
+				nameParts.splice(0, foundI, foundMap);
+				name = nameParts.join('/');
+			}
+		}
 
-        return name;
-    }
+		return name;
+	}
 
-    function makeRequire(relName, forceSync) {
-        return function () {
-            //A version of a require function that passes a moduleName
-            //value for items that may need to
-            //look up paths relative to the moduleName
-            var args = aps.call(arguments, 0);
+	function makeRequire(relName, forceSync) {
+		return function () {
+			//A version of a require function that passes a moduleName
+			//value for items that may need to
+			//look up paths relative to the moduleName
+			var args = aps.call(arguments, 0);
 
-            //If first arg is not require('string'), and there is only
-            //one arg, it is the array form without a callback. Insert
-            //a null so that the following concat is correct.
-            if (typeof args[0] !== 'string' && args.length === 1) {
-                args.push(null);
-            }
-            return req.apply(undef, args.concat([relName, forceSync]));
-        };
-    }
+			//If first arg is not require('string'), and there is only
+			//one arg, it is the array form without a callback. Insert
+			//a null so that the following concat is correct.
+			if (typeof args[0] !== 'string' && args.length === 1) {
+				args.push(null);
+			}
+			return req.apply(undef, args.concat([relName, forceSync]));
+		};
+	}
 
-    function makeNormalize(relName) {
-        return function (name) {
-            return normalize(name, relName);
-        };
-    }
+	function makeNormalize(relName) {
+		return function (name) {
+			return normalize(name, relName);
+		};
+	}
 
-    function makeLoad(depName) {
-        return function (value) {
-            defined[depName] = value;
-        };
-    }
+	function makeLoad(depName) {
+		return function (value) {
+			defined[depName] = value;
+		};
+	}
 
-    function callDep(name) {
-        if (hasProp(waiting, name)) {
-            var args = waiting[name];
-            delete waiting[name];
-            defining[name] = true;
-            main.apply(undef, args);
-        }
+	function callDep(name) {
+		if (hasProp(waiting, name)) {
+			var args = waiting[name];
+			delete waiting[name];
+			defining[name] = true;
+			main.apply(undef, args);
+		}
 
-        if (!hasProp(defined, name) && !hasProp(defining, name)) {
-            throw new Error('No ' + name);
-        }
-        return defined[name];
-    }
+		if (!hasProp(defined, name) && !hasProp(defining, name)) {
+			throw new Error('No ' + name);
+		}
+		return defined[name];
+	}
 
-    //Turns a plugin!resource to [plugin, resource]
-    //with the plugin being undefined if the name
-    //did not have a plugin prefix.
-    function splitPrefix(name) {
-        var prefix,
-            index = name ? name.indexOf('!') : -1;
-        if (index > -1) {
-            prefix = name.substring(0, index);
-            name = name.substring(index + 1, name.length);
-        }
-        return [prefix, name];
-    }
+	//Turns a plugin!resource to [plugin, resource]
+	//with the plugin being undefined if the name
+	//did not have a plugin prefix.
+	function splitPrefix(name) {
+		var prefix,
+			index = name ? name.indexOf('!') : -1;
+		if (index > -1) {
+			prefix = name.substring(0, index);
+			name = name.substring(index + 1, name.length);
+		}
+		return [prefix, name];
+	}
 
-    /**
-     * Makes a name map, normalizing the name, and using a plugin
-     * for normalization if necessary. Grabs a ref to plugin
-     * too, as an optimization.
-     */
-    makeMap = function (name, relName) {
-        var plugin,
-            parts = splitPrefix(name),
-            prefix = parts[0];
+	/**
+	 * Makes a name map, normalizing the name, and using a plugin
+	 * for normalization if necessary. Grabs a ref to plugin
+	 * too, as an optimization.
+	 */
+	makeMap = function (name, relName) {
+		var plugin,
+			parts = splitPrefix(name),
+			prefix = parts[0];
 
-        name = parts[1];
+		name = parts[1];
 
-        if (prefix) {
-            prefix = normalize(prefix, relName);
-            plugin = callDep(prefix);
-        }
+		if (prefix) {
+			prefix = normalize(prefix, relName);
+			plugin = callDep(prefix);
+		}
 
-        //Normalize according
-        if (prefix) {
-            if (plugin && plugin.normalize) {
-                name = plugin.normalize(name, makeNormalize(relName));
-            } else {
-                name = normalize(name, relName);
-            }
-        } else {
-            name = normalize(name, relName);
-            parts = splitPrefix(name);
-            prefix = parts[0];
-            name = parts[1];
-            if (prefix) {
-                plugin = callDep(prefix);
-            }
-        }
+		//Normalize according
+		if (prefix) {
+			if (plugin && plugin.normalize) {
+				name = plugin.normalize(name, makeNormalize(relName));
+			} else {
+				name = normalize(name, relName);
+			}
+		} else {
+			name = normalize(name, relName);
+			parts = splitPrefix(name);
+			prefix = parts[0];
+			name = parts[1];
+			if (prefix) {
+				plugin = callDep(prefix);
+			}
+		}
 
-        //Using ridiculous property names for space reasons
-        return {
-            f: prefix ? prefix + '!' + name : name, //fullName
-            n: name,
-            pr: prefix,
-            p: plugin
-        };
-    };
+		//Using ridiculous property names for space reasons
+		return {
+			f: prefix ? prefix + '!' + name : name, //fullName
+			n: name,
+			pr: prefix,
+			p: plugin
+		};
+	};
 
-    function makeConfig(name) {
-        return function () {
-            return (config && config.config && config.config[name]) || {};
-        };
-    }
+	function makeConfig(name) {
+		return function () {
+			return (config && config.config && config.config[name]) || {};
+		};
+	}
 
-    handlers = {
-        require: function (name) {
-            return makeRequire(name);
-        },
-        exports: function (name) {
-            var e = defined[name];
-            if (typeof e !== 'undefined') {
-                return e;
-            } else {
-                return (defined[name] = {});
-            }
-        },
-        module: function (name) {
-            return {
-                id: name,
-                uri: '',
-                exports: defined[name],
-                config: makeConfig(name)
-            };
-        }
-    };
+	handlers = {
+		require: function (name) {
+			return makeRequire(name);
+		},
+		exports: function (name) {
+			var e = defined[name];
+			if (typeof e !== 'undefined') {
+				return e;
+			} else {
+				return (defined[name] = {});
+			}
+		},
+		module: function (name) {
+			return {
+				id: name,
+				uri: '',
+				exports: defined[name],
+				config: makeConfig(name)
+			};
+		}
+	};
 
-    main = function (name, deps, callback, relName) {
-        var cjsModule, depName, ret, map, i,
-            args = [],
-            callbackType = typeof callback,
-            usingExports;
+	main = function (name, deps, callback, relName) {
+		var cjsModule, depName, ret, map, i,
+			args = [],
+			callbackType = typeof callback,
+			usingExports;
 
-        //Use name if no relName
-        relName = relName || name;
+		//Use name if no relName
+		relName = relName || name;
 
-        //Call the callback to define the module, if necessary.
-        if (callbackType === 'undefined' || callbackType === 'function') {
-            //Pull out the defined dependencies and pass the ordered
-            //values to the callback.
-            //Default to [require, exports, module] if no deps
-            deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
-            for (i = 0; i < deps.length; i += 1) {
-                map = makeMap(deps[i], relName);
-                depName = map.f;
+		//Call the callback to define the module, if necessary.
+		if (callbackType === 'undefined' || callbackType === 'function') {
+			//Pull out the defined dependencies and pass the ordered
+			//values to the callback.
+			//Default to [require, exports, module] if no deps
+			deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
+			for (i = 0; i < deps.length; i += 1) {
+				map = makeMap(deps[i], relName);
+				depName = map.f;
 
-                //Fast path CommonJS standard dependencies.
-                if (depName === "require") {
-                    args[i] = handlers.require(name);
-                } else if (depName === "exports") {
-                    //CommonJS module spec 1.1
-                    args[i] = handlers.exports(name);
-                    usingExports = true;
-                } else if (depName === "module") {
-                    //CommonJS module spec 1.1
-                    cjsModule = args[i] = handlers.module(name);
-                } else if (hasProp(defined, depName) ||
-                           hasProp(waiting, depName) ||
-                           hasProp(defining, depName)) {
-                    args[i] = callDep(depName);
-                } else if (map.p) {
-                    map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
-                    args[i] = defined[depName];
-                } else {
-                    throw new Error(name + ' missing ' + depName);
-                }
-            }
+				//Fast path CommonJS standard dependencies.
+				if (depName === "require") {
+					args[i] = handlers.require(name);
+				} else if (depName === "exports") {
+					//CommonJS module spec 1.1
+					args[i] = handlers.exports(name);
+					usingExports = true;
+				} else if (depName === "module") {
+					//CommonJS module spec 1.1
+					cjsModule = args[i] = handlers.module(name);
+				} else if (hasProp(defined, depName) ||
+					hasProp(waiting, depName) ||
+					hasProp(defining, depName)) {
+					args[i] = callDep(depName);
+				} else if (map.p) {
+					map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
+					args[i] = defined[depName];
+				} else {
+					throw new Error(name + ' missing ' + depName);
+				}
+			}
 
-            ret = callback ? callback.apply(defined[name], args) : undefined;
+			ret = callback ? callback.apply(defined[name], args) : undefined;
 
-            if (name) {
-                //If setting exports via "module" is in play,
-                //favor that over return value and exports. After that,
-                //favor a non-undefined return value over exports use.
-                if (cjsModule && cjsModule.exports !== undef &&
-                        cjsModule.exports !== defined[name]) {
-                    defined[name] = cjsModule.exports;
-                } else if (ret !== undef || !usingExports) {
-                    //Use the return value from the function.
-                    defined[name] = ret;
-                }
-            }
-        } else if (name) {
-            //May just be an object definition for the module. Only
-            //worry about defining if have a module name.
-            defined[name] = callback;
-        }
-    };
+			if (name) {
+				//If setting exports via "module" is in play,
+				//favor that over return value and exports. After that,
+				//favor a non-undefined return value over exports use.
+				if (cjsModule && cjsModule.exports !== undef &&
+					cjsModule.exports !== defined[name]) {
+					defined[name] = cjsModule.exports;
+				} else if (ret !== undef || !usingExports) {
+					//Use the return value from the function.
+					defined[name] = ret;
+				}
+			}
+		} else if (name) {
+			//May just be an object definition for the module. Only
+			//worry about defining if have a module name.
+			defined[name] = callback;
+		}
+	};
 
-    requirejs = require = req = function (deps, callback, relName, forceSync, alt) {
-        if (typeof deps === "string") {
-            if (handlers[deps]) {
-                //callback in this case is really relName
-                return handlers[deps](callback);
-            }
-            //Just return the module wanted. In this scenario, the
-            //deps arg is the module name, and second arg (if passed)
-            //is just the relName.
-            //Normalize module name, if it contains . or ..
-            return callDep(makeMap(deps, callback).f);
-        } else if (!deps.splice) {
-            //deps is a config object, not an array.
-            config = deps;
-            if (config.deps) {
-                req(config.deps, config.callback);
-            }
-            if (!callback) {
-                return;
-            }
+	requirejs = require = req = function (deps, callback, relName, forceSync, alt) {
+		if (typeof deps === "string") {
+			if (handlers[deps]) {
+				//callback in this case is really relName
+				return handlers[deps](callback);
+			}
+			//Just return the module wanted. In this scenario, the
+			//deps arg is the module name, and second arg (if passed)
+			//is just the relName.
+			//Normalize module name, if it contains . or ..
+			return callDep(makeMap(deps, callback).f);
+		} else if (!deps.splice) {
+			//deps is a config object, not an array.
+			config = deps;
+			if (config.deps) {
+				req(config.deps, config.callback);
+			}
+			if (!callback) {
+				return;
+			}
 
-            if (callback.splice) {
-                //callback is an array, which means it is a dependency list.
-                //Adjust args if there are dependencies
-                deps = callback;
-                callback = relName;
-                relName = null;
-            } else {
-                deps = undef;
-            }
-        }
+			if (callback.splice) {
+				//callback is an array, which means it is a dependency list.
+				//Adjust args if there are dependencies
+				deps = callback;
+				callback = relName;
+				relName = null;
+			} else {
+				deps = undef;
+			}
+		}
 
-        //Support require(['a'])
-        callback = callback || function () {};
+		//Support require(['a'])
+		callback = callback || function () {
+			};
 
-        //If relName is a function, it is an errback handler,
-        //so remove it.
-        if (typeof relName === 'function') {
-            relName = forceSync;
-            forceSync = alt;
-        }
+		//If relName is a function, it is an errback handler,
+		//so remove it.
+		if (typeof relName === 'function') {
+			relName = forceSync;
+			forceSync = alt;
+		}
 
-        //Simulate async callback;
-        if (forceSync) {
-            main(undef, deps, callback, relName);
-        } else {
-            //Using a non-zero value because of concern for what old browsers
-            //do, and latest browsers "upgrade" to 4 if lower value is used:
-            //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
-            //If want a value immediately, use require('id') instead -- something
-            //that works in almond on the global level, but not guaranteed and
-            //unlikely to work in other AMD implementations.
-            setTimeout(function () {
-                main(undef, deps, callback, relName);
-            }, 4);
-        }
+		//Simulate async callback;
+		if (forceSync) {
+			main(undef, deps, callback, relName);
+		} else {
+			//Using a non-zero value because of concern for what old browsers
+			//do, and latest browsers "upgrade" to 4 if lower value is used:
+			//http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
+			//If want a value immediately, use require('id') instead -- something
+			//that works in almond on the global level, but not guaranteed and
+			//unlikely to work in other AMD implementations.
+			setTimeout(function () {
+				main(undef, deps, callback, relName);
+			}, 4);
+		}
 
-        return req;
-    };
+		return req;
+	};
 
-    /**
-     * Just drops the config on the floor, but returns req in case
-     * the config return value is used.
-     */
-    req.config = function (cfg) {
-        return req(cfg);
-    };
+	/**
+	 * Just drops the config on the floor, but returns req in case
+	 * the config return value is used.
+	 */
+	req.config = function (cfg) {
+		return req(cfg);
+	};
 
-    /**
-     * Expose module registry for debugging and tooling
-     */
-    requirejs._defined = defined;
+	/**
+	 * Expose module registry for debugging and tooling
+	 */
+	requirejs._defined = defined;
 
-    define = function (name, deps, callback) {
-        if (typeof name !== 'string') {
-            throw new Error('See almond README: incorrect module build, no module name');
-        }
+	define = function (name, deps, callback) {
+		if (typeof name !== 'string') {
+			throw new Error('See almond README: incorrect module build, no module name');
+		}
 
-        //This module may not have dependencies
-        if (!deps.splice) {
-            //deps is not an array, so probably means
-            //an object literal or factory function for
-            //the value. Adjust args.
-            callback = deps;
-            deps = [];
-        }
+		//This module may not have dependencies
+		if (!deps.splice) {
+			//deps is not an array, so probably means
+			//an object literal or factory function for
+			//the value. Adjust args.
+			callback = deps;
+			deps = [];
+		}
 
-        if (!hasProp(defined, name) && !hasProp(waiting, name)) {
-            waiting[name] = [name, deps, callback];
-        }
-    };
+		if (!hasProp(defined, name) && !hasProp(waiting, name)) {
+			waiting[name] = [name, deps, callback];
+		}
+	};
 
-    define.amd = {
-        jQuery: true
-    };
+	define.amd = {
+		jQuery: true
+	};
 }());
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
@@ -5264,102 +5265,102 @@ var requirejs, require, define;
 
 }).call(this);
 
-define("backbone", ["underscore","jquery"], (function (global) {
-    return function () {
-        var ret, fn;
-        return ret || global.Backbone;
-    };
+define("backbone", ["underscore", "jquery"], (function (global) {
+	return function () {
+		var ret, fn;
+		return ret || global.Backbone;
+	};
 }(this)));
 
-define('syncs/playerSync',[
+define('syncs/playerSync', [
 	'backbone'
-], function (
-    Backbone    
-){    
-    var methodMap = {
-        'create': 'POST',        
-        'update': 'POST',
-        'delete': 'POST',
-        'read'  : 'POST'
-    };
+], function (Backbone) {
+	var methodMap = {
+		'create': 'POST',
+		'update': 'POST',
+		'delete': 'POST',
+		'read': 'POST'
+	};
 
-    var urlMap  = {        
-        'signup' : '/auth/signup',
-        'signin' : '/auth/signin',
-        'signout': '/auth/signout',
-        'check'  : '/profile'
-    };
+	var urlMap = {
+		'signup': '/auth/signup',
+		'signin': '/auth/signin',
+		'signout': '/auth/signout',
+		'check': '/profile'
+	};
 
-    return function(method, model, options) {
-        var requestType = "";    
-        var url = "";
-        var data = {};
-        var successFunc;
-        var errorFunc;
+	return function (method, model, options) {
+		var requestType = "";
+		var url = "";
+		var data = {};
+		var successFunc;
+		var errorFunc;
 
-        if(options.callback  && options.callback.success){
-            successFunc = options.callback.success;
-        }
-        else {
-            successFunc = function(){ 
-                console.log("OK"); 
-            };
-        };
+		if (options.callback && options.callback.success) {
+			successFunc = options.callback.success;
+		}
+		else {
+			successFunc = function () {
+				console.log("OK");
+			};
+		}
+		;
 
-        if(options.callback && options.callback.error){
-            errorFunc = options.callback.error;
-        }
-        else {
-            errorFunc = function(xhr, status, error){ 
-                console.log(error.statusText); 
-            };
-        };
+		if (options.callback && options.callback.error) {
+			errorFunc = options.callback.error;
+		}
+		else {
+			errorFunc = function (xhr, status, error) {
+				console.log(error.statusText);
+			};
+		}
+		;
 
-        if (method == 'create'){      
-            console.log("create");            
-            console.log(data);
-            requestType = methodMap['create']; 
-            url = urlMap['signup']; 
-            data = options.param;         
-        }  
-        else if (method == 'update'){
-            requestType = methodMap['update'];           
-            url = urlMap['signin'];
-            data = options.param;            
-        }   
-        else if (method == 'delete'){
-            requestType = methodMap['delete'];           
-            url = urlMap['signout'];
-            data = {};            
-        }   
-        else if (method == 'read'){            
-            requestType = methodMap['read'];           
-            url = urlMap['check'];  
-            successFunc = function(response){
-                resp = JSON.parse(response);
-                console.log(resp.body);                       
-                if (resp.status == '200')
-                    model.set(resp.body);
-                else
-                    console.log("UNAUTHORIZED");
-            }        
-        }
+		if (method == 'create') {
+			console.log("create");
+			console.log(data);
+			requestType = methodMap['create'];
+			url = urlMap['signup'];
+			data = options.param;
+		}
+		else if (method == 'update') {
+			requestType = methodMap['update'];
+			url = urlMap['signin'];
+			data = options.param;
+		}
+		else if (method == 'delete') {
+			requestType = methodMap['delete'];
+			url = urlMap['signout'];
+			data = {};
+		}
+		else if (method == 'read') {
+			requestType = methodMap['read'];
+			url = urlMap['check'];
+			successFunc = function (response) {
+				resp = JSON.parse(response);
+				console.log(resp.body);
+				if (resp.status == '200')
+					model.set(resp.body);
+				else
+					console.log("UNAUTHORIZED");
+			}
+		}
 
-        var xhr = $.ajax({
-                type: requestType,
-                url: url,                
-                data: JSON.stringify(data),
-                success: successFunc,
-                error: errorFunc
-        });        
-    }
+		var xhr = $.ajax({
+			type: requestType,
+			url: url,
+			data: JSON.stringify(data),
+			success: successFunc,
+			error: errorFunc
+		});
+	}
 
 });
-define('models/userProfile',[
+define('models/userProfile', [
 	'backbone',
 	'syncs/playerSync'
 ], function (Backbone,
-			 playerSync) {
+             playerSync) {
 
 	var UserModel = Backbone.Model.extend({
 		sync: playerSync,
@@ -5372,21 +5373,21 @@ define('models/userProfile',[
 			logged_in: false
 		},
 
-		registration: function(param, callback){              
+		registration: function (param, callback) {
 			this.sync('create', this, {callback: callback, param: param});
 		},
 
-		login: function(param, callback){
+		login: function (param, callback) {
 			this.sync('update', this, {callback: callback, param: param});
 		},
 
-		logout: function(callback){
+		logout: function (callback) {
 			this.sync('delete', this, {callback: callback});
 		},
 
 		isLoggedIn: function () {
 			return this.logged_in;
-		},	
+		},
 
 	});
 
@@ -5395,7 +5396,7 @@ define('models/userProfile',[
 	return user;
 });
 
-define('game/socket',[
+define('game/socket', [
 	'models/userProfile'
 ], function (User) {
 
@@ -5459,12 +5460,134 @@ define('game/socket',[
 
 	return new Game();
 });
-            
-            
 
-define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"gameField\"><div class=\"wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"gameplay\"><div class=\"score\"><p class=\"score__player score__player_first\"><span class=\"firstPlayer\"></span>: <span class=\"myScore\">0</span></p><p class=\"score__player score__player_second\"><span class=\"secondPlayer\"></span>: <span class=\"enemyScore\">0</span></p></div><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas></div><div class=\"gameOver\"><p>Game over! You are <span class=\"gameOver__winner\"></span></p><p>Result: <span class=\"gemeOver__score\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+
+define('tmpl/game', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		;
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var json = __fest_context;
+		__fest_buf += ("<div class=\"gameField\"><div class=\"wait\"><p>Hello, ");
+		try {
+			__fest_buf += (__fest_escapeHTML(json.login))
+		} catch (e) {
+			__fest_log_error(e.message + "4");
+		}
+		__fest_buf += ("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"gameplay\"><div class=\"score\"><p class=\"score__player score__player_first\"><span class=\"firstPlayer\"></span>: <span class=\"myScore\">0</span></p><p class=\"score__player score__player_second\"><span class=\"secondPlayer\"></span>: <span class=\"enemyScore\">0</span></p></div><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas></div><div class=\"gameOver\"><p>Game over! You are <span class=\"gameOver__winner\"></span></p><p>Result: <span class=\"gemeOver__score\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context0);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
 define(
-	'lib/input',[],function () {
+	'lib/input', [], function () {
 		var pressedKeys = {};
 
 		function setKey(event, status) {
@@ -5515,7 +5638,7 @@ define(
 			isDown: isDown
 		}
 	});
-define('game/gameWebSocket',[
+define('game/gameWebSocket', [
 	'models/userProfile'
 ], function (userModel) {
 	console.log('GAMEWEBSOCKET');
@@ -5523,11 +5646,11 @@ define('game/gameWebSocket',[
 		console.log("entered gamewebsocket initconnect");
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
 		ws.onopen = function () {
-			console.log("Open");			
+			console.log("Open");
 		};
 		//var playerName = null;
 //		var enemyName = "";
-		ws.onclose = function() {
+		ws.onclose = function () {
 			console.log('connection closed');
 		};
 
@@ -5543,15 +5666,15 @@ define('game/gameWebSocket',[
 		sendMessage: sendMessage
 	};
 });
-define('game/gamePlay',[
+define('game/gamePlay', [
 	'backbone',
 	'lib/input',
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-			input,
-			gameWebSocket,
-			User) {
+             input,
+             gameWebSocket,
+             User) {
 	var context;
 	var CANVAS_WIDTH;
 	var CANVAS_HEIGHT;
@@ -5594,7 +5717,7 @@ define('game/gamePlay',[
 		this.image.src = 'img/ball.png';
 
 		this.draw = function () {
-			context.drawImage(this.image,this.centerX-this.radius,this.centerY-this.radius, 20, 20);
+			context.drawImage(this.image, this.centerX - this.radius, this.centerY - this.radius, 20, 20);
 		};
 	}
 
@@ -5604,7 +5727,6 @@ define('game/gamePlay',[
 	var ball = new Ball(350, 415, 10);
 	var left = false, right = false, send = false;
 
-	
 
 	function draw() {
 		gameField.clear();
@@ -5660,17 +5782,16 @@ define('game/gamePlay',[
 	}
 
 
-
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
 
-		start: function(canvas) {
+		start: function (canvas) {
 			console.log('ODIN RAZ');
 			this.gameStarted = true;
 			this.playerName = User.get("login");
 			ws = gameWebSocket.initConnect();
-			console.log(this.gameStarted);	
+			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
 			this.analizeMessage();
 			var FPS = 60;
@@ -5684,11 +5805,11 @@ define('game/gamePlay',[
 			}, 1000 / FPS);
 		},
 
-		analizeMessage: 	function() {
+		analizeMessage: function () {
 			var self = this;
 
 			ws.onmessage = function (event) {
-				var data = JSON.parse(event.data);				
+				var data = JSON.parse(event.data);
 				if (data.status == "worldInfo") {
 					myPlatform.x = parseInt(data.first.positionX, 10);
 					enemyPlatform.x = parseInt(data.second.positionX, 10);
@@ -5704,7 +5825,7 @@ define('game/gamePlay',[
 
 				}
 				if (data.status == "finish") {
-					console.log(data);					
+					console.log(data);
 					$(".gameOver").show();
 					$(".gameplay").hide()
 					if (data.gameState == 0)
@@ -5713,7 +5834,7 @@ define('game/gamePlay',[
 						$(".gameOver__winner").html("first winner!");
 					else if (data.gameState == 2)
 						$(".gameOver__winner").html("second winner!");
-					if(data.first.name == self.playerName)
+					if (data.first.name == self.playerName)
 						$(".gameOver__score").html("wwr!");
 					else
 						$(".gameOver__score").html("2!");
@@ -5729,7 +5850,7 @@ define('game/gamePlay',[
 
 	return new Game();
 });
-define('views/game',[
+define('views/game', [
 	'backbone',
 	'game/socket',
 	'tmpl/game',
@@ -5753,7 +5874,7 @@ define('views/game',[
 			//this.render();
 			//var self = this;
 			//this.listenTo(User, 'change', function () {
-				//self.render();
+			//self.render();
 			//});
 		},
 
@@ -5767,13 +5888,13 @@ define('views/game',[
 				console.log('in game.js gamestarted: ' + gamePlay.gameStarted);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				if(gamePlay.gameStarted === false){
+				if (gamePlay.gameStarted === false) {
 					console.log("gameStarted");
 					gamePlay.start(canvas);
 					console.log('in if' + gamePlay.gameStarted);
 				}
 				//else{
-				//	Backbone.history.navigate('', {trigger: true});			
+				//	Backbone.history.navigate('', {trigger: true});
 				//}
 			}
 			else {
@@ -5789,7 +5910,7 @@ define('views/game',[
 
 		show: function () {
 			console.log(this.started);
-			if(this.started == false) {
+			if (this.started == false) {
 				this.render();
 			}
 			this.started = true;
@@ -5827,573 +5948,694 @@ define('views/game',[
  * a global `Modernizr` object, and as classes on the `<html>` element. This
  * information allows you to progressively enhance your pages with a granular level
  * of control over the experience.
-*/
+ */
 
-;(function(window, document, undefined){
-  var tests = [];
-  
-
-  /**
-   *
-   * ModernizrProto is the constructor for Modernizr
-   *
-   * @class
-   * @access public
-   */
-
-  var ModernizrProto = {
-    // The current version, dummy
-    _version: '3.2.0',
-
-    // Any settings that don't work as separate modules
-    // can go in here as configuration.
-    _config: {
-      'classPrefix' : '',
-      'enableClasses' : true,
-      'enableJSClass' : true,
-      'usePrefixes' : true
-    },
-
-    // Queue of tests
-    _q: [],
-
-    // Stub these for people who are listening
-    on: function(test, cb) {
-      // I don't really think people should do this, but we can
-      // safe guard it a bit.
-      // -- NOTE:: this gets WAY overridden in src/addTest for actual async tests.
-      // This is in case people listen to synchronous tests. I would leave it out,
-      // but the code to *disallow* sync tests in the real version of this
-      // function is actually larger than this.
-      var self = this;
-      setTimeout(function() {
-        cb(self[test]);
-      }, 0);
-    },
-
-    addTest: function(name, fn, options) {
-      tests.push({name : name, fn : fn, options : options});
-    },
-
-    addAsyncTest: function(fn) {
-      tests.push({name : null, fn : fn});
-    }
-  };
-
-  
-
-  // Fake some of Object.create so we can force non test results to be non "own" properties.
-  var Modernizr = function() {};
-  Modernizr.prototype = ModernizrProto;
-
-  // Leak modernizr globally when you `require` it rather than force it here.
-  // Overwrite name so constructor name is nicer :D
-  Modernizr = new Modernizr();
-
-  
-
-  var classes = [];
-  
-
-  /**
-   * is returns a boolean if the typeof an obj is exactly type.
-   *
-   * @access private
-   * @function is
-   * @param {*} obj - A thing we want to check the type of
-   * @param {string} type - A string to compare the typeof against
-   * @returns {boolean}
-   */
-
-  function is(obj, type) {
-    return typeof obj === type;
-  }
-  ;
-
-  /**
-   * Run through all tests and detect their support in the current UA.
-   *
-   * @access private
-   */
-
-  function testRunner() {
-    var featureNames;
-    var feature;
-    var aliasIdx;
-    var result;
-    var nameIdx;
-    var featureName;
-    var featureNameSplit;
-
-    for (var featureIdx in tests) {
-      if (tests.hasOwnProperty(featureIdx)) {
-        featureNames = [];
-        feature = tests[featureIdx];
-        // run the test, throw the return value into the Modernizr,
-        // then based on that boolean, define an appropriate className
-        // and push it into an array of classes we'll join later.
-        //
-        // If there is no name, it's an 'async' test that is run,
-        // but not directly added to the object. That should
-        // be done with a post-run addTest call.
-        if (feature.name) {
-          featureNames.push(feature.name.toLowerCase());
-
-          if (feature.options && feature.options.aliases && feature.options.aliases.length) {
-            // Add all the aliases into the names list
-            for (aliasIdx = 0; aliasIdx < feature.options.aliases.length; aliasIdx++) {
-              featureNames.push(feature.options.aliases[aliasIdx].toLowerCase());
-            }
-          }
-        }
-
-        // Run the test, or use the raw value if it's not a function
-        result = is(feature.fn, 'function') ? feature.fn() : feature.fn;
+;(function (window, document, undefined) {
+	var tests = [];
 
 
-        // Set each of the names on the Modernizr object
-        for (nameIdx = 0; nameIdx < featureNames.length; nameIdx++) {
-          featureName = featureNames[nameIdx];
-          // Support dot properties as sub tests. We don't do checking to make sure
-          // that the implied parent tests have been added. You must call them in
-          // order (either in the test, or make the parent test a dependency).
-          //
-          // Cap it to TWO to make the logic simple and because who needs that kind of subtesting
-          // hashtag famous last words
-          featureNameSplit = featureName.split('.');
+	/**
+	 *
+	 * ModernizrProto is the constructor for Modernizr
+	 *
+	 * @class
+	 * @access public
+	 */
 
-          if (featureNameSplit.length === 1) {
-            Modernizr[featureNameSplit[0]] = result;
-          } else {
-            // cast to a Boolean, if not one already
-            /* jshint -W053 */
-            if (Modernizr[featureNameSplit[0]] && !(Modernizr[featureNameSplit[0]] instanceof Boolean)) {
-              Modernizr[featureNameSplit[0]] = new Boolean(Modernizr[featureNameSplit[0]]);
-            }
+	var ModernizrProto = {
+		// The current version, dummy
+		_version: '3.2.0',
 
-            Modernizr[featureNameSplit[0]][featureNameSplit[1]] = result;
-          }
+		// Any settings that don't work as separate modules
+		// can go in here as configuration.
+		_config: {
+			'classPrefix': '',
+			'enableClasses': true,
+			'enableJSClass': true,
+			'usePrefixes': true
+		},
 
-          classes.push((result ? '' : 'no-') + featureNameSplit.join('-'));
-        }
-      }
-    }
-  }
-  ;
+		// Queue of tests
+		_q: [],
 
-  /**
-   * docElement is a convenience wrapper to grab the root element of the document
-   *
-   * @access private
-   * @returns {HTMLElement|SVGElement} The root element of the document
-   */
+		// Stub these for people who are listening
+		on: function (test, cb) {
+			// I don't really think people should do this, but we can
+			// safe guard it a bit.
+			// -- NOTE:: this gets WAY overridden in src/addTest for actual async tests.
+			// This is in case people listen to synchronous tests. I would leave it out,
+			// but the code to *disallow* sync tests in the real version of this
+			// function is actually larger than this.
+			var self = this;
+			setTimeout(function () {
+				cb(self[test]);
+			}, 0);
+		},
 
-  var docElement = document.documentElement;
-  
+		addTest: function (name, fn, options) {
+			tests.push({name: name, fn: fn, options: options});
+		},
 
-  /**
-   * A convenience helper to check if the document we are running in is an SVG document
-   *
-   * @access private
-   * @returns {boolean}
-   */
-
-  var isSVG = docElement.nodeName.toLowerCase() === 'svg';
-  
-
-  /**
-   * setClasses takes an array of class names and adds them to the root element
-   *
-   * @access private
-   * @function setClasses
-   * @param {string[]} classes - Array of class names
-   */
-
-  // Pass in an and array of class names, e.g.:
-  //  ['no-webp', 'borderradius', ...]
-  function setClasses(classes) {
-    var className = docElement.className;
-    var classPrefix = Modernizr._config.classPrefix || '';
-
-    if (isSVG) {
-      className = className.baseVal;
-    }
-
-    // Change `no-js` to `js` (independently of the `enableClasses` option)
-    // Handle classPrefix on this too
-    if (Modernizr._config.enableJSClass) {
-      var reJS = new RegExp('(^|\\s)' + classPrefix + 'no-js(\\s|$)');
-      className = className.replace(reJS, '$1' + classPrefix + 'js$2');
-    }
-
-    if (Modernizr._config.enableClasses) {
-      // Add the new classes
-      className += ' ' + classPrefix + classes.join(' ' + classPrefix);
-      isSVG ? docElement.className.baseVal = className : docElement.className = className;
-    }
-
-  }
-
-  ;
-/*!
-{
-  "name": "Event Listener",
-  "property": "eventlistener",
-  "authors": ["Andrew Betts (@triblondon)"],
-  "notes": [{
-    "name": "W3C Spec",
-    "href": "http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-Registration-interfaces"
-  }],
-  "polyfills": ["eventlistener"]
-}
-!*/
-/* DOC
-Detects native support for addEventListener
-*/
-
-  Modernizr.addTest('eventlistener', 'addEventListener' in window);
+		addAsyncTest: function (fn) {
+			tests.push({name: null, fn: fn});
+		}
+	};
 
 
-  /**
-   * List of property values to set for css tests. See ticket #21
-   * http://git.io/vUGl4
-   *
-   * @memberof Modernizr
-   * @name Modernizr._prefixes
-   * @optionName Modernizr._prefixes
-   * @optionProp prefixes
-   * @access public
-   * @example
-   *
-   * Modernizr._prefixes is the internal list of prefixes that we test against
-   * inside of things like [prefixed](#modernizr-prefixed) and [prefixedCSS](#-code-modernizr-prefixedcss). It is simply
-   * an array of kebab-case vendor prefixes you can use within your code.
-   *
-   * Some common use cases include
-   *
-   * Generating all possible prefixed version of a CSS property
-   * ```js
-   * var rule = Modernizr._prefixes.join('transform: rotate(20deg); ');
-   *
-   * rule === 'transform: rotate(20deg); webkit-transform: rotate(20deg); moz-transform: rotate(20deg); o-transform: rotate(20deg); ms-transform: rotate(20deg);'
-   * ```
-   *
-   * Generating all possible prefixed version of a CSS value
-   * ```js
-   * rule = 'display:' +  Modernizr._prefixes.join('flex; display:') + 'flex';
-   *
-   * rule === 'display:flex; display:-webkit-flex; display:-moz-flex; display:-o-flex; display:-ms-flex; display:flex'
-   * ```
-   */
+	// Fake some of Object.create so we can force non test results to be non "own" properties.
+	var Modernizr = function () {
+	};
+	Modernizr.prototype = ModernizrProto;
 
-  var prefixes = (ModernizrProto._config.usePrefixes ? ' -webkit- -moz- -o- -ms- '.split(' ') : []);
+	// Leak modernizr globally when you `require` it rather than force it here.
+	// Overwrite name so constructor name is nicer :D
+	Modernizr = new Modernizr();
 
-  // expose these for the plugin API. Look in the source for how to join() them against your input
-  ModernizrProto._prefixes = prefixes;
 
-  
+	var classes = [];
 
-  /**
-   * createElement is a convenience wrapper around document.createElement. Since we
-   * use createElement all over the place, this allows for (slightly) smaller code
-   * as well as abstracting away issues with creating elements in contexts other than
-   * HTML documents (e.g. SVG documents).
-   *
-   * @access private
-   * @function createElement
-   * @returns {HTMLElement|SVGElement} An HTML or SVG element
-   */
 
-  function createElement() {
-    if (typeof document.createElement !== 'function') {
-      // This is the case in IE7, where the type of createElement is "object".
-      // For this reason, we cannot call apply() as Object is not a Function.
-      return document.createElement(arguments[0]);
-    } else if (isSVG) {
-      return document.createElementNS.call(document, 'http://www.w3.org/2000/svg', arguments[0]);
-    } else {
-      return document.createElement.apply(document, arguments);
-    }
-  }
+	/**
+	 * is returns a boolean if the typeof an obj is exactly type.
+	 *
+	 * @access private
+	 * @function is
+	 * @param {*} obj - A thing we want to check the type of
+	 * @param {string} type - A string to compare the typeof against
+	 * @returns {boolean}
+	 */
 
-  ;
+	function is(obj, type) {
+		return typeof obj === type;
+	}
+	;
 
-  /**
-   * getBody returns the body of a document, or an element that can stand in for
-   * the body if a real body does not exist
-   *
-   * @access private
-   * @function getBody
-   * @returns {HTMLElement|SVGElement} Returns the real body of a document, or an
-   * artificially created element that stands in for the body
-   */
+	/**
+	 * Run through all tests and detect their support in the current UA.
+	 *
+	 * @access private
+	 */
 
-  function getBody() {
-    // After page load injecting a fake body doesn't work so check if body exists
-    var body = document.body;
+	function testRunner() {
+		var featureNames;
+		var feature;
+		var aliasIdx;
+		var result;
+		var nameIdx;
+		var featureName;
+		var featureNameSplit;
 
-    if (!body) {
-      // Can't use the real body create a fake one.
-      body = createElement(isSVG ? 'svg' : 'body');
-      body.fake = true;
-    }
+		for (var featureIdx in tests) {
+			if (tests.hasOwnProperty(featureIdx)) {
+				featureNames = [];
+				feature = tests[featureIdx];
+				// run the test, throw the return value into the Modernizr,
+				// then based on that boolean, define an appropriate className
+				// and push it into an array of classes we'll join later.
+				//
+				// If there is no name, it's an 'async' test that is run,
+				// but not directly added to the object. That should
+				// be done with a post-run addTest call.
+				if (feature.name) {
+					featureNames.push(feature.name.toLowerCase());
 
-    return body;
-  }
+					if (feature.options && feature.options.aliases && feature.options.aliases.length) {
+						// Add all the aliases into the names list
+						for (aliasIdx = 0; aliasIdx < feature.options.aliases.length; aliasIdx++) {
+							featureNames.push(feature.options.aliases[aliasIdx].toLowerCase());
+						}
+					}
+				}
 
-  ;
+				// Run the test, or use the raw value if it's not a function
+				result = is(feature.fn, 'function') ? feature.fn() : feature.fn;
 
-  /**
-   * injectElementWithStyles injects an element with style element and some CSS rules
-   *
-   * @access private
-   * @function injectElementWithStyles
-   * @param {string} rule - String representing a css rule
-   * @param {function} callback - A function that is used to test the injected element
-   * @param {number} [nodes] - An integer representing the number of additional nodes you want injected
-   * @param {string[]} [testnames] - An array of strings that are used as ids for the additional nodes
-   * @returns {boolean}
-   */
 
-  function injectElementWithStyles(rule, callback, nodes, testnames) {
-    var mod = 'modernizr';
-    var style;
-    var ret;
-    var node;
-    var docOverflow;
-    var div = createElement('div');
-    var body = getBody();
+				// Set each of the names on the Modernizr object
+				for (nameIdx = 0; nameIdx < featureNames.length; nameIdx++) {
+					featureName = featureNames[nameIdx];
+					// Support dot properties as sub tests. We don't do checking to make sure
+					// that the implied parent tests have been added. You must call them in
+					// order (either in the test, or make the parent test a dependency).
+					//
+					// Cap it to TWO to make the logic simple and because who needs that kind of subtesting
+					// hashtag famous last words
+					featureNameSplit = featureName.split('.');
 
-    if (parseInt(nodes, 10)) {
-      // In order not to give false positives we create a node for each test
-      // This also allows the method to scale for unspecified uses
-      while (nodes--) {
-        node = createElement('div');
-        node.id = testnames ? testnames[nodes] : mod + (nodes + 1);
-        div.appendChild(node);
-      }
-    }
+					if (featureNameSplit.length === 1) {
+						Modernizr[featureNameSplit[0]] = result;
+					} else {
+						// cast to a Boolean, if not one already
+						/* jshint -W053 */
+						if (Modernizr[featureNameSplit[0]] && !(Modernizr[featureNameSplit[0]] instanceof Boolean)) {
+							Modernizr[featureNameSplit[0]] = new Boolean(Modernizr[featureNameSplit[0]]);
+						}
 
-    style = createElement('style');
-    style.type = 'text/css';
-    style.id = 's' + mod;
+						Modernizr[featureNameSplit[0]][featureNameSplit[1]] = result;
+					}
 
-    // IE6 will false positive on some tests due to the style element inside the test div somehow interfering offsetHeight, so insert it into body or fakebody.
-    // Opera will act all quirky when injecting elements in documentElement when page is served as xml, needs fakebody too. #270
-    (!body.fake ? div : body).appendChild(style);
-    body.appendChild(div);
+					classes.push((result ? '' : 'no-') + featureNameSplit.join('-'));
+				}
+			}
+		}
+	}
+	;
 
-    if (style.styleSheet) {
-      style.styleSheet.cssText = rule;
-    } else {
-      style.appendChild(document.createTextNode(rule));
-    }
-    div.id = mod;
+	/**
+	 * docElement is a convenience wrapper to grab the root element of the document
+	 *
+	 * @access private
+	 * @returns {HTMLElement|SVGElement} The root element of the document
+	 */
 
-    if (body.fake) {
-      //avoid crashing IE8, if background image is used
-      body.style.background = '';
-      //Safari 5.13/5.1.4 OSX stops loading if ::-webkit-scrollbar is used and scrollbars are visible
-      body.style.overflow = 'hidden';
-      docOverflow = docElement.style.overflow;
-      docElement.style.overflow = 'hidden';
-      docElement.appendChild(body);
-    }
+	var docElement = document.documentElement;
 
-    ret = callback(div, rule);
-    // If this is done after page load we don't want to remove the body so check if body exists
-    if (body.fake) {
-      body.parentNode.removeChild(body);
-      docElement.style.overflow = docOverflow;
-      // Trigger layout so kinetic scrolling isn't disabled in iOS6+
-      docElement.offsetHeight;
-    } else {
-      div.parentNode.removeChild(div);
-    }
 
-    return !!ret;
+	/**
+	 * A convenience helper to check if the document we are running in is an SVG document
+	 *
+	 * @access private
+	 * @returns {boolean}
+	 */
 
-  }
+	var isSVG = docElement.nodeName.toLowerCase() === 'svg';
 
-  ;
 
-  /**
-   * testStyles injects an element with style element and some CSS rules
-   *
-   * @memberof Modernizr
-   * @name Modernizr.testStyles
-   * @optionName Modernizr.testStyles()
-   * @optionProp testStyles
-   * @access public
-   * @function testStyles
-   * @param {string} rule - String representing a css rule
-   * @param {function} callback - A function that is used to test the injected element
-   * @param {number} [nodes] - An integer representing the number of additional nodes you want injected
-   * @param {string[]} [testnames] - An array of strings that are used as ids for the additional nodes
-   * @returns {boolean}
-   * @example
-   *
-   * `Modernizr.testStyles` takes a CSS rule and injects it onto the current page
-   * along with (possibly multiple) DOM elements. This lets you check for features
-   * that can not be detected by simply checking the [IDL](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Interface_development_guide/IDL_interface_rules).
-   *
-   * ```js
-   * Modernizr.testStyles('#modernizr { width: 9px; color: papayawhip; }', function(elem, rule) {
+	/**
+	 * setClasses takes an array of class names and adds them to the root element
+	 *
+	 * @access private
+	 * @function setClasses
+	 * @param {string[]} classes - Array of class names
+	 */
+
+	// Pass in an and array of class names, e.g.:
+	//  ['no-webp', 'borderradius', ...]
+	function setClasses(classes) {
+		var className = docElement.className;
+		var classPrefix = Modernizr._config.classPrefix || '';
+
+		if (isSVG) {
+			className = className.baseVal;
+		}
+
+		// Change `no-js` to `js` (independently of the `enableClasses` option)
+		// Handle classPrefix on this too
+		if (Modernizr._config.enableJSClass) {
+			var reJS = new RegExp('(^|\\s)' + classPrefix + 'no-js(\\s|$)');
+			className = className.replace(reJS, '$1' + classPrefix + 'js$2');
+		}
+
+		if (Modernizr._config.enableClasses) {
+			// Add the new classes
+			className += ' ' + classPrefix + classes.join(' ' + classPrefix);
+			isSVG ? docElement.className.baseVal = className : docElement.className = className;
+		}
+
+	}
+
+	;
+	/*!
+	 {
+	 "name": "Event Listener",
+	 "property": "eventlistener",
+	 "authors": ["Andrew Betts (@triblondon)"],
+	 "notes": [{
+	 "name": "W3C Spec",
+	 "href": "http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-Registration-interfaces"
+	 }],
+	 "polyfills": ["eventlistener"]
+	 }
+	 !*/
+	/* DOC
+	 Detects native support for addEventListener
+	 */
+
+	Modernizr.addTest('eventlistener', 'addEventListener' in window);
+
+
+	/**
+	 * List of property values to set for css tests. See ticket #21
+	 * http://git.io/vUGl4
+	 *
+	 * @memberof Modernizr
+	 * @name Modernizr._prefixes
+	 * @optionName Modernizr._prefixes
+	 * @optionProp prefixes
+	 * @access public
+	 * @example
+	 *
+	 * Modernizr._prefixes is the internal list of prefixes that we test against
+	 * inside of things like [prefixed](#modernizr-prefixed) and [prefixedCSS](#-code-modernizr-prefixedcss). It is simply
+	 * an array of kebab-case vendor prefixes you can use within your code.
+	 *
+	 * Some common use cases include
+	 *
+	 * Generating all possible prefixed version of a CSS property
+	 * ```js
+	 * var rule = Modernizr._prefixes.join('transform: rotate(20deg); ');
+	 *
+	 * rule === 'transform: rotate(20deg); webkit-transform: rotate(20deg); moz-transform: rotate(20deg); o-transform: rotate(20deg); ms-transform: rotate(20deg);'
+	 * ```
+	 *
+	 * Generating all possible prefixed version of a CSS value
+	 * ```js
+	 * rule = 'display:' +  Modernizr._prefixes.join('flex; display:') + 'flex';
+	 *
+	 * rule === 'display:flex; display:-webkit-flex; display:-moz-flex; display:-o-flex; display:-ms-flex; display:flex'
+	 * ```
+	 */
+
+	var prefixes = (ModernizrProto._config.usePrefixes ? ' -webkit- -moz- -o- -ms- '.split(' ') : []);
+
+	// expose these for the plugin API. Look in the source for how to join() them against your input
+	ModernizrProto._prefixes = prefixes;
+
+
+	/**
+	 * createElement is a convenience wrapper around document.createElement. Since we
+	 * use createElement all over the place, this allows for (slightly) smaller code
+	 * as well as abstracting away issues with creating elements in contexts other than
+	 * HTML documents (e.g. SVG documents).
+	 *
+	 * @access private
+	 * @function createElement
+	 * @returns {HTMLElement|SVGElement} An HTML or SVG element
+	 */
+
+	function createElement() {
+		if (typeof document.createElement !== 'function') {
+			// This is the case in IE7, where the type of createElement is "object".
+			// For this reason, we cannot call apply() as Object is not a Function.
+			return document.createElement(arguments[0]);
+		} else if (isSVG) {
+			return document.createElementNS.call(document, 'http://www.w3.org/2000/svg', arguments[0]);
+		} else {
+			return document.createElement.apply(document, arguments);
+		}
+	}
+
+	;
+
+	/**
+	 * getBody returns the body of a document, or an element that can stand in for
+	 * the body if a real body does not exist
+	 *
+	 * @access private
+	 * @function getBody
+	 * @returns {HTMLElement|SVGElement} Returns the real body of a document, or an
+	 * artificially created element that stands in for the body
+	 */
+
+	function getBody() {
+		// After page load injecting a fake body doesn't work so check if body exists
+		var body = document.body;
+
+		if (!body) {
+			// Can't use the real body create a fake one.
+			body = createElement(isSVG ? 'svg' : 'body');
+			body.fake = true;
+		}
+
+		return body;
+	}
+
+	;
+
+	/**
+	 * injectElementWithStyles injects an element with style element and some CSS rules
+	 *
+	 * @access private
+	 * @function injectElementWithStyles
+	 * @param {string} rule - String representing a css rule
+	 * @param {function} callback - A function that is used to test the injected element
+	 * @param {number} [nodes] - An integer representing the number of additional nodes you want injected
+	 * @param {string[]} [testnames] - An array of strings that are used as ids for the additional nodes
+	 * @returns {boolean}
+	 */
+
+	function injectElementWithStyles(rule, callback, nodes, testnames) {
+		var mod = 'modernizr';
+		var style;
+		var ret;
+		var node;
+		var docOverflow;
+		var div = createElement('div');
+		var body = getBody();
+
+		if (parseInt(nodes, 10)) {
+			// In order not to give false positives we create a node for each test
+			// This also allows the method to scale for unspecified uses
+			while (nodes--) {
+				node = createElement('div');
+				node.id = testnames ? testnames[nodes] : mod + (nodes + 1);
+				div.appendChild(node);
+			}
+		}
+
+		style = createElement('style');
+		style.type = 'text/css';
+		style.id = 's' + mod;
+
+		// IE6 will false positive on some tests due to the style element inside the test div somehow interfering offsetHeight, so insert it into body or fakebody.
+		// Opera will act all quirky when injecting elements in documentElement when page is served as xml, needs fakebody too. #270
+		(!body.fake ? div : body).appendChild(style);
+		body.appendChild(div);
+
+		if (style.styleSheet) {
+			style.styleSheet.cssText = rule;
+		} else {
+			style.appendChild(document.createTextNode(rule));
+		}
+		div.id = mod;
+
+		if (body.fake) {
+			//avoid crashing IE8, if background image is used
+			body.style.background = '';
+			//Safari 5.13/5.1.4 OSX stops loading if ::-webkit-scrollbar is used and scrollbars are visible
+			body.style.overflow = 'hidden';
+			docOverflow = docElement.style.overflow;
+			docElement.style.overflow = 'hidden';
+			docElement.appendChild(body);
+		}
+
+		ret = callback(div, rule);
+		// If this is done after page load we don't want to remove the body so check if body exists
+		if (body.fake) {
+			body.parentNode.removeChild(body);
+			docElement.style.overflow = docOverflow;
+			// Trigger layout so kinetic scrolling isn't disabled in iOS6+
+			docElement.offsetHeight;
+		} else {
+			div.parentNode.removeChild(div);
+		}
+
+		return !!ret;
+
+	}
+
+	;
+
+	/**
+	 * testStyles injects an element with style element and some CSS rules
+	 *
+	 * @memberof Modernizr
+	 * @name Modernizr.testStyles
+	 * @optionName Modernizr.testStyles()
+	 * @optionProp testStyles
+	 * @access public
+	 * @function testStyles
+	 * @param {string} rule - String representing a css rule
+	 * @param {function} callback - A function that is used to test the injected element
+	 * @param {number} [nodes] - An integer representing the number of additional nodes you want injected
+	 * @param {string[]} [testnames] - An array of strings that are used as ids for the additional nodes
+	 * @returns {boolean}
+	 * @example
+	 *
+	 * `Modernizr.testStyles` takes a CSS rule and injects it onto the current page
+	 * along with (possibly multiple) DOM elements. This lets you check for features
+	 * that can not be detected by simply checking the [IDL](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Interface_development_guide/IDL_interface_rules).
+	 *
+	 * ```js
+	 * Modernizr.testStyles('#modernizr { width: 9px; color: papayawhip; }', function(elem, rule) {
    *   // elem is the first DOM node in the page (by default #modernizr)
    *   // rule is the first argument you supplied - the CSS rule in string form
    *
    *   addTest('widthworks', elem.style.width === '9px')
    * });
-   * ```
-   *
-   * If your test requires multiple nodes, you can include a third argument
-   * indicating how many additional div elements to include on the page. The
-   * additional nodes are injected as children of the `elem` that is returned as
-   * the first argument to the callback.
-   *
-   * ```js
-   * Modernizr.testStyles('#modernizr {width: 1px}; #modernizr2 {width: 2px}', function(elem) {
+	 * ```
+	 *
+	 * If your test requires multiple nodes, you can include a third argument
+	 * indicating how many additional div elements to include on the page. The
+	 * additional nodes are injected as children of the `elem` that is returned as
+	 * the first argument to the callback.
+	 *
+	 * ```js
+	 * Modernizr.testStyles('#modernizr {width: 1px}; #modernizr2 {width: 2px}', function(elem) {
    *   document.getElementById('modernizr').style.width === '1px'; // true
    *   document.getElementById('modernizr2').style.width === '2px'; // true
    *   elem.firstChild === document.getElementById('modernizr2'); // true
    * }, 1);
-   * ```
-   *
-   * By default, all of the additional elements have an ID of `modernizr[n]`, where
-   * `n` is its index (e.g. the first additional, second overall is `#modernizr2`,
-   * the second additional is `#modernizr3`, etc.).
-   * If you want to have more meaningful IDs for your function, you can provide
-   * them as the fourth argument, as an array of strings
-   *
-   * ```js
-   * Modernizr.testStyles('#foo {width: 10px}; #bar {height: 20px}', function(elem) {
+	 * ```
+	 *
+	 * By default, all of the additional elements have an ID of `modernizr[n]`, where
+	 * `n` is its index (e.g. the first additional, second overall is `#modernizr2`,
+	 * the second additional is `#modernizr3`, etc.).
+	 * If you want to have more meaningful IDs for your function, you can provide
+	 * them as the fourth argument, as an array of strings
+	 *
+	 * ```js
+	 * Modernizr.testStyles('#foo {width: 10px}; #bar {height: 20px}', function(elem) {
    *   elem.firstChild === document.getElementById('foo'); // true
    *   elem.lastChild === document.getElementById('bar'); // true
    * }, 2, ['foo', 'bar']);
-   * ```
-   *
-   */
+	 * ```
+	 *
+	 */
 
-  var testStyles = ModernizrProto.testStyles = injectElementWithStyles;
-  
-/*!
-{
-  "name": "Touch Events",
-  "property": "touchevents",
-  "caniuse" : "touch",
-  "tags": ["media", "attribute"],
-  "notes": [{
-    "name": "Touch Events spec",
-    "href": "http://www.w3.org/TR/2013/WD-touch-events-20130124/"
-  }],
-  "warnings": [
-    "Indicates if the browser supports the Touch Events spec, and does not necessarily reflect a touchscreen device"
-  ],
-  "knownBugs": [
-    "False-positive on some configurations of Nokia N900",
-    "False-positive on some BlackBerry 6.0 builds – https://github.com/Modernizr/Modernizr/issues/372#issuecomment-3112695"
-  ]
-}
-!*/
-/* DOC
-Indicates if the browser supports the W3C Touch Events API.
+	var testStyles = ModernizrProto.testStyles = injectElementWithStyles;
 
-This *does not* necessarily reflect a touchscreen device:
+	/*!
+	 {
+	 "name": "Touch Events",
+	 "property": "touchevents",
+	 "caniuse" : "touch",
+	 "tags": ["media", "attribute"],
+	 "notes": [{
+	 "name": "Touch Events spec",
+	 "href": "http://www.w3.org/TR/2013/WD-touch-events-20130124/"
+	 }],
+	 "warnings": [
+	 "Indicates if the browser supports the Touch Events spec, and does not necessarily reflect a touchscreen device"
+	 ],
+	 "knownBugs": [
+	 "False-positive on some configurations of Nokia N900",
+	 "False-positive on some BlackBerry 6.0 builds – https://github.com/Modernizr/Modernizr/issues/372#issuecomment-3112695"
+	 ]
+	 }
+	 !*/
+	/* DOC
+	 Indicates if the browser supports the W3C Touch Events API.
 
-* Older touchscreen devices only emulate mouse events
-* Modern IE touch devices implement the Pointer Events API instead: use `Modernizr.pointerevents` to detect support for that
-* Some browsers & OS setups may enable touch APIs when no touchscreen is connected
-* Future browsers may implement other event models for touch interactions
+	 This *does not* necessarily reflect a touchscreen device:
 
-See this article: [You Can't Detect A Touchscreen](http://www.stucox.com/blog/you-cant-detect-a-touchscreen/).
+	 * Older touchscreen devices only emulate mouse events
+	 * Modern IE touch devices implement the Pointer Events API instead: use `Modernizr.pointerevents` to detect support for that
+	 * Some browsers & OS setups may enable touch APIs when no touchscreen is connected
+	 * Future browsers may implement other event models for touch interactions
 
-It's recommended to bind both mouse and touch/pointer events simultaneously – see [this HTML5 Rocks tutorial](http://www.html5rocks.com/en/mobile/touchandmouse/).
+	 See this article: [You Can't Detect A Touchscreen](http://www.stucox.com/blog/you-cant-detect-a-touchscreen/).
 
-This test will also return `true` for Firefox 4 Multitouch support.
-*/
+	 It's recommended to bind both mouse and touch/pointer events simultaneously – see [this HTML5 Rocks tutorial](http://www.html5rocks.com/en/mobile/touchandmouse/).
 
-  // Chrome (desktop) used to lie about its support on this, but that has since been rectified: http://crbug.com/36415
-  Modernizr.addTest('touchevents', function() {
-    var bool;
-    if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
-      bool = true;
-    } else {
-      var query = ['@media (', prefixes.join('touch-enabled),('), 'heartz', ')', '{#modernizr{top:9px;position:absolute}}'].join('');
-      testStyles(query, function(node) {
-        bool = node.offsetTop === 9;
-      });
-    }
-    return bool;
-  });
+	 This test will also return `true` for Firefox 4 Multitouch support.
+	 */
 
-/*!
-{
-  "name": "Orientation and Motion Events",
-  "property": ["devicemotion", "deviceorientation"],
-  "caniuse": "deviceorientation",
-  "notes": [{
-    "name": "W3C Editor's Draft",
-    "href": "http://dev.w3.org/geo/api/spec-source-orientation.html"
-  },{
-    "name": "Implementation by iOS Safari (Orientation)",
-    "href": "http://goo.gl/fhce3"
-  },{
-    "name": "Implementation by iOS Safari (Motion)",
-    "href": "http://goo.gl/rLKz8"
-  }],
-  "authors": ["Shi Chuan"],
-  "tags": ["event"],
-  "builderAliases": ["event_deviceorientation_motion"]
-}
-!*/
-/* DOC
-Part of Device Access aspect of HTML5, same category as geolocation.
+	// Chrome (desktop) used to lie about its support on this, but that has since been rectified: http://crbug.com/36415
+	Modernizr.addTest('touchevents', function () {
+		var bool;
+		if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+			bool = true;
+		} else {
+			var query = ['@media (', prefixes.join('touch-enabled),('), 'heartz', ')', '{#modernizr{top:9px;position:absolute}}'].join('');
+			testStyles(query, function (node) {
+				bool = node.offsetTop === 9;
+			});
+		}
+		return bool;
+	});
 
-`devicemotion` tests for Device Motion Event support, returns boolean value true/false.
+	/*!
+	 {
+	 "name": "Orientation and Motion Events",
+	 "property": ["devicemotion", "deviceorientation"],
+	 "caniuse": "deviceorientation",
+	 "notes": [{
+	 "name": "W3C Editor's Draft",
+	 "href": "http://dev.w3.org/geo/api/spec-source-orientation.html"
+	 },{
+	 "name": "Implementation by iOS Safari (Orientation)",
+	 "href": "http://goo.gl/fhce3"
+	 },{
+	 "name": "Implementation by iOS Safari (Motion)",
+	 "href": "http://goo.gl/rLKz8"
+	 }],
+	 "authors": ["Shi Chuan"],
+	 "tags": ["event"],
+	 "builderAliases": ["event_deviceorientation_motion"]
+	 }
+	 !*/
+	/* DOC
+	 Part of Device Access aspect of HTML5, same category as geolocation.
 
-`deviceorientation` tests for Device Orientation Event support, returns boolean value true/false
-*/
+	 `devicemotion` tests for Device Motion Event support, returns boolean value true/false.
 
-  Modernizr.addTest('devicemotion', 'DeviceMotionEvent' in window);
-  Modernizr.addTest('deviceorientation', 'DeviceOrientationEvent' in window);
+	 `deviceorientation` tests for Device Orientation Event support, returns boolean value true/false
+	 */
 
-
-  // Run each test
-  testRunner();
-
-  // Remove the "no-js" class if it exists
-  setClasses(classes);
-
-  delete ModernizrProto.addTest;
-  delete ModernizrProto.addAsyncTest;
-
-  // Run the things that are supposed to run after the tests
-  for (var i = 0; i < Modernizr._q.length; i++) {
-    Modernizr._q[i]();
-  }
-
-  // Leak Modernizr namespace
-  window.Modernizr = Modernizr;
+	Modernizr.addTest('devicemotion', 'DeviceMotionEvent' in window);
+	Modernizr.addTest('deviceorientation', 'DeviceOrientationEvent' in window);
 
 
-;
+	// Run each test
+	testRunner();
+
+	// Remove the "no-js" class if it exists
+	setClasses(classes);
+
+	delete ModernizrProto.addTest;
+	delete ModernizrProto.addAsyncTest;
+
+	// Run the things that are supposed to run after the tests
+	for (var i = 0; i < Modernizr._q.length; i++) {
+		Modernizr._q[i]();
+	}
+
+	// Leak Modernizr namespace
+	window.Modernizr = Modernizr;
+
+
+	;
 
 })(window, document);
 define("modernizr", (function (global) {
-    return function () {
-        var ret, fn;
-        return ret || global.Modernizr;
-    };
+	return function () {
+		var ret, fn;
+		return ret || global.Modernizr;
+	};
 }(this)));
 
-define('tmpl/mobile',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"gameField\"><div class=\"wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"gameplay\"><div class=\"score\"><p class=\"score__player score__player_first\"><span class=\"firstPlayer\"></span>: <span class=\"myScore\">0</span></p><p class=\"score__player score__player_second\"><span class=\"secondPlayer\"></span>: <span class=\"enemyScore\">0</span></p></div><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas><div class=\"move-buttons\"><img src=\"img\/left-btn.png\" class=\"btn-left\"/><img src=\"img\/right-btn.png\" class=\"btn-right\"/></div></div><div class=\"gameOver\"><p>Game over! You are <span class=\"gameOver__winner\"></span></p><p>Result: <span class=\"gemeOver__score\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('game/mobilePlay',[
+define('tmpl/mobile', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		;
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var json = __fest_context;
+		__fest_buf += ("<div class=\"gameField\"><div class=\"wait\"><p>Hello, ");
+		try {
+			__fest_buf += (__fest_escapeHTML(json.login))
+		} catch (e) {
+			__fest_log_error(e.message + "4");
+		}
+		__fest_buf += ("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"gameplay\"><div class=\"score\"><p class=\"score__player score__player_first\"><span class=\"firstPlayer\"></span>: <span class=\"myScore\">0</span></p><p class=\"score__player score__player_second\"><span class=\"secondPlayer\"></span>: <span class=\"enemyScore\">0</span></p></div><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas><div class=\"move-buttons\"><img src=\"img\/left-btn.png\" class=\"btn-left\"/><img src=\"img\/right-btn.png\" class=\"btn-right\"/></div></div><div class=\"gameOver\"><p>Game over! You are <span class=\"gameOver__winner\"></span></p><p>Result: <span class=\"gemeOver__score\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context0);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('game/mobilePlay', [
 	'backbone',
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-			 gameWebSocket,
-			 User) {
+             gameWebSocket,
+             User) {
 
 
 	var context;
@@ -6403,13 +6645,13 @@ define('game/mobilePlay',[
 	var alphaLeft;
 	var alphaRight;
 
-	window.addEventListener('deviceorientation', function(event) {
-		if(event.alpha) {
+	window.addEventListener('deviceorientation', function (event) {
+		if (event.alpha) {
 			var alphaX = event.alpha;
-			if(alphaX > 20 && !alphaLeft) {
+			if (alphaX > 20 && !alphaLeft) {
 				alphaLeft = true;
 				alphaRight = false;
-			} else if(alphaX < -20 && !alphaRight) {
+			} else if (alphaX < -20 && !alphaRight) {
 				alphaRight = true;
 				alphaLeft = false;
 			} else {
@@ -6456,7 +6698,7 @@ define('game/mobilePlay',[
 		this.image.src = 'img/ball.png';
 
 		this.draw = function () {
-			context.drawImage(this.image,this.centerX-this.radius,this.centerY-this.radius, 20, 20);
+			context.drawImage(this.image, this.centerX - this.radius, this.centerY - this.radius, 20, 20);
 		};
 	}
 
@@ -6465,7 +6707,6 @@ define('game/mobilePlay',[
 	var enemyPlatform = new Platform(235, 610, 100, 20, "red");
 	var ball = new Ball(350, 415, 10);
 	var left = false, right = false, send = false;
-
 
 
 	function draw() {
@@ -6522,12 +6763,11 @@ define('game/mobilePlay',[
 	}
 
 
-
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
 
-		start: function(canvas) {
+		start: function (canvas) {
 			this.gameStarted = true;
 			this.playerName = User.get("login");
 			ws = gameWebSocket.initConnect();
@@ -6545,7 +6785,7 @@ define('game/mobilePlay',[
 			}, 1000 / FPS);
 		},
 
-		analizeMessage: 	function() {
+		analizeMessage: function () {
 			var self = this;
 
 			ws.onmessage = function (event) {
@@ -6574,7 +6814,7 @@ define('game/mobilePlay',[
 						$(".gameOver__winner").html("first winner!");
 					else if (data.gameState == 2)
 						$(".gameOver__winner").html("second winner!");
-					if(data.first.name == self.playerName)
+					if (data.first.name == self.playerName)
 						$(".gameOver__score").html("wwr!");
 					else
 						$(".gameOver__score").html("2!");
@@ -6587,23 +6827,23 @@ define('game/mobilePlay',[
 			}
 		},
 
-	    touchLeftStart: function() {
-	    	alphaLeft = true;
-	    	alphaRight = false;
-	    },
-	    touchRightStart: function() {
-	    	alphaLeft = false;
-	    	alphaRight = true;
-	    },
-	    touchEnd: function() {
+		touchLeftStart: function () {
+			alphaLeft = true;
+			alphaRight = false;
+		},
+		touchRightStart: function () {
+			alphaLeft = false;
+			alphaRight = true;
+		},
+		touchEnd: function () {
 			alphaRight = false;
 			alphaLeft = false;
-	    }
+		}
 	});
 
 	return new Game();
 });
-define('views/mobile',[
+define('views/mobile', [
 	'backbone',
 	'modernizr',
 	'game/socket',
@@ -6611,11 +6851,11 @@ define('views/mobile',[
 	'models/userProfile',
 	'game/mobilePlay'
 ], function (Backbone,
-			 Modernizr,
-			 socket,
-			 tmpl,
-			 User,
-			 gamePlay) {
+             Modernizr,
+             socket,
+             tmpl,
+             User,
+             gamePlay) {
 
 	var View = Backbone.View.extend({
 		template: tmpl,
@@ -6627,24 +6867,24 @@ define('views/mobile',[
 			"touchstart .btn-right": "btnRighttart",
 			"touchend .btn-left": "btnEnd",
 			"touchend .btn-right": "btnEnd"
-		},		
+		},
 
 		render: function () {
 			console.log('MOBILE RENDER START');
 			var user = User.get('login');
 			console.log(Modernizr);
-			if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
-			// if(!Modernizr.deviceorientation || !Modernizr.devicemotion) {
+			if (!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
+				// if(!Modernizr.deviceorientation || !Modernizr.devicemotion) {
 				this.$el.html('cant®');
 				return this;
 			}
 			if (user) {
 				var userData = {
 					'login': user
-				};					
+				};
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				gamePlay.start(canvas);				
+				gamePlay.start(canvas);
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
@@ -6653,12 +6893,12 @@ define('views/mobile',[
 			return this;
 		},
 
-		restart: function () {			
+		restart: function () {
 			this.render();
 		},
 
 		show: function () {
-			if(this.started == false) {
+			if (this.started == false) {
 				this.render();
 			}
 			this.started = true;
@@ -6678,7 +6918,7 @@ define('views/mobile',[
 			gamePlay.touchRightStart();
 		},
 
-		btnEnd: function() {
+		btnEnd: function () {
 			gamePlay.touchEnd();
 		}
 	});
@@ -6686,14 +6926,166 @@ define('views/mobile',[
 	return new View({model: User});
 });
 
-define('tmpl/main',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var user=__fest_context;try{var json = {title: 'Main Menu' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("</div>");})(__fest_context0);try{Cufon.replace("h1", {fontFamily: 'CalgaryShadow-Heavy'});}catch(e){__fest_log_error(e.message);}__fest_buf+=("<div class=\"container\"><div class=\"menu\"><div class=\"menu__item\"><a href=\"#scoreboard\" class=\"menu__link\">ScoreBoard</a></div>");try{__fest_if=!user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item menu__item_login\"><a href=\"#login\" class=\"menu__link\">Login</a></div><div class=\"menu__item menu__item_reg\"><a href=\"#register\" class=\"menu__link\">Registration</a></div>");}try{__fest_if=user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#game\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#mobile\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item  menu__item_logout\"><a href=\"#\" class=\"menu__link\">Logout</a></div>");}__fest_buf+=("</div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('views/main',[
+define('tmpl/main', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		;
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var user = __fest_context;
+		try {
+			var json = {title: 'Main Menu'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "3");
+			}
+			__fest_buf += ("</div>");
+		})(__fest_context0);
+		try {
+			Cufon.replace("h1", {fontFamily: 'CalgaryShadow-Heavy'});
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		__fest_buf += ("<div class=\"container\"><div class=\"menu\"><div class=\"menu__item\"><a href=\"#scoreboard\" class=\"menu__link\">ScoreBoard</a></div>");
+		try {
+			__fest_if = !user.login
+		} catch (e) {
+			__fest_if = false;
+			__fest_log_error(e.message);
+		}
+		if (__fest_if) {
+			__fest_buf += ("<div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item menu__item_login\"><a href=\"#login\" class=\"menu__link\">Login</a></div><div class=\"menu__item menu__item_reg\"><a href=\"#register\" class=\"menu__link\">Registration</a></div>");
+		}
+		try {
+			__fest_if = user.login
+		} catch (e) {
+			__fest_if = false;
+			__fest_log_error(e.message);
+		}
+		if (__fest_if) {
+			__fest_buf += ("<div class=\"menu__item\"><a href=\"#game\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#mobile\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item  menu__item_logout\"><a href=\"#\" class=\"menu__link\">Logout</a></div>");
+		}
+		__fest_buf += ("</div></div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('views/main', [
 	'backbone',
 	'tmpl/main',
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
-             User){
+             User) {
 
 	var Main = Backbone.View.extend({
 		template: tmpl,
@@ -6711,17 +7103,17 @@ define('views/main',[
 			});
 		},
 
-		logout: function () {			
-            this.model.logout({
-                success: function (response) {                        
-                        response = JSON.parse(response);
-                        if (response.status == "200") {
-                            console.log("ajax success");
-                            User.clear();
-                            Backbone.history.navigate('', {trigger: true});
-                        }
-                },
-            });
+		logout: function () {
+			this.model.logout({
+				success: function (response) {
+					response = JSON.parse(response);
+					if (response.status == "200") {
+						console.log("ajax success");
+						User.clear();
+						Backbone.history.navigate('', {trigger: true});
+					}
+				},
+			});
 			this.render();
 		},
 
@@ -6747,11 +7139,143 @@ define('views/main',[
 	return new Main();
 });
 
-define('tmpl/login',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var user_info=__fest_context;try{var json = {title: 'Login' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("</div>");})(__fest_context0);__fest_buf+=("<div class=\"container\"><form class=\"form form_signin\" id=\"idFormSignin\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"password\">Password:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div><a class=\"submit-btn btn btn-primary\" href=\"#register\">Register</a></form>");(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('utils/validator',['backbone'],
+define('tmpl/login', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		;
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var user_info = __fest_context;
+		try {
+			var json = {title: 'Login'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "3");
+			}
+			__fest_buf += ("</div>");
+		})(__fest_context0);
+		__fest_buf += ("<div class=\"container\"><form class=\"form form_signin\" id=\"idFormSignin\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"password\">Password:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div><a class=\"submit-btn btn btn-primary\" href=\"#register\">Register</a></form>");
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('utils/validator', ['backbone'],
 	function (Backbone) {
 		// if typeForm = 1 -> it is login form, if typeForm = 0 -> register form
-		var Validator =  Backbone.View.extend({
+		var Validator = Backbone.View.extend({
 			form_valid: false,
 			type: null,
 
@@ -6831,15 +7355,15 @@ define('utils/validator',['backbone'],
 		return Validator;
 	});
 
-define('views/login',[
+define('views/login', [
 	'backbone',
 	'tmpl/login',
 	'utils/validator',
 	'models/userProfile'
 ], function (Backbone,
-			 tmpl,
-			 Validator,
-			 User) {
+             tmpl,
+             Validator,
+             User) {
 
 	var formClass = ".form_signin";
 	var validator = new Validator();
@@ -6852,8 +7376,8 @@ define('views/login',[
 			"submit .form_signin": "submitSignin"
 		},
 
-		initialize: function () {			
-			this.render();			
+		initialize: function () {
+			this.render();
 		},
 
 		render: function () {
@@ -6879,7 +7403,7 @@ define('views/login',[
 							console.log(response.body.login);
 							user.set({
 								'login': response.body.login
-							});							
+							});
 							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
@@ -6888,7 +7412,7 @@ define('views/login',[
 							$error.show();
 						}
 					},
-				});				
+				});
 			}
 			return false;
 
@@ -6909,8 +7433,172 @@ define('views/login',[
 	return new View();
 });
 
-define('tmpl/scoreboard',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var scores=__fest_context;try{var json = {title: 'ScoreBoard' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("</div>");})(__fest_context0);__fest_buf+=("<div class=\"container\"><table class=\"score-list\"><tr class=\"score-list__item score-list__item_head\"><th class=\"score-list__cell score-list__cell_head\">Player</th><th class=\"score-list__cell score-list__cell_head\">Score</th></tr>");var i,v,__fest_iterator1;try{__fest_iterator1=scores || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator1){v=__fest_iterator1[i];__fest_buf+=("<tr class=\"score-list__item\"><th class=\"score-list__cell\">");try{__fest_buf+=(__fest_escapeHTML(v.login))}catch(e){__fest_log_error(e.message + "11");}__fest_buf+=("</th><th class=\"score-list__cell\">");try{__fest_buf+=(__fest_escapeHTML(v.score))}catch(e){__fest_log_error(e.message + "12");}__fest_buf+=("</th></tr>");}__fest_buf+=("</table>");var __fest_context2;try{__fest_context2=json}catch(e){__fest_context2={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context2);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('models/score',[
+define('tmpl/scoreboard', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		;
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var scores = __fest_context;
+		try {
+			var json = {title: 'ScoreBoard'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "3");
+			}
+			__fest_buf += ("</div>");
+		})(__fest_context0);
+		__fest_buf += ("<div class=\"container\"><table class=\"score-list\"><tr class=\"score-list__item score-list__item_head\"><th class=\"score-list__cell score-list__cell_head\">Player</th><th class=\"score-list__cell score-list__cell_head\">Score</th></tr>");
+		var i, v, __fest_iterator1;
+		try {
+			__fest_iterator1 = scores || {};
+		} catch (e) {
+			__fest_iterator = {};
+			__fest_log_error(e.message);
+		}
+		for (i in __fest_iterator1) {
+			v = __fest_iterator1[i];
+			__fest_buf += ("<tr class=\"score-list__item\"><th class=\"score-list__cell\">");
+			try {
+				__fest_buf += (__fest_escapeHTML(v.login))
+			} catch (e) {
+				__fest_log_error(e.message + "11");
+			}
+			__fest_buf += ("</th><th class=\"score-list__cell\">");
+			try {
+				__fest_buf += (__fest_escapeHTML(v.score))
+			} catch (e) {
+				__fest_log_error(e.message + "12");
+			}
+			__fest_buf += ("</th></tr>");
+		}
+		__fest_buf += ("</table>");
+		var __fest_context2;
+		try {
+			__fest_context2 = json
+		} catch (e) {
+			__fest_context2 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context2);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('models/score', [
 	'backbone'
 ], function (Backbone) {
 
@@ -6924,40 +7612,40 @@ define('models/score',[
 	return PlayerModel;
 });
 
-define('syncs/scoreSync',[
+define('syncs/scoreSync', [
 	'backbone'
 ], function (Backbone) {
 
 	return function (method, collection, options) {
-        var url;
-        var requestType;
-        var successFunc;
-        var errorFunc;
+		var url;
+		var requestType;
+		var successFunc;
+		var errorFunc;
 
-		if (method == 'read'){
-            url = '/score?limit=10';
-            requestType = "GET";  
-            successFunc = function   (response) {               
-                resp = JSON.parse(response);
-                console.log(resp.body);
-                collection.set(resp.body.scoreList);
-            },
-            errorFunc = function (error) {
-                console.log(error.statusText);
-            }            
-        }
+		if (method == 'read') {
+			url = '/score?limit=10';
+			requestType = "GET";
+			successFunc = function (response) {
+				resp = JSON.parse(response);
+				console.log(resp.body);
+				collection.set(resp.body.scoreList);
+			},
+				errorFunc = function (error) {
+					console.log(error.statusText);
+				}
+		}
 
-        var xhr = $.ajax({
-            type: requestType,
-            url: url,  
-            async: false,                              
-            success: successFunc,
-            error: errorFunc
-        });    
+		var xhr = $.ajax({
+			type: requestType,
+			url: url,
+			async: false,
+			success: successFunc,
+			error: errorFunc
+		});
 
 	};
 });
-define('collections/scores',[
+define('collections/scores', [
 	'backbone',
 	'models/score',
 	'syncs/scoreSync'
@@ -6982,7 +7670,7 @@ define('collections/scores',[
 	return playerCollection;
 });
 
-define('views/scoreboard',[
+define('views/scoreboard', [
 	'backbone',
 	'tmpl/scoreboard',
 	'models/score',
@@ -7021,16 +7709,156 @@ define('views/scoreboard',[
 });
 
 
-define('tmpl/register',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;try{var json = {title: 'Registration' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("</div>");})(__fest_context0);__fest_buf+=("<div class=\"container\"><form class=\"form form_signup\" id=\"idFormSignup\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login*:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"email\">Email*:<br/><input type=\"email\" class=\"form__input\" name=\"email\" id=\"email\"/></label></div><div class=\"form__row\"><label for=\"password\">Password*:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><label for=\"password2\">Password again*:<br/><input type=\"password\" class=\"form__input\" name=\"password2\" id=\"password2\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div></form>");var __fest_context1;try{__fest_context1=json}catch(e){__fest_context1={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context1);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('views/register',[
+define('tmpl/register', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		;
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var json = __fest_context;
+		try {
+			var json = {title: 'Registration'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\">Space Hockey</div><div class=\"head-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "3");
+			}
+			__fest_buf += ("</div>");
+		})(__fest_context0);
+		__fest_buf += ("<div class=\"container\"><form class=\"form form_signup\" id=\"idFormSignup\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login*:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"email\">Email*:<br/><input type=\"email\" class=\"form__input\" name=\"email\" id=\"email\"/></label></div><div class=\"form__row\"><label for=\"password\">Password*:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><label for=\"password2\">Password again*:<br/><input type=\"password\" class=\"form__input\" name=\"password2\" id=\"password2\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div></form>");
+		var __fest_context1;
+		try {
+			__fest_context1 = json
+		} catch (e) {
+			__fest_context1 = {};
+			__fest_log_error(e.message)
+		}
+		;
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context1);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('views/register', [
 	'backbone',
 	'tmpl/register',
-	'utils/validator',	
+	'utils/validator',
 	'models/userProfile'
 ], function (Backbone,
-			 tmpl,
-			 Validator,             
-			 User) {
+             tmpl,
+             Validator,
+             User) {
 
 	var formClass = ".form_signup";
 	var validator = new Validator();
@@ -7044,7 +7872,7 @@ define('views/register',[
 		},
 
 		initialize: function () {
-			this.render();			
+			this.render();
 		},
 
 		render: function () {
@@ -7062,19 +7890,19 @@ define('views/register',[
 					'email': $(formClass + " input[name = email]").val()
 				};
 				this.model.registration(data, {
-					success: function(response){
-							console.log(response);
-							data = JSON.parse(response);                            
-							if (parseInt(data["status"]) == "200") {                                
-								Backbone.history.navigate('', {trigger: true});
-							}
-							else {
-								var $error = $(".form__row_errors");
-								$error.append("User cann't be registrated. Try to change your input data");
-								$error.show();
-							}
+					success: function (response) {
+						console.log(response);
+						data = JSON.parse(response);
+						if (parseInt(data["status"]) == "200") {
+							Backbone.history.navigate('', {trigger: true});
+						}
+						else {
+							var $error = $(".form__row_errors");
+							$error.append("User cann't be registrated. Try to change your input data");
+							$error.show();
+						}
 					}
-				});				
+				});
 			}
 			return false;
 		},
@@ -7094,7 +7922,7 @@ define('views/register',[
 	return new View();
 });
 
-define('views/manager',[
+define('views/manager', [
 	'backbone'
 ], function (Backbone) {
 
@@ -7114,16 +7942,16 @@ define('views/manager',[
 				});
 			});
 		},
-		orientationchange : function () {
+		orientationchange: function () {
 			console.log("orientation: " + window.orientation);
 			//var gameF = $(".gameField");
 			var header = $(".header");
-			if (window.orientation%180==0) {
-				if(header) {
+			if (window.orientation % 180 == 0) {
+				if (header) {
 					header.show();
 				}
 			} else {
-				if(header) {
+				if (header) {
 					header.hide();
 				}
 			}
@@ -7137,7 +7965,7 @@ define('views/manager',[
 	return manager;
 });
 
-define('router',[
+define('router', [
 	'backbone',
 	'views/game',
 	'views/mobile',
@@ -7231,7 +8059,7 @@ require.config({
 	}
 });
 
-define('main',[
+define('main', [
 	'backbone',
 	'router'
 ], function (Backbone,

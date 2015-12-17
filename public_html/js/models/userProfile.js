@@ -2,7 +2,7 @@ define([
 	'backbone',
 	'syncs/playerSync'
 ], function (Backbone,
-			 playerSync) {
+             playerSync) {
 
 	var UserModel = Backbone.Model.extend({
 		sync: playerSync,
@@ -15,21 +15,21 @@ define([
 			logged_in: false
 		},
 
-		registration: function(param, callback){              
+		registration: function (param, callback) {
 			this.sync('create', this, {callback: callback, param: param});
 		},
 
-		login: function(param, callback){
+		login: function (param, callback) {
 			this.sync('update', this, {callback: callback, param: param});
 		},
 
-		logout: function(callback){
+		logout: function (callback) {
 			this.sync('delete', this, {callback: callback});
 		},
 
 		isLoggedIn: function () {
 			return this.logged_in;
-		},	
+		}
 
 	});
 

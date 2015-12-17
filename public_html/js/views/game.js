@@ -22,7 +22,7 @@ define([
 			//this.render();
 			//var self = this;
 			//this.listenTo(User, 'change', function () {
-				//self.render();
+			//self.render();
 			//});
 		},
 
@@ -36,7 +36,7 @@ define([
 				console.log('in game.js gamestarted: ' + gamePlay.gameStarted);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				if(gamePlay.gameStarted === false){
+				if (gamePlay.gameStarted === false) {
 					console.log("gameStarted");
 					gamePlay.start(canvas);
 					console.log('in if' + gamePlay.gameStarted);
@@ -58,7 +58,7 @@ define([
 
 		show: function () {
 			console.log(this.started);
-			if(this.started == false) {
+			if (this.started == false) {
 				this.render();
 			}
 			this.started = true;

@@ -3,8 +3,8 @@ define([
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-			 gameWebSocket,
-			 User) {
+             gameWebSocket,
+             User) {
 
 
 	var context;
@@ -14,13 +14,13 @@ define([
 	var alphaLeft;
 	var alphaRight;
 
-	window.addEventListener('deviceorientation', function(event) {
-		if(event.alpha) {
+	window.addEventListener('deviceorientation', function (event) {
+		if (event.alpha) {
 			var alphaX = event.alpha;
-			if(alphaX > 20 && !alphaLeft) {
+			if (alphaX > 20 && !alphaLeft) {
 				alphaLeft = true;
 				alphaRight = false;
-			} else if(alphaX < -20 && !alphaRight) {
+			} else if (alphaX < -20 && !alphaRight) {
 				alphaRight = true;
 				alphaLeft = false;
 			} else {
@@ -67,7 +67,7 @@ define([
 		this.image.src = 'img/ball.png';
 
 		this.draw = function () {
-			context.drawImage(this.image,this.centerX-this.radius,this.centerY-this.radius, 20, 20);
+			context.drawImage(this.image, this.centerX - this.radius, this.centerY - this.radius, 20, 20);
 		};
 	}
 
@@ -76,7 +76,6 @@ define([
 	var enemyPlatform = new Platform(235, 610, 100, 20, "red");
 	var ball = new Ball(350, 415, 10);
 	var left = false, right = false, send = false;
-
 
 
 	function draw() {
@@ -133,12 +132,11 @@ define([
 	}
 
 
-
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
 
-		start: function(canvas) {
+		start: function (canvas) {
 			this.gameStarted = true;
 			this.playerName = User.get("login");
 			ws = gameWebSocket.initConnect();
@@ -156,7 +154,7 @@ define([
 			}, 1000 / FPS);
 		},
 
-		analizeMessage: 	function() {
+		analizeMessage: function () {
 			var self = this;
 
 			ws.onmessage = function (event) {
@@ -185,7 +183,7 @@ define([
 						$(".gameOver__winner").html("first winner!");
 					else if (data.gameState == 2)
 						$(".gameOver__winner").html("second winner!");
-					if(data.first.name == self.playerName)
+					if (data.first.name == self.playerName)
 						$(".gameOver__score").html("wwr!");
 					else
 						$(".gameOver__score").html("2!");
@@ -198,18 +196,18 @@ define([
 			}
 		},
 
-	    touchLeftStart: function() {
-	    	alphaLeft = true;
-	    	alphaRight = false;
-	    },
-	    touchRightStart: function() {
-	    	alphaLeft = false;
-	    	alphaRight = true;
-	    },
-	    touchEnd: function() {
+		touchLeftStart: function () {
+			alphaLeft = true;
+			alphaRight = false;
+		},
+		touchRightStart: function () {
+			alphaLeft = false;
+			alphaRight = true;
+		},
+		touchEnd: function () {
 			alphaRight = false;
 			alphaLeft = false;
-	    }
+		}
 	});
 
 	return new Game();

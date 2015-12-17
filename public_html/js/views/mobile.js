@@ -6,11 +6,11 @@ define([
 	'models/userProfile',
 	'game/mobilePlay'
 ], function (Backbone,
-			 Modernizr,
-			 socket,
-			 tmpl,
-			 User,
-			 gamePlay) {
+             Modernizr,
+             socket,
+             tmpl,
+             User,
+             gamePlay) {
 
 	var View = Backbone.View.extend({
 		template: tmpl,
@@ -19,27 +19,27 @@ define([
 		events: {
 			"click .submit-btn": "restart",
 			"touchstart .btn-left": "btnLeftStart",
-			"touchstart .btn-right": "btnRighttart",
+			"touchstart .btn-right": "btnRightStart",
 			"touchend .btn-left": "btnEnd",
 			"touchend .btn-right": "btnEnd"
-		},		
+		},
 
 		render: function () {
 			console.log('MOBILE RENDER START');
 			var user = User.get('login');
 			console.log(Modernizr);
-			if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
-			// if(!Modernizr.deviceorientation || !Modernizr.devicemotion) {
+			//if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
+			if (!Modernizr.deviceorientation || !Modernizr.devicemotion) {
 				this.$el.html('cant®');
 				return this;
 			}
 			if (user) {
 				var userData = {
 					'login': user
-				};					
+				};
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
-				gamePlay.start(canvas);				
+				gamePlay.start(canvas);
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
@@ -48,12 +48,12 @@ define([
 			return this;
 		},
 
-		restart: function () {			
+		restart: function () {
 			this.render();
 		},
 
 		show: function () {
-			if(this.started == false) {
+			if (this.started == false) {
 				this.render();
 			}
 			this.started = true;
@@ -73,7 +73,7 @@ define([
 			gamePlay.touchRightStart();
 		},
 
-		btnEnd: function() {
+		btnEnd: function () {
 			gamePlay.touchEnd();
 		}
 	});

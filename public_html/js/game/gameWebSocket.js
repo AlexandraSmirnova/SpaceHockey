@@ -6,11 +6,11 @@ define([
 		console.log("entered gamewebsocket initconnect");
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
 		ws.onopen = function () {
-			console.log("Open");			
+			console.log("Open");
 		};
 		//var playerName = null;
 //		var enemyName = "";
-		ws.onclose = function() {
+		ws.onclose = function () {
 			console.log('connection closed');
 		};
 

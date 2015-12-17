@@ -1,4 +1,4 @@
-module.exports = function(grunt){
+module.exports = function (grunt) {
 	grunt.initConfig({
 		watch: {
 			fest: {
@@ -30,7 +30,8 @@ module.exports = function(grunt){
 			}
 		},
 		fest: {
-			templates: { /* Цель */
+			templates: {
+				/* Цель */
 				files: [{
 					expand: true,
 					cwd: 'templates', /* исходная директория */
@@ -56,7 +57,7 @@ module.exports = function(grunt){
 		},
 		sass: {
 			build: {
-				options: {					
+				options: {
 					style: 'expended'
 				},
 				files: [{
@@ -67,23 +68,25 @@ module.exports = function(grunt){
 					ext: '.css'
 				}]
 			},
-	
+
 		},
 
-		cssmin: { 			
-				target: { 
-					files: [{ 
-						expand: true, 
-						cwd: 'public_html/css', 
-						src: ['*.css', '!*.min.css'], 
-						dest: 'public_html/css', 
-						ext: '.min.css' 
-					}] 
-				}			
+		cssmin: {
+			target: {
+				files: [{
+					expand: true,
+					cwd: 'public_html/css',
+					src: ['*.css', '!*.min.css'],
+					dest: 'public_html/css',
+					ext: '.min.css'
+				}]
+			}
 		},
 
-		requirejs: { /* grunt-contrib-requirejs */
-			build: { /* Подзадача */
+		requirejs: {
+			/* grunt-contrib-requirejs */
+			build: {
+				/* Подзадача */
 				options: {
 					almond: true,
 					baseUrl: 'public_html/js',
@@ -94,8 +97,10 @@ module.exports = function(grunt){
 				}
 			}
 		},
-		concat: { /* grunt-contrib-concat */
-			build: { /* Подзадача */
+		concat: {
+			/* grunt-contrib-concat */
+			build: {
+				/* Подзадача */
 				separator: ';\n',
 				src: [
 					'public_html/js/lib/almond.js',
@@ -104,8 +109,10 @@ module.exports = function(grunt){
 				dest: 'public_html/js/build.js'
 			}
 		},
-		uglify: { /* grunt-contrib-uglify */
-			build: { /* Подзадача */
+		uglify: {
+			/* grunt-contrib-uglify */
+			build: {
+				/* Подзадача */
 				files: {
 					'public_html/js/build.min.js': ['public_html/js/build.js']
 				}
@@ -124,11 +131,12 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
-	grunt.registerTask('default', ['concurrent' ]); /* задача по умолчанию */
+	grunt.registerTask('default', ['concurrent']);
+	/* задача по умолчанию */
 	grunt.registerTask('build', ['sass:build', 'cssmin', 'requirejs:build', 'concat:build', 'uglify:build']);
 	grunt.registerTask('prod', ['shell']);
 	//grunt.registerTask('build', ['sass:build']);
-	
+
 
 }
 

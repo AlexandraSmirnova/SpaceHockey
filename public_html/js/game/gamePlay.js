@@ -4,9 +4,9 @@ define([
 	'game/gameWebSocket',
 	'models/userProfile'
 ], function (Backbone,
-			input,
-			gameWebSocket,
-			User) {
+             input,
+             gameWebSocket,
+             User) {
 	var context;
 	var CANVAS_WIDTH;
 	var CANVAS_HEIGHT;
@@ -49,7 +49,7 @@ define([
 		this.image.src = 'img/ball.png';
 
 		this.draw = function () {
-			context.drawImage(this.image,this.centerX-this.radius,this.centerY-this.radius, 20, 20);
+			context.drawImage(this.image, this.centerX - this.radius, this.centerY - this.radius, 20, 20);
 		};
 	}
 
@@ -59,7 +59,6 @@ define([
 	var ball = new Ball(350, 415, 10);
 	var left = false, right = false, send = false;
 
-	
 
 	function draw() {
 		gameField.clear();
@@ -115,17 +114,16 @@ define([
 	}
 
 
-
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
 
-		start: function(canvas) {
+		start: function (canvas) {
 			console.log('ODIN RAZ');
 			this.gameStarted = true;
 			this.playerName = User.get("login");
 			ws = gameWebSocket.initConnect();
-			console.log(this.gameStarted);	
+			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
 			this.analizeMessage();
 			var FPS = 60;
@@ -139,11 +137,11 @@ define([
 			}, 1000 / FPS);
 		},
 
-		analizeMessage: 	function() {
+		analizeMessage: function () {
 			var self = this;
 
 			ws.onmessage = function (event) {
-				var data = JSON.parse(event.data);				
+				var data = JSON.parse(event.data);
 				if (data.status == "worldInfo") {
 					myPlatform.x = parseInt(data.first.positionX, 10);
 					enemyPlatform.x = parseInt(data.second.positionX, 10);
@@ -159,7 +157,7 @@ define([
 
 				}
 				if (data.status == "finish") {
-					console.log(data);					
+					console.log(data);
 					$(".gameOver").show();
 					$(".gameplay").hide()
 					if (data.gameState == 0)
@@ -168,7 +166,7 @@ define([
 						$(".gameOver__winner").html("first winner!");
 					else if (data.gameState == 2)
 						$(".gameOver__winner").html("second winner!");
-					if(data.first.name == self.playerName)
+					if (data.first.name == self.playerName)
 						$(".gameOver__score").html("wwr!");
 					else
 						$(".gameOver__score").html("2!");

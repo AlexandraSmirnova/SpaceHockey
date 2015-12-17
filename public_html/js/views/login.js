@@ -4,9 +4,9 @@ define([
 	'utils/validator',
 	'models/userProfile'
 ], function (Backbone,
-			 tmpl,
-			 Validator,
-			 User) {
+             tmpl,
+             Validator,
+             User) {
 
 	var formClass = ".form_signin";
 	var validator = new Validator();
@@ -19,8 +19,8 @@ define([
 			"submit .form_signin": "submitSignin"
 		},
 
-		initialize: function () {			
-			this.render();			
+		initialize: function () {
+			this.render();
 		},
 
 		render: function () {
@@ -46,7 +46,7 @@ define([
 							console.log(response.body.login);
 							user.set({
 								'login': response.body.login
-							});							
+							});
 							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
@@ -55,7 +55,7 @@ define([
 							$error.show();
 						}
 					},
-				});				
+				});
 			}
 			return false;
 
