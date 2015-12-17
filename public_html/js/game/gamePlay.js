@@ -56,7 +56,7 @@ define([
 	var gameField = new PlayField(40, 40, 500, 630, "green");
 	var myPlatform = new Platform(235, 80, 100, 20, "red");
 	var enemyPlatform = new Platform(235, 610, 100, 20, "red");
-	var ball = new Ball(100, 100, 10);
+	var ball = new Ball(350, 415, 10);
 	var left = false, right = false, send = false;
 
 	

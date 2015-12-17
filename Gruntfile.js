@@ -56,8 +56,8 @@ module.exports = function(grunt){
 		},
 		sass: {
 			dev: {
-				options: {
-					style: 'expanded'
+				options: {					
+					style: 'expended'
 				},
 				files: [{
 					expand: true,
@@ -66,8 +66,21 @@ module.exports = function(grunt){
 					dest: 'public_html/css',
 					ext: '.css'
 				}]
-			}
+			},
+			build: {
+				options: {                       // Target options
+					style: 'compressed'
+				},
+				files: [{					
+					expand: true,
+					cwd: 'public_html/css', /* исходная директория */
+					src: '*.css', /* имена шаблонов */
+					dest: 'public_html/css', /* результирующая директория */
+					ext: '.min.css'
+				}]				
+			},
 		}
+
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -77,6 +90,8 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-sass');
 
 	grunt.registerTask('default', ['sass:dev', 'concurrent']); /* задача по умолчанию */
+	//grunt.registerTask('build', ['sass:build']);
+	
 
 }
 
