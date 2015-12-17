@@ -17,8 +17,11 @@ define([
 		started: false,
 
 		events: {
-			"click .submit-btn": "restart"
-			//"orientationchange": "changeTmpl"		
+			"click .submit-btn": "restart",
+			"touchstart .btn-left": "btnLeftStart",
+			"touchstart .btn-right": "btnRighttart",
+			"touchend .btn-left": "btnEnd",
+			"touchend .btn-right": "btnEnd"
 		},
 
 		initialize: function () {
@@ -33,8 +36,8 @@ define([
 			console.log('MOBILE RENDER START');
 			var user = User.get('login');
 			console.log(Modernizr);
-			//if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
-			if(!Modernizr.deviceorientation || !Modernizr.devicemotion) {
+			if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
+			// if(!Modernizr.deviceorientation || !Modernizr.devicemotion) {
 				this.$el.html('cant®');
 				return this;
 			}
@@ -58,16 +61,6 @@ define([
 			this.render();
 		},
 
-		/*changetmpl: function(){
-			if (window.orientation%180===0) {
-				console.log("portrait");
-				// portrait
-			} else {
-				console.log("landscape");
-				// landscape
-			}
-		},*/
-
 		show: function () {
 			if(this.started == false) {
 				this.render();
@@ -76,12 +69,22 @@ define([
 			this.$el.show();
 			this.trigger("show", this);
 		},
+
 		hide: function () {
 			this.$el.hide();
+		},
+
+		btnLeftStart: function () {
+			gamePlay.touchLeftStart();
+		},
+
+		btnRightStart: function () {
+			gamePlay.touchRightStart();
+		},
+
+		btnEnd: function() {
+			gamePlay.touchEnd();
 		}
-
-
-
 	});
 
 	return new View({model: User});

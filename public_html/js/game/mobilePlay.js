@@ -196,7 +196,20 @@ define([
 					$(".enemyScore").html(data.second.score);
 				}
 			}
-		}
+		},
+
+	    touchLeftStart: function() {
+	    	alphaLeft = true;
+	    	alphaRight = false;
+	    },
+	    touchRightStart: function() {
+	    	alphaLeft = false;
+	    	alphaRight = true;
+	    },
+	    touchEnd: function() {
+			alphaRight = false;
+			alphaLeft = false;
+	    }
 	});
 
 	return new Game();
