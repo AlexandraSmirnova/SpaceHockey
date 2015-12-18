@@ -1,129 +1,170 @@
-body{
-    background-image: url(../img/prosto_cosmos.jpg);
-    color: #fff;
-}
+@font-face {
+  font-family: Canossa-Ultra;
+  src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf); }
 
-.page{
-    margin: 20px;
-}
+.menu__item {
+  margin: 10px; }
 
-.header{
-    margin: 0 auto;
-    padding: 10px;
-    max-width: 600px;
-    background-color: #324ab2;/* #0550cc;*/
-    color:	#fff; 
-    text-align: center;
-    font-size: 42px;
-    letter-spacing: 12px;
-    border-radius: 15px;
-    box-shadow: 0 0 7px 3px #ff5588;
-}
+.menu__link {
+  width: 100%;
+  max-width: 300px;
+  min-width: 100px;
+  border: none;
+  font-size: 34px;
+  color: rgba(10, 10, 10, 0.8);
+  background: none;
+  text-shadow: #7C0059 2px 2px 0, #7C0059 -1px -1px 0, #7C0059 -1px 1px 0, #7C0059 1px -1px 0;
+  outline: none; }
 
-.head-title{
-    text-align: center;
-    font-size: 36px;
-    color: #ffff88;
-}
+.menu__link:hover {
+  font-size: 46px;
+  text-decoration: none;
+  text-shadow: #7C0059 2px 2px 0, #7C0059 -2px -2px 0, #7C0059 -2px 2px 0, #7C0059 2px -2px 0;
+  color: #9C68D4; }
 
-.container{
-    text-align: center;
-    background: rgba(55, 75, 255, 0.2);
-    max-width: 400px;
-    padding: 20px;
-    border-radius: 15px;
-}
+.form {
+  font-size: 26px;
+  color: #380570;
+  text-shadow: #ccc 2px 2px 0, #ccc -1px -1px 0, #ccc -1px 1px 0, #ccc 1px -1px 0;
+  letter-spacing: 4px; }
 
-.menu__item{
-    margin: 10px;
-}
+.form__row {
+  margin: 7px; }
 
-.menu__item_logout{
-/*    display: none;*/
-}
+.form__row_errors {
+  max-width: 300px;
+  margin: 0 auto;
+  display: none; }
 
-.menu__link{
-    width: 100%;
-    max-width: 300px;
-    min-width: 100px;
-    padding: 15px;
-    border-radius: 40px/30px;
-    box-shadow: inset 0 0 6px;
-}
+.form__input {
+  min-width: 150px;
+  max-width: 250px;
+  border-radius: 10px;
+  height: 40px;
+  color: #000; }
 
+.score-list {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  background-color: #7182d9;
+  border-radius: 10px;
+  box-shadow: 0 0 7px 3px; }
 
+.score-list__cell {
+  text-align: center;
+  padding: 5px;
+  border-top: gray 2px solid; }
 
-.form__row{
-    margin: 10px;
-}
+.score-list__cell_head {
+  border-top: 0px; }
 
-.form__row_errors{
-    max-width: 300px;
-    margin: 0 auto;
-    display: none;
-}
+.score-list__item_head {
+  color: mediumvioletred;
+  font-size: 20px; }
 
-.form__input{
-   min-width: 200px;	
-   border-radius: 5px;
-   color: #000;
-}
+.game-field {
+  text-align: center;
+  margin: 0 auto;
+  width: 600px;
+  min-height: 100px;
+  background: rgba(55, 75, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  font-size: 20px;
+  color: #FCEF3F; }
 
-.submit-btn{
-    min-width: 200px;
-    box-shadow: inset 0 0 6px;
-}
+.game-wait {
+  animation: scale 3s linear; }
 
-.score-list{
-    width: 100%;
-    max-width: 380px;
-    margin: 0 auto;
+@keyframes scale {
+  100% {
+    transform: scale(4) scale(0.25); } }
 
-    background-color: #7182d9;
-    border-radius: 10px;
-    box-shadow: 0 0 7px 3px;
-}
+.game-play {
+  font-size: 20px;
+  display: none; }
 
-/* tr in scoerboard table*/
-.score-list__item{
- 	/*border: black 1px solid;*/
-}
+.game-play__info {
+  width: 150px;
+  padding: 10px;
+  border-radius: 7px;
+  background-color: rgba(56, 6, 112, 0.7);
+  box-shadow: 0 0 7px 3px #ff5588; }
 
-.score-list__cell{
-    text-align: center;
-    padding: 5px;
-    border-top: gray 2px solid;
-	/*border: black 1px solid;*/
-}
+.game-play__info_first-player {
+  text-align: left; }
 
-.score-list__cell_head{
-    border-top: 0px ;
-}
+.game-play__move-buttons > img {
+  width: 70px; }
 
-.score-list__item_head{
-    color: #c71585;/*умеренный фиолетово-красный*/
-    font-size: 20px;
-/*background-color: #a358e8;	
-border-radius: 20px;*/
-}
+.game-play__info_second-player {
+  position: relative;
+  top: -58px;
+  right: -430px;
+  margin-bottom: -65px;
+  text-align: right; }
 
+.game-over {
+  display: none; }
 
-.back-button{
-    margin-top: 10px;
-    float: left;
-    box-shadow: inset 0 0 6px;
-}
+.header__game-title {
+  margin: 0 auto;
+  padding: 5px;
+  max-width: 600px;
+  min-width: 300px;
+  background-color: rgba(56, 6, 112, 0.6);
+  color: #B0EC00;
+  text-shadow: #8841D4 2px 2px 0, #8841D4 -1px -1px 0, #8841D4 -1px 1px 0, #8841D4 1px -1px 0;
+  text-align: center;
+  font-size: 56px;
+  letter-spacing: 12px;
+  border-radius: 30px;
+  box-shadow: 0 0 7px 3px #ff5588; }
 
+.header__page-title {
+  text-align: center;
+  font-size: 46px;
+  color: #9C68D4;
+  text-shadow: #FCEF3F 2px 2px 0, #FCEF3F -1px -1px 0, #FCEF3F -1px 1px 0, #FCEF3F 1px -1px 0; }
 
-/* Game */
+.back-button {
+  margin-top: 5px;
+  float: left;
+  box-shadow: inset 0 0 6px;
+  background-color: #380570;
+  color: #FCF371;
+  font-size: 26px;
+  border-radius: 10px; }
 
-.gameField{
-    font-size: 20px;    
-}
+.submit-btn {
+  min-width: 250px;
+  height: 46px;
+  box-shadow: inset 0 0 6px;
+  background-color: #380570;
+  font-size: 26px;
+  color: #FCF371;
+  text-shadow: none;
+  border-radius: 10px; }
 
-.win_button{
-    padding-top: 40px;
-    padding-bottom: 40px;
-    border-radius: 50px;
-    box-shadow: inset 0 0 8px;
-}
+.submit-btn_go {
+  background-color: #759d00; }
+
+body {
+  background-image: url(../img/prosto_cosmos.jpg);
+  color: #fff;
+  font-family: Canossa-Ultra; }
+
+.page {
+  margin: 10px; }
+
+.container {
+  text-align: center;
+  background: rgba(55, 75, 255, 0.2);
+  max-width: 400px;
+  min-width: 300px;
+  min-height: 270px;
+  padding: 5px;
+  border-radius: 15px; }

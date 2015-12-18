@@ -1,0 +1,58 @@
+.game-field {
+  text-align: center;
+  margin: 0 auto;
+  width: 600px;
+  min-height: 100px;
+  background: rgba(55, 75, 255, 0.2);
+  border-radius: 15px;
+  padding: 10px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  font-size: $font-size-xs;
+  color: #FCEF3F;
+}
+
+.game-wait {
+  animation: scale 3s linear;
+}
+
+@keyframes scale {
+  100% {
+  transform: scale(4) scale(0.25);
+  }
+}
+
+.game-play {
+  font-size: $font-size-xs;
+  display: none;
+}
+
+.game-play__info {
+  width: 150px;
+  padding: 10px;
+  border-radius: 7px;
+  background-color: rgba(56, 6, 112, 0.7);
+  box-shadow: 0 0 7px 3px #ff5588
+}
+
+.game-play__info_first-player {
+  text-align: left;
+}
+
+.game-play__move-buttons {
+  > img {
+    width: 70px;  
+  }
+}
+
+.game-play__info_second-player {
+  position: relative;
+  top: -58px;
+  right: -430px;
+  margin-bottom: -65px;
+  text-align: right;
+}
+
+.game-over {
+  display: none;
+}

@@ -1,3 +1,6 @@
 *~
 *.[oa]
 node_modules
+logs
+.sass-cache
+.idea

@@ -1,59 +1,77 @@
 define([
-    'backbone',
-    'tmpl/login',
-    'utils/validator',
-    'utils/signin',  
-    'models/user'
-], function(
-    Backbone,
-    tmpl,
-    Validator,
-    SigninManager,
-    User
-){
-    var form_class = ".form_signin";
-    var validator = new Validator(form_class);
+	'backbone',
+	'tmpl/login',
+	'utils/validator',
+	'models/userProfile'
+], function (Backbone,
+             tmpl,
+             Validator,
+             User) {
 
-    var View = Backbone.View.extend({
-	template: tmpl,
-	user: User,
+	var formClass = ".form_signin";
+	var validator = new Validator();
 
-	events: {
-	    "submit .form_signin": "submitSignin"
-	},
-	
-	initialize: function () { 
-	    $('.page').append(this.el);            
-            this.render();
-        },
+	var View = Backbone.View.extend({
+		template: tmpl,
+		model: User,
 
-        render: function () {						
-            $(this.el).html(this.template());	
-	    return this;
-        },
+		events: {
+			"submit .form_signin": "submitSignin"
+		},
 
-	submitSignin: function(event) {
-	    validator.clearErrors();
-	    validator.validateForm();
+		initialize: function () {
+			this.render();
+		},
 
-	    if(validator.form_valid){
-		SigninManager.signinRequest(this.user);
-	    }
-	    return false;
+		render: function () {
+			$(this.el).html(this.template());
+			return this;
+		},
 
-	},
+		submitSignin: function (event) {
+			validator.clearErrors();
+			validator.validateForm(formClass);
 
-        show: function () {
-	    validator.clearErrors()
-	    this.$el.show();
-	    this.trigger("show", this);
-        },
+			if (validator.form_valid) {
+				var user = this.model;
+				var data = {
+					'login': $(formClass + " input[name = login]").val(),
+					'password': $(formClass + " input[name = password]").val()
+				};
+				this.model.login(data, {
+					success: function (response) {
+						response = JSON.parse(response);
+						console.log(response.status);
+						if (response.status == "200") {
+							console.log(response.body.login);
+							user.set({
+								'login': response.body.login
+							});
+							Backbone.history.navigate('menu', {trigger: true});
+						}
+						else {
+							var $error = $(".form__row_errors");
+							$error.append("Login or password is incorrect!");
+							$error.show();
+						}
+					},
+				});
+			}
+			return false;
 
-        hide: function () {
-	    this.$el.hide();
-        }
+		},
 
-    });
+		show: function () {
+			validator.clearErrors()
+			this.$el.show();
+			this.trigger("show", this);
+		},
 
-    return new View();
+		hide: function () {
+			this.$el.hide();
+		}
+
+	});
+
+	return new View();
 });

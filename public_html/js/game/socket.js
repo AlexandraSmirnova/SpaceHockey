@@ -1,68 +1,66 @@
-define(
-	['backbone'],
-function(
-    Backbone
-){			
-		
-			
-		var Game = function(){
+define([
+	'models/userProfile'
+], function (User) {
 
-			var started = false;			
-			var finished = false;
 
-			var me = JSON.parse(localStorage.getItem("user"));
-			var myName = null; 
-			var enemyName = "";
+	var Game = function () {
 
-			var ws;
+		var started = false;
+		var finished = false;
 
-			this.init = function(user) {
-				myName = user.login;
-				console.log('OK');
-				ws = new WebSocket("ws://localhost:8080/gameplay");
+		//var me = JSON.parse(localStorage.getItem("user"));
+		var myName = null;
+		var enemyName = "";
 
-				ws.onopen = function (event) {
-					console.log("connection opened");					
+		var ws;
+
+		this.init = function (user) {
+			myName = User.login;
+			console.log("entered socket init");
+			ws = new WebSocket("ws://localhost:8080/gameplay");
+
+			ws.onopen = function (event) {
+				console.log("connection opened");
+			}
+
+			ws.onmessage = function (event) {
+				console.log("onmessage");
+				var data = JSON.parse(event.data);
+				if (data.status == "start" && data.enemyName != myName) {
+					$("#wait").hide();
+					$("#gameplay").show();
+					$("#enemyName").html(data.enemyName);
 				}
 
-				ws.onmessage = function (event) {
-					console.log("onmessage");
-					var data = JSON.parse(event.data);
-					if(data.status == "start"){
-						$("#wait").hide();
-						$("#gameplay").show();
-						$("#enemyName").html(data.enemyName);
-					}
+				if (data.status == "finish") {
+					$("#gameOver").show();
+					$("#gameplay").hide();
 
-					if(data.status == "finish"){
-						$("#gameOver").show();
-						$("#gameplay").hide();
-
-						if(data.win)
-							$("#win").html("winner!");
-						else
-							$("#win").html("loser!");
-					}
-
-					if(data.status == "increment" && data.name == myName){
-
-						$("#myScore").html(data.score);
-					}	
-
-					if(data.status == "increment" && data.name == $("#enemyName").html()){
-						$("#enemyScore").html(data.score);
-					}
+					if (data.win)
+						$("#win").html("winner!");
+					else
+						$("#win").html("loser!");
 				}
 
-			};
+				if (data.status == "increment" && data.name == myName) {
 
-			this.sendMessage = function() {
-            	var message = "{}";
-            	ws.send(message);
-        	};
-		}
+					$("#myScore").html(data.score);
+				}
 
-		return new Game();
+				if (data.status == "increment" && data.name == $("#enemyName").html()) {
+					$("#enemyScore").html(data.score);
+				}
+			}
+
+		};
+
+		this.sendMessage = function () {
+			var message = "{}";
+			ws.send(message);
+		};
+	}
+
+	return new Game();
 });
-			
-			
+            
+            

@@ -1,57 +1,75 @@
 define([
-    'backbone',
-    'game/socket',
-    'tmpl/game'
-], function(
-    Backbone,
-    socket,
-    tmpl
+	'backbone',
+	'game/socket',
+	'tmpl/game',
+	'models/userProfile',
+	'game/gamePlay'
+], function (Backbone,
+             socket,
+             tmpl,
+             User,
+             gamePlay) {
 
-){
+	var View = Backbone.View.extend({
+		template: tmpl,
+		started: false,
 
-    var View = Backbone.View.extend({
-        template: tmpl, 
-        user: null,
+		events: {
+			"click .submit-btn": "restart"
+		},
 
-        events: {
-            "click .win_button": "sendMessage"
-        },
+		initialize: function () {
+			//this.render();
+			//var self = this;
+			//this.listenTo(User, 'change', function () {
+			//self.render();
+			//});
+		},
 
-        initialize: function () {
-            this.user = JSON.parse(localStorage.getItem('user'));
-	        $('.page').append(this.el);   
-                        
-            if(this.user)         
-                this.render();  
-        },
+		render: function () {
+			var user = User.get('login');
+			if (user) {
+				var userData = {
+					'login': user
+				};
+				// socket.init(userData);
+				console.log('in game.js gamestarted: ' + gamePlay.gameStarted);
+				this.$el.html(this.template(userData));
+				var canvas = document.getElementById('gamefield');
+				if (gamePlay.gameStarted === false) {
+					console.log("gameStarted");
+					gamePlay.start(canvas);
+					console.log('in if' + gamePlay.gameStarted);
+				}
+				//else{
+				//	Backbone.history.navigate('', {trigger: true});			
+				//}
+			}
+			else {
+				Backbone.history.navigate('login', {trigger: true});
+			}
+			return this;
+		},
 
-        render: function () {
-            
+		restart: function () {
+			console.log("restart!");
+			this.render();
+		},
 
-            this.$el.html(this.template(this.user));
+		show: function () {
+			console.log(this.started);
+			if (this.started == false) {
+				this.render();
+			}
+			this.started = true;
+			this.$el.show();
+			this.trigger("show", this);
+		},
+		hide: function () {
+			this.$el.hide();
+		}
 
-            //if ( this.user != null){
-                
-             //   socket.init();    
-            //}        
-            return this;
-        },
+	});
 
-        sendMessage: function(){
-            socket.sendMessage();
-        },
-
-        show: function () {
-            this.$el.show();
-            if(this.user)
-                socket.init(this.user);
-            this.trigger("show", this);
-        },
-        hide: function () {
-            this.$el.hide();
-        }
-
-    });
-
-    return new View();
+	return new View({model: User});
 });

@@ -1,56 +1,71 @@
 define([
-    'backbone',
-    'tmpl/register',
-    'utils/validator',
-    'utils/signup',
-    'models/user'
-], function(
-    Backbone,
-    tmpl,
-    Validator,
-    SignupManager,
-    User
-){
-    var formClass = ".form_signup";
-    var validator = new Validator(formClass);
+	'backbone',
+	'tmpl/register',
+	'utils/validator',
+	'models/userProfile'
+], function (Backbone,
+             tmpl,
+             Validator,
+             User) {
 
-    var View = Backbone.View.extend({
-	template: tmpl,
-				
-	events: {
-	    "submit .form_signup": "submitSignup"
-	},
+	var formClass = ".form_signup";
+	var validator = new Validator();
 
-	initialize: function () { 
-	    $('.page').append(this.el);            
-            this.render();
-        },
+	var View = Backbone.View.extend({
+		template: tmpl,
+		model: User,
 
-	render: function () {
-	    $(this.el).html(this.template());
-	    return this;
-	},
+		events: {
+			"submit .form_signup": "submitSignup"
+		},
 
-	submitSignup: function(event) {
-	    validator.clearErrors();
-	    validator.validateForm();
-	    if(validator.form_valid){
-		SignupManager.signupRequest();
-	    }																
-	    return false;
-	},
+		initialize: function () {
+			this.render();
+		},
 
-	show: function () {	  
-	    validator.clearErrors()
-	    this.$el.show();
-	    this.trigger("show", this);
-	},
+		render: function () {
+			$(this.el).html(this.template());
+			return this;
+		},
 
-	hide: function () {
-	    this.$el.hide();
-	}
+		submitSignup: function (event) {
+			validator.clearErrors();
+			validator.validateForm(formClass);
+			if (validator.form_valid) {
+				var data = {
+					'login': $(formClass + " input[name = login]").val(),
+					'password': $(formClass + " input[name = password]").val(),
+					'email': $(formClass + " input[name = email]").val()
+				};
+				this.model.registration(data, {
+					success: function (response) {
+						console.log(response);
+						data = JSON.parse(response);
+						if (parseInt(data["status"]) == "200") {
+							Backbone.history.navigate('', {trigger: true});
+						}
+						else {
+							var $error = $(".form__row_errors");
+							$error.append("User cann't be registrated. Try to change your input data");
+							$error.show();
+						}
+					}
+				});
+			}
+			return false;
+		},
 
-    });
+		show: function () {
+			validator.clearErrors()
+			this.$el.show();
+			this.trigger("show", this);
+		},
 
-    return new View();
+		hide: function () {
+			this.$el.hide();
+		}
+
+	});
+
+	return new View();
 });

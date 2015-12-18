@@ -1,57 +1,64 @@
 define([
-    'backbone',
-    'views/game',
-    'views/main',
-    'views/login',
-    'views/scoreboard',
-    'views/register',
-    'views/manager'
-], function(
-    Backbone,
-    gamePage,
-    mainPage,
-    loginPage,
-    scoreboardPage,
-    registerPage,
-    viewManager
-){
-    var Router = Backbone.Router.extend({
-        routes: {
-            'scoreboard': 'scoreboardAction',
-            'game': 'gameAction',
-            'login': 'loginAction',
-            'register': 'registerAction',
-            '*default': 'defaultActions'
-        },
-	
-	initialize: function () {	    
-            viewManager.addView(scoreboardPage);
-            viewManager.addView(loginPage);
-            viewManager.addView(mainPage);
-            viewManager.addView(gamePage);
-            viewManager.addView(registerPage);
-        },
+	'backbone',
+	'views/game',
+	'views/mobile',
+	'views/main',
+	'views/login',
+	'views/scoreboard',
+	'views/register',
+	'views/manager'
+], function (Backbone,
+             gamePage,
+             mobilePage,
+             mainPage,
+             loginPage,
+             scoreboardPage,
+             registerPage,
+             viewManager) {
 
-        defaultActions: function () {
-            mainPage.show();
-        },
+	var Router = Backbone.Router.extend({
+		routes: {
+			'scoreboard': 'scoreboardAction',
+			'game': 'gameAction',
+			'mobile': 'mobileAction',
+			'login': 'loginAction',
+			'register': 'registerAction',
+			'*default': 'defaultActions'
+		},
 
-        scoreboardAction: function () {
-            scoreboardPage.show();
-        },
+		initialize: function () {
+			viewManager.addView(scoreboardPage);
+			viewManager.addView(loginPage);
+			viewManager.addView(mainPage);
+			viewManager.addView(gamePage);
+			viewManager.addView(mobilePage);
+			viewManager.addView(registerPage);
+		},
 
-        gameAction: function () {
-            gamePage.show();
-        },
+		defaultActions: function () {
+			mainPage.show();
+		},
 
-        loginAction: function () {
-            loginPage.show();
-        },
+		scoreboardAction: function () {
+			scoreboardPage.show();
+		},
 
-	registerAction: function () {
-            registerPage.show();
-        }
-    });
+		gameAction: function () {
+			gamePage.show();
+		},
 
-    return new Router();
+		mobileAction: function () {
+			mobilePage.show();
+		},
+
+		loginAction: function () {
+			loginPage.show();
+		},
+
+		registerAction: function () {
+			registerPage.show();
+		}
+	});
+
+	return new Router();
 });
