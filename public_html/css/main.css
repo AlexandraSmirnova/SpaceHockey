@@ -1,6 +1,7 @@
 @font-face {
   font-family: Canossa-Ultra;
   src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf); }
+
 .menu__item {
   margin: 10px; }
 
@@ -42,19 +43,6 @@
   height: 40px;
   color: #000; }
 
-.submit-btn {
-  min-width: 250px;
-  height: 46px;
-  box-shadow: inset 0 0 6px;
-  background-color: #380570;
-  font-size: 26px;
-  color: #FCF371;
-  text-shadow: none;
-  border-radius: 10px; }
-
-.submit-btn_go {
-  background-color: #759D00; }
-
 .score-list {
   width: 100%;
   max-width: 380px;
@@ -72,15 +60,10 @@
   border-top: 0px; }
 
 .score-list__item_head {
-  color: #C71585;
+  color: mediumvioletred;
   font-size: 20px; }
 
-/* Game */
-.gameplay {
-  font-size: 20px;
-  display: none; }
-
-.gameField {
+.game-field {
   text-align: center;
   margin: 0 auto;
   width: 600px;
@@ -93,51 +76,41 @@
   font-size: 20px;
   color: #FCEF3F; }
 
-.gameOver {
-  display: none; }
-
-.wait {
+.game-wait {
   animation: scale 3s linear; }
 
 @keyframes scale {
   100% {
     transform: scale(4) scale(0.25); } }
-.score__player {
+
+.game-play {
+  font-size: 20px;
+  display: none; }
+
+.game-play__info {
   width: 150px;
   padding: 10px;
   border-radius: 7px;
   background-color: rgba(56, 6, 112, 0.7);
   box-shadow: 0 0 7px 3px #ff5588; }
 
-.score__player_first {
+.game-play__info_first-player {
   text-align: left; }
 
-.score__player_second {
+.game-play__move-buttons > img {
+  width: 70px; }
+
+.game-play__info_second-player {
   position: relative;
   top: -58px;
   right: -430px;
   margin-bottom: -65px;
   text-align: right; }
 
-.win_button {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  border-radius: 50px;
-  box-shadow: inset 0 0 8px; }
+.game-over {
+  display: none; }
 
-.move-buttons > img {
-  width: 70px;
-  heith: 70px; }
-
-body {
-  background-image: url(../img/prosto_cosmos.jpg);
-  color: #fff;
-  font-family: Canossa-Ultra; }
-
-.page {
-  margin: 10px; }
-
-.header {
+.header__game-title {
   margin: 0 auto;
   padding: 5px;
   max-width: 600px;
@@ -151,20 +124,11 @@ body {
   border-radius: 30px;
   box-shadow: 0 0 7px 3px #ff5588; }
 
-.head-title {
+.header__page-title {
   text-align: center;
   font-size: 46px;
   color: #9C68D4;
   text-shadow: #FCEF3F 2px 2px 0, #FCEF3F -1px -1px 0, #FCEF3F -1px 1px 0, #FCEF3F 1px -1px 0; }
-
-.container {
-  text-align: center;
-  background: rgba(55, 75, 255, 0.2);
-  max-width: 400px;
-  min-width: 300px;
-  min-height: 270px;
-  padding: 5px;
-  border-radius: 15px; }
 
 .back-button {
   margin-top: 5px;
@@ -175,4 +139,32 @@ body {
   font-size: 26px;
   border-radius: 10px; }
 
-/*# sourceMappingURL=main.css.map */
+.submit-btn {
+  min-width: 250px;
+  height: 46px;
+  box-shadow: inset 0 0 6px;
+  background-color: #380570;
+  font-size: 26px;
+  color: #FCF371;
+  text-shadow: none;
+  border-radius: 10px; }
+
+.submit-btn_go {
+  background-color: #759d00; }
+
+body {
+  background-image: url(../img/prosto_cosmos.jpg);
+  color: #fff;
+  font-family: Canossa-Ultra; }
+
+.page {
+  margin: 10px; }
+
+.container {
+  text-align: center;
+  background: rgba(55, 75, 255, 0.2);
+  max-width: 400px;
+  min-width: 300px;
+  min-height: 270px;
+  padding: 5px;
+  border-radius: 15px; }

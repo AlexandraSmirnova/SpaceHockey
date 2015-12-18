@@ -21,7 +21,7 @@ define([
 		orientationchange: function () {
 			console.log("orientation: " + window.orientation);
 			//var gameF = $(".gameField");
-			var header = $(".header");
+			var header = $(".header__game-title");
 			if (window.orientation % 180 == 0) {
 				if (header) {
 					header.show();

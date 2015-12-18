@@ -166,32 +166,32 @@ define([
 					ball.centerY = parseInt(data.ball.positionY, 10);
 				}
 				if (data.status == "start" && data.second.name != data.first.name) {
-					$(".wait").hide();
-					$(".gameplay").show();
+					$(".game-wait").hide();
+					$(".game-play").show();
 
-					$(".firstPlayer").html(data.first.name);
-					$(".secondPlayer").html(data.second.name);
+					$(".first-player").html(data.first.name);
+					$(".second-player").html(data.second.name);
 
 				}
 				if (data.status == "finish") {
 					console.log(data);
-					$(".gameOver").show();
-					$(".gameplay").hide()
+					$(".game-over").show();
+					$(".game-play").hide()
 					if (data.gameState == 0)
-						$(".gameOver__winner").html("dead heat!");
+						$(".game-over__winner").html("dead heat!");
 					else if (data.gameState == 1)
-						$(".gameOver__winner").html("first winner!");
+						$(".game-over__winner").html("first winner!");
 					else if (data.gameState == 2)
-						$(".gameOver__winner").html("second winner!");
+						$(".game-over__winner").html("second winner!");
 					if (data.first.name == self.playerName)
-						$(".gameOver__score").html("wwr!");
+						$(".game-over__result").html("wwr!");
 					else
-						$(".gameOver__score").html("2!");
+						$(".game-over__result").html("2!");
 					self.gameStarted = false;
 				}
 				if (data.status == "incrementScore") {
-					$(".myScore").html(data.first.score);
-					$(".enemyScore").html(data.second.score);
+					$(".my-score").html(data.first.score);
+					$(".enemy-score").html(data.second.score);
 				}
 			}
 		},

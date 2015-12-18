@@ -1,10 +1,4 @@
-/* Game */
-.gameplay {
-  font-size: $font-size-xs;
-  display: none;
-}
-
-.gameField {
+.game-field {
   text-align: center;
   margin: 0 auto;
   width: 600px;
@@ -18,22 +12,22 @@
   color: #FCEF3F;
 }
 
-.gameOver {
-  display: none;
-}
-
-.wait {
+.game-wait {
   animation: scale 3s linear;
 }
 
 @keyframes scale {
   100% {
-	transform: scale(4) scale(0.25);
+  transform: scale(4) scale(0.25);
   }
 }
 
-.score__player {
+.game-play {
+  font-size: $font-size-xs;
+  display: none;
+}
 
+.game-play__info {
   width: 150px;
   padding: 10px;
   border-radius: 7px;
@@ -41,11 +35,17 @@
   box-shadow: 0 0 7px 3px #ff5588
 }
 
-.score__player_first {
+.game-play__info_first-player {
   text-align: left;
 }
 
-.score__player_second {
+.game-play__move-buttons {
+  > img {
+    width: 70px;  
+  }
+}
+
+.game-play__info_second-player {
   position: relative;
   top: -58px;
   right: -430px;
@@ -53,16 +53,6 @@
   text-align: right;
 }
 
-.win_button {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  border-radius: 50px;
-  box-shadow: inset 0 0 8px;
-}
-
-.move-buttons {
-  > img {
-	width: 70px;
-	heith: 70px;
-  }
+.game-over {
+  display: none;
 }

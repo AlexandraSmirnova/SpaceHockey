@@ -1,7 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-	<div class="gameField">
+	<div class="game-field">
 
-		<div class="wait">
+		<div class="game-wait">
 			<p>Hello,
 				<fest:space/>
 				<fest:value>json.login</fest:value>
@@ -9,41 +9,37 @@
 			<p>Prepare yourself. Wait for enemy!</p>
 		</div>
 
-		<div class="gameplay">
-			<div class="score">
-				<p class="score__player score__player_first">
-					<span class="firstPlayer"></span>:
-					<fest:space/>
-					<span class="myScore">0</span>
-				</p>
-				<p class="score__player score__player_second">
-					<span class="secondPlayer"></span>:
-					<fest:space/>
-					<span class="enemyScore">0</span>
-				</p>
-			</div>
+		<div class="game-play">
+			<p class="game-play__info game-play__info_first-player">
+				<span class="first-player"></span>:
+				<fest:space/>
+				<span class="my-score">0</span>
+			</p>
+			<p class="game-play__info game-play__info_second-player">
+				<span class="second-player"></span>:
+				<fest:space/>
+				<span class="enemy-score">0</span>
+			</p>			
 			<canvas width="580" height="700" id="gamefield"></canvas>
-			<div class="move-buttons">
+			<div class="game-play__move-buttons">
 				<img src="img/left-btn.png" class="btn-left"/>
 				<img src="img/right-btn.png" class="btn-right"/>
 			</div>
 		</div>
 
-		<div class="gameOver">
-			<p>Game over! You are
+		<div class="game-over">
+			<p>Game over!</p>
+			<p>Winner:
 				<fest:space/>
-				<span class="gameOver__winner"></span>
+				<span class="game-over__winner"></span>
 			</p>
-			<p>Result:
+			<p>Your result:
 				<fest:space/>
-				<span class="gemeOver__score"></span>
+				<span class="geme-over__result"></span>
 			</p>
 			<a class="submit-btn btn btn-primary" href="#game">Restart</a>
 		</div>
 
 		<fest:include src="./backbutton.xml" context="json"/>
-
-
 	</div>
-
 </fest:template>
