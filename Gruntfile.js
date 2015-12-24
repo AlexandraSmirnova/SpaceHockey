@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 			},
 			sass: {
 				files: ['public_html/css/scss/*.scss'],
-				tasks: ['sass:build'],
+				tasks: ['sass:build', 'cssmin'],
 			},
 			server: {
 				files: [

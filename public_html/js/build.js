@@ -6701,7 +6701,7 @@ define('views/mobile',[
 	return new View({model: User});
 });
 
-define('tmpl/main',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var user=__fest_context;try{var json = {title: 'Main Menu' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</div></div>");})(__fest_context0);try{Cufon.replace("h1", {fontFamily: 'CalgaryShadow-Heavy'});}catch(e){__fest_log_error(e.message);}__fest_buf+=("<div class=\"container\"><div class=\"menu\"><div class=\"menu__item\"><a href=\"#scoreboard\" class=\"menu__link\">ScoreBoard</a></div>");try{__fest_if=!user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item menu__item_login\"><a href=\"#login\" class=\"menu__link\">Login</a></div><div class=\"menu__item menu__item_reg\"><a href=\"#register\" class=\"menu__link\">Registration</a></div>");}try{__fest_if=user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#game\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#mobile\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item  menu__item_logout\"><a href=\"#\" class=\"menu__link\">Logout</a></div>");}__fest_buf+=("</div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/main',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var user=__fest_context;try{var json = {title: 'Main Menu' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</div></div>");})(__fest_context0);try{Cufon.replace("h1", {fontFamily: 'CalgaryShadow-Heavy'});}catch(e){__fest_log_error(e.message);}__fest_buf+=("<div class=\"container\"><div class=\"container__preloader\"></div><div class=\"menu\"><div class=\"menu__item\"><a href=\"#scoreboard\" class=\"menu__link\">ScoreBoard</a></div>");try{__fest_if=!user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item menu__item_login\"><a href=\"#login\" class=\"menu__link\">Login</a></div><div class=\"menu__item menu__item_reg\"><a href=\"#register\" class=\"menu__link\">Registration</a></div>");}try{__fest_if=user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#game\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#mobile\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item  menu__item_logout\"><a href=\"#\" class=\"menu__link\">Logout</a></div>");}__fest_buf+=("</div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('views/main',[
 	'backbone',
 	'tmpl/main',
@@ -6850,14 +6850,49 @@ define('utils/validator',['backbone'],
 		return Validator;
 	});
 
+define('utils/showErrors',[
+	'backbone'
+], function (Backbone) {
+
+	var showErrors = function(){
+
+		this.signinErrors = function(response){
+			var $error = $(".form_signin .form__row_errors");
+			if(response.status == '302'){
+				$error.append("You have been login already !");
+			}
+			else{ 
+				$error.append("Login or password is incorrect!");
+			}
+			$error.show();
+		};
+
+		this.signupErrors =  function(response){
+			var $error = $(".form__row_errors");
+			if(response.status == '500'){
+				$error.append("INTERNAL_SERVER_ERROR");	
+			}
+			else{
+				$error.append("User cann't be registrated. Try to change your input data");
+			}
+			$error.show();
+
+		};
+	}
+	return new showErrors();
+
+	
+});	
 define('views/login',[
 	'backbone',
 	'tmpl/login',
 	'utils/validator',
+	'utils/showErrors',
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
              Validator,
+             showErrors,
              User) {
 
 	var formClass = ".form_signin";
@@ -6892,8 +6927,7 @@ define('views/login',[
 				};
 				this.model.login(data, {
 					success: function (response) {
-						response = JSON.parse(response);
-						console.log(response.status);
+						response = JSON.parse(response);						
 						if (response.status == "200") {
 							console.log(response.body.login);
 							user.set({
@@ -6902,9 +6936,7 @@ define('views/login',[
 							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
-							var $error = $(".form__row_errors");
-							$error.append("Login or password is incorrect!");
-							$error.show();
+							showErrors.signinErrors(response);						
 						}
 					},
 				});
@@ -7047,10 +7079,12 @@ define('views/register',[
 	'backbone',
 	'tmpl/register',
 	'utils/validator',
+	'utils/showErrors',
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
              Validator,
+             showErrors,
              User) {
 
 	var formClass = ".form_signup";
@@ -7089,10 +7123,8 @@ define('views/register',[
 						if (parseInt(data["status"]) == "200") {
 							Backbone.history.navigate('', {trigger: true});
 						}
-						else {
-							var $error = $(".form__row_errors");
-							$error.append("User cann't be registrated. Try to change your input data");
-							$error.show();
+						else {							
+							showErrors.signupErrors(response);
 						}
 					}
 				});
