@@ -2,10 +2,12 @@ define([
 	'backbone',
 	'tmpl/login',
 	'utils/validator',
+	'utils/showErrors',
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
              Validator,
+             showErrors,
              User) {
 
 	var formClass = ".form_signin";
@@ -40,8 +42,7 @@ define([
 				};
 				this.model.login(data, {
 					success: function (response) {
-						response = JSON.parse(response);
-						console.log(response.status);
+						response = JSON.parse(response);						
 						if (response.status == "200") {
 							console.log(response.body.login);
 							user.set({
@@ -50,9 +51,7 @@ define([
 							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
-							var $error = $(".form__row_errors");
-							$error.append("Login or password is incorrect!");
-							$error.show();
+							showErrors.signinErrors(response);						
 						}
 					},
 				});

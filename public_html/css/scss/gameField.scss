@@ -12,13 +12,21 @@
   color: #FCEF3F;
 }
 
+.game-field__errors{
+  margin: 0 auto;
+  display: none; 
+  padding: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 .game-wait {
-  animation: scale 3s linear;
+  animation: scale 2s linear;
 }
 
 @keyframes scale {
   100% {
-  transform: scale(4) scale(0.25);
+    transform: scale(4) scale(0.25);
   }
 }
 

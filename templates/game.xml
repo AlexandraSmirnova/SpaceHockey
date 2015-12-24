@@ -1,5 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
 	<div class="game-field">
+		<div class="game-field__errors alert alert-danger">Sorry, connection refused</div>
 
 		<div class="game-wait">
 			<p>Hello,

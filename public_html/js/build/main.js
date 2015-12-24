@@ -5032,7 +5032,7 @@ define('game/socket',[
             
             
 
-define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"game-field\"><div class=\"game-wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "6");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"geme-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"game-field\"><div class=\"game-field__errors alert alert-danger\">Sorry, connection refused</div><div class=\"game-wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "7");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"game-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define(
 	'lib/input',[],function () {
 		var pressedKeys = {};
@@ -5092,13 +5092,15 @@ define('game/gameWebSocket',[
 	function initConnect() {
 		console.log("entered gamewebsocket initconnect");
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
+		
 		ws.onopen = function () {
+			$('.game-field__errors').hide();
 			console.log("Open");
 		};
-		//var playerName = null;
-//		var enemyName = "";
+		
 		ws.onclose = function () {
 			console.log('connection closed');
+			$('.game-field__errors').show();
 		};
 
 		return ws;
@@ -5232,11 +5234,12 @@ define('game/gamePlay',[
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
+		playerNum: 0,
+		playerScore: 0,
 
 		start: function (canvas) {
 			console.log('ODIN RAZ');
-			this.gameStarted = true;
-			this.playerName = User.get("login");
+			this.gameStarted = true;			
 			ws = gameWebSocket.initConnect();
 			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
@@ -5257,39 +5260,48 @@ define('game/gamePlay',[
 
 			ws.onmessage = function (event) {
 				var data = JSON.parse(event.data);
+
 				if (data.status == "worldInfo") {
 					myPlatform.x = parseInt(data.first.positionX, 10);
 					enemyPlatform.x = parseInt(data.second.positionX, 10);
 					ball.centerX = parseInt(data.ball.positionX, 10);
 					ball.centerY = parseInt(data.ball.positionY, 10);
 				}
+
 				if (data.status == "start" && data.second.name != data.first.name) {
 					$(".game-wait").hide();
 					$(".game-play").show();
-
 					$(".first-player").html(data.first.name);
 					$(".second-player").html(data.second.name);
 
+					if(data.first.name == User.get("login")){
+						self.playerName = data.first.name;
+						self.playerNum = 1;
+					}
+					else {
+						self.playerName = data.second.name;
+						self.playerNum = 2;
+					}					
 				}
+
 				if (data.status == "finish") {
 					console.log(data);
 					$(".game-over").show();
-					$(".game-play").hide()
-					if (data.gameState == 0)
-						$(".game-over__winner").html("dead heat!");
-					else if (data.gameState == 1)
-						$(".game-over__winner").html("first winner!");
-					else if (data.gameState == 2)
-						$(".game-over__winner").html("second winner!");
-					if (data.first.name == self.playerName)
-						$(".game-over__result").html("wwr!");
-					else
-						$(".game-over__result").html("2!");
+					$(".game-play").hide();
+					$(".game-over__winner").html(data.winner);
+					$(".game-over__result").html(self.playerScore);
 					self.gameStarted = false;
 				}
+
 				if (data.status == "incrementScore") {
 					$(".my-score").html(data.first.score);
 					$(".enemy-score").html(data.second.score);
+					if(self.playerNum == 1){
+						self.playerScore = data.first.score;
+					}
+					else {
+						self.playerScore = data.second.score;	
+					}					
 				}
 			}
 		}
@@ -5952,7 +5964,7 @@ define("modernizr", (function (global) {
     };
 }(this)));
 
-define('tmpl/mobile',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"gameField\"><div class=\"game-wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "6");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas><div class=\"game-play__move-buttons\"><img src=\"img\/left-btn.png\" class=\"btn-left\"/><img src=\"img\/right-btn.png\" class=\"btn-right\"/></div></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"geme-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/mobile',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"game-field\"><div class=\"game-field__errors alert alert-danger\">Sorry, connection refused</div><div class=\"game-wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "7");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas><div class=\"game-play__move-buttons\"><img src=\"img\/left-btn.png\" class=\"btn-left\"/><img src=\"img\/right-btn.png\" class=\"btn-right\"/></div></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"game-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('game/mobilePlay',[
 	'backbone',
 	'game/gameWebSocket',
@@ -6090,10 +6102,11 @@ define('game/mobilePlay',[
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
+		playerNum: 0,
+		playerScore: 0,
 
 		start: function (canvas) {
-			this.gameStarted = true;
-			this.playerName = User.get("login");
+			this.gameStarted = true;			
 			ws = gameWebSocket.initConnect();
 			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
@@ -6123,30 +6136,37 @@ define('game/mobilePlay',[
 				if (data.status == "start" && data.second.name != data.first.name) {
 					$(".game-wait").hide();
 					$(".game-play").show();
-
 					$(".first-player").html(data.first.name);
 					$(".second-player").html(data.second.name);
 
+					if(data.first.name == User.get("login")){
+						self.playerName = data.first.name;
+						self.playerNum = 1;
+					}
+					else {
+						self.playerName = data.second.name;
+						self.playerNum = 2;
+					}		
 				}
-				if (data.status == "finish") {
-					console.log(data);
+
+				if (data.status == "finish") {					
 					$(".game-over").show();
-					$(".game-play").hide()
-					if (data.gameState == 0)
-						$(".game-over__winner").html("dead heat!");
-					else if (data.gameState == 1)
-						$(".game-over__winner").html("first winner!");
-					else if (data.gameState == 2)
-						$(".game-over__winner").html("second winner!");
-					if (data.first.name == self.playerName)
-						$(".game-over__result").html("wwr!");
-					else
-						$(".game-over__result").html("2!");
+					$(".game-play").hide();
+					$(".game-over__winner").html(data.winner);
+					$(".game-over__result").html(self.playerScore);
 					self.gameStarted = false;
 				}
+
 				if (data.status == "incrementScore") {
 					$(".my-score").html(data.first.score);
 					$(".enemy-score").html(data.second.score);
+					
+					if(self.playerNum == 1){
+						self.playerScore = data.first.score;
+					}
+					else {
+						self.playerScore = data.second.score;	
+					}	
 				}
 			}
 		},

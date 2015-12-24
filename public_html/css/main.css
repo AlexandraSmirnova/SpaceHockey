@@ -76,8 +76,14 @@
   font-size: 20px;
   color: #FCEF3F; }
 
+.game-field__errors {
+  margin: 0 auto;
+  display: none;
+  padding: 5px;
+  margin: 5px; }
+
 .game-wait {
-  animation: scale 3s linear; }
+  animation: scale 2s linear; }
 
 @keyframes scale {
   100% {

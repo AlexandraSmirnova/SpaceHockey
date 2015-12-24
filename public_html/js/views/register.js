@@ -2,10 +2,12 @@ define([
 	'backbone',
 	'tmpl/register',
 	'utils/validator',
+	'utils/showErrors',
 	'models/userProfile'
 ], function (Backbone,
              tmpl,
              Validator,
+             showErrors,
              User) {
 
 	var formClass = ".form_signup";
@@ -44,10 +46,8 @@ define([
 						if (parseInt(data["status"]) == "200") {
 							Backbone.history.navigate('', {trigger: true});
 						}
-						else {
-							var $error = $(".form__row_errors");
-							$error.append("User cann't be registrated. Try to change your input data");
-							$error.show();
+						else {							
+							showErrors.signupErrors(response);
 						}
 					}
 				});
