@@ -15,9 +15,9 @@ define([
 			$error.show();
 		};
 
-		this.signupErrors =  function(){
+		this.signupErrors =  function(response){
 			var $error = $(".form__row_errors");
-			if(reponse.status == '500'){
+			if(response.status == '500'){
 				$error.append("INTERNAL_SERVER_ERROR");	
 			}
 			else{
