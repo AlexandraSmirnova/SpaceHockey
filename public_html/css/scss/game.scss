@@ -12,9 +12,9 @@
   color: #FCEF3F;
 }
 
-.game-field__errors{
+.game-field__errors {
   margin: 0 auto;
-  display: none; 
+  display: none;
   padding: 5px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -26,7 +26,7 @@
 
 @keyframes scale {
   100% {
-    transform: scale(4) scale(0.25);
+	transform: scale(4) scale(0.25);
   }
 }
 
@@ -47,11 +47,11 @@
   text-align: left;
 }
 
-.game-play__move-buttons {
-  > img {
-    width: 70px;  
-  }
-}
+//.game-play__move-buttons {
+//  > img {
+//	width: 70px;
+//  }
+//}
 
 .game-play__info_second-player {
   position: relative;

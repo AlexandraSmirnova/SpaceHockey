@@ -27,7 +27,6 @@ define([
 				success: function (response) {
 					response = JSON.parse(response);
 					if (response.status == "200") {
-						console.log("ajax success");
 						User.clear();
 						Backbone.history.navigate('', {trigger: true});
 					}
@@ -40,7 +39,7 @@ define([
 			var userlogin = User.get('login');
 			var userData = {
 				"login": userlogin
-			}
+			};
 			this.$el.html(this.template(userData));
 		},
 

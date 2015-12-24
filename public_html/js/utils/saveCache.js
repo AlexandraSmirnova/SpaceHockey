@@ -1,7 +1,7 @@
 define([
 		'backbone'
 	],
-	function (Backbone) {
+	function () {
 
 		var saveCache = function (formClass) {
 			var elements = $(formClass + " input");

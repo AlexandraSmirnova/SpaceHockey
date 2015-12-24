@@ -135,8 +135,7 @@ module.exports = function (grunt) {
 	/* задача по умолчанию */
 	grunt.registerTask('build', ['sass:build', 'cssmin', 'requirejs:build', 'concat:build', 'uglify:build']);
 	grunt.registerTask('prod', ['shell']);
-	//grunt.registerTask('build', ['sass:build']);
 
 
-}
+};
 

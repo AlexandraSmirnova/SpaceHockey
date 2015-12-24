@@ -34,6 +34,8 @@ define([
 	});
 
 	var user = new UserModel();
+
 	user.fetch();
+
 	return user;
 });

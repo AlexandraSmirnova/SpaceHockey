@@ -41,12 +41,11 @@ define([
 				};
 				this.model.registration(data, {
 					success: function (response) {
-						console.log(response);
 						data = JSON.parse(response);
 						if (parseInt(data["status"]) == "200") {
 							Backbone.history.navigate('', {trigger: true});
 						}
-						else {							
+						else {
 							showErrors.signupErrors(response);
 						}
 					}
@@ -56,7 +55,7 @@ define([
 		},
 
 		show: function () {
-			validator.clearErrors()
+			validator.clearErrors();
 			this.$el.show();
 			this.trigger("show", this);
 		},

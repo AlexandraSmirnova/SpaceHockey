@@ -23,8 +23,6 @@ define([
 			});
 		},
 		orientationchange: function () {
-			console.log("orientation: " + window.orientation);
-			//var gameF = $(".gameField");
 			var header = $(".header__game-title");
 			if (window.orientation % 180 == 0) {
 				if (header) {
@@ -37,7 +35,7 @@ define([
 			}
 		},
 
-		postInit: function  () {
+		postInit: function () {
 			if (this.inited) {
 				return;
 			}

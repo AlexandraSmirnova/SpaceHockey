@@ -20,7 +20,7 @@
 				<span class="second-player"></span>:
 				<fest:space/>
 				<span class="enemy-score">0</span>
-			</p>			
+			</p>
 			<canvas width="580" height="700" id="gamefield"></canvas>
 			<div class="game-play__move-buttons">
 				<img src="img/left-btn.png" class="btn-left"/>

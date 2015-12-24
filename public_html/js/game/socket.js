@@ -8,7 +8,6 @@ define([
 		var started = false;
 		var finished = false;
 
-		//var me = JSON.parse(localStorage.getItem("user"));
 		var myName = null;
 		var enemyName = "";
 
@@ -21,7 +20,7 @@ define([
 
 			ws.onopen = function (event) {
 				console.log("connection opened");
-			}
+			};
 
 			ws.onmessage = function (event) {
 				console.log("onmessage");
@@ -58,7 +57,7 @@ define([
 			var message = "{}";
 			ws.send(message);
 		};
-	}
+	};
 
 	return new Game();
 });

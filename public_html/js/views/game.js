@@ -18,32 +18,17 @@ define([
 			"click .submit-btn": "restart"
 		},
 
-		initialize: function () {
-			//this.render();
-			//var self = this;
-			//this.listenTo(User, 'change', function () {
-			//self.render();
-			//});
-		},
-
 		render: function () {
 			var user = User.get('login');
 			if (user) {
 				var userData = {
 					'login': user
 				};
-				// socket.init(userData);
-				console.log('in game.js gamestarted: ' + gamePlay.gameStarted);
 				this.$el.html(this.template(userData));
 				var canvas = document.getElementById('gamefield');
 				if (gamePlay.gameStarted === false) {
-					console.log("gameStarted");
 					gamePlay.start(canvas);
-					console.log('in if' + gamePlay.gameStarted);
 				}
-				//else{
-				//	Backbone.history.navigate('', {trigger: true});			
-				//}
 			}
 			else {
 				Backbone.history.navigate('login', {trigger: true});
@@ -52,12 +37,10 @@ define([
 		},
 
 		restart: function () {
-			console.log("restart!");
 			this.render();
 		},
 
 		show: function () {
-			console.log(this.started);
 			if (this.started == false) {
 				this.render();
 			}

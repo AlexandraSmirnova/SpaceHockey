@@ -100,8 +100,6 @@
 	function is(obj, type) {
 		return typeof obj === type;
 	}
-	;
-
 	/**
 	 * Run through all tests and detect their support in the current UA.
 	 *
@@ -160,7 +158,7 @@
 						// cast to a Boolean, if not one already
 						/* jshint -W053 */
 						if (Modernizr[featureNameSplit[0]] && !(Modernizr[featureNameSplit[0]] instanceof Boolean)) {
-							Modernizr[featureNameSplit[0]] = new Boolean(Modernizr[featureNameSplit[0]]);
+							Modernizr[featureNameSplit[0]] = Boolean(Modernizr[featureNameSplit[0]]);
 						}
 
 						Modernizr[featureNameSplit[0]][featureNameSplit[1]] = result;
@@ -171,8 +169,6 @@
 			}
 		}
 	}
-	;
-
 	/**
 	 * docElement is a convenience wrapper to grab the root element of the document
 	 *
@@ -226,7 +222,6 @@
 
 	}
 
-	;
 	/*!
 	 {
 	 "name": "Event Listener",
@@ -307,8 +302,6 @@
 		}
 	}
 
-	;
-
 	/**
 	 * getBody returns the body of a document, or an element that can stand in for
 	 * the body if a real body does not exist
@@ -331,8 +324,6 @@
 
 		return body;
 	}
-
-	;
 
 	/**
 	 * injectElementWithStyles injects an element with style element and some CSS rules
@@ -405,8 +396,6 @@
 		return !!ret;
 
 	}
-
-	;
 
 	/**
 	 * testStyles injects an element with style element and some CSS rules
@@ -566,7 +555,5 @@
 	// Leak Modernizr namespace
 	window.Modernizr = Modernizr;
 
-
-	;
 
 })(window, document);

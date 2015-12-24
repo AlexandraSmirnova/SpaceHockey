@@ -25,10 +25,7 @@ define([
 		},
 
 		render: function () {
-			console.log('MOBILE RENDER START');
 			var user = User.get('login');
-			console.log(Modernizr);
-			//if(!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
 			if (!Modernizr.deviceorientation || !Modernizr.devicemotion) {
 				this.$el.html('cant®');
 				return this;
@@ -44,7 +41,6 @@ define([
 			else {
 				Backbone.history.navigate('login', {trigger: true});
 			}
-			console.log('CONSOLE RENDER STOP');
 			return this;
 		},
 

@@ -42,18 +42,17 @@ define([
 				};
 				this.model.login(data, {
 					success: function (response) {
-						response = JSON.parse(response);						
+						response = JSON.parse(response);
 						if (response.status == "200") {
-							console.log(response.body.login);
 							user.set({
 								'login': response.body.login
 							});
 							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
-							showErrors.signinErrors(response);						
+							showErrors.signinErrors(response);
 						}
-					},
+					}
 				});
 			}
 			return false;
@@ -61,7 +60,7 @@ define([
 		},
 
 		show: function () {
-			validator.clearErrors()
+			validator.clearErrors();
 			this.$el.show();
 			this.trigger("show", this);
 		},

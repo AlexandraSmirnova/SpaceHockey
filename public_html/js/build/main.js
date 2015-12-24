@@ -4834,14 +4834,14 @@
 
 }).call(this);
 
-define("backbone", ["underscore","jquery"], (function (global) {
-    return function () {
-        var ret, fn;
-        return ret || global.Backbone;
-    };
+define("backbone", ["underscore", "jquery"], (function (global) {
+	return function () {
+		var ret, fn;
+		return ret || global.Backbone;
+	};
 }(this)));
 
-define('syncs/playerSync',[
+define('syncs/playerSync', [
 	'backbone'
 ], function (Backbone) {
 	var methodMap = {
@@ -4873,8 +4873,6 @@ define('syncs/playerSync',[
 				console.log("OK");
 			};
 		}
-		;
-
 		if (options.callback && options.callback.error) {
 			errorFunc = options.callback.error;
 		}
@@ -4883,8 +4881,6 @@ define('syncs/playerSync',[
 				console.log(error.statusText);
 			};
 		}
-		;
-
 		if (method == 'create') {
 			console.log("create");
 			console.log(data);
@@ -4925,7 +4921,7 @@ define('syncs/playerSync',[
 	}
 
 });
-define('models/userProfile',[
+define('models/userProfile', [
 	'backbone',
 	'syncs/playerSync'
 ], function (Backbone,
@@ -4965,7 +4961,7 @@ define('models/userProfile',[
 	return user;
 });
 
-define('game/socket',[
+define('game/socket', [
 	'models/userProfile'
 ], function (User) {
 
@@ -4988,7 +4984,7 @@ define('game/socket',[
 
 			ws.onopen = function (event) {
 				console.log("connection opened");
-			}
+			};
 
 			ws.onmessage = function (event) {
 				console.log("onmessage");
@@ -5025,16 +5021,136 @@ define('game/socket',[
 			var message = "{}";
 			ws.send(message);
 		};
-	}
+	};
 
 	return new Game();
 });
-            
-            
 
-define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"game-field\"><div class=\"game-field__errors alert alert-danger\">Sorry, connection refused</div><div class=\"game-wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "7");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"game-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+
+define('tmpl/game', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var json = __fest_context;
+		__fest_buf += ("<div class=\"game-field\"><div class=\"game-field__errors alert alert-danger\">Sorry, connection refused</div><div class=\"game-wait\"><p>Hello, ");
+		try {
+			__fest_buf += (__fest_escapeHTML(json.login))
+		} catch (e) {
+			__fest_log_error(e.message + "7");
+		}
+		__fest_buf += ("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"game-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context0);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
 define(
-	'lib/input',[],function () {
+	'lib/input', [], function () {
 		var pressedKeys = {};
 
 		function setKey(event, status) {
@@ -5085,19 +5201,19 @@ define(
 			isDown: isDown
 		}
 	});
-define('game/gameWebSocket',[
+define('game/gameWebSocket', [
 	'models/userProfile'
 ], function (userModel) {
 	console.log('GAMEWEBSOCKET');
 	function initConnect() {
 		console.log("entered gamewebsocket initconnect");
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
-		
+
 		ws.onopen = function () {
 			$('.game-field__errors').hide();
 			console.log("Open");
 		};
-		
+
 		ws.onclose = function () {
 			console.log('connection closed');
 			$('.game-field__errors').show();
@@ -5115,7 +5231,7 @@ define('game/gameWebSocket',[
 		sendMessage: sendMessage
 	};
 });
-define('game/gamePlay',[
+define('game/gamePlay', [
 	'backbone',
 	'lib/input',
 	'game/gameWebSocket',
@@ -5193,7 +5309,7 @@ define('game/gamePlay',[
 				var message = {
 					"status": "movePlatform",
 					"direction": "LEFT"
-				}
+				};
 				gameWebSocket.sendMessage(ws, JSON.stringify(message));
 				send = true;
 			}
@@ -5204,7 +5320,7 @@ define('game/gamePlay',[
 			var message = {
 				"status": "movePlatform",
 				"direction": "STOP"
-			}
+			};
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
 		if (input.isDown('RIGHT') && !left) {
@@ -5214,7 +5330,7 @@ define('game/gamePlay',[
 				var message = {
 					"status": "movePlatform",
 					"direction": "RIGHT"
-				}
+				};
 				gameWebSocket.sendMessage(ws, JSON.stringify(message));
 				send = true;
 			}
@@ -5225,7 +5341,7 @@ define('game/gamePlay',[
 			var message = {
 				"status": "movePlatform",
 				"direction": "STOP"
-			}
+			};
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
 	}
@@ -5239,7 +5355,7 @@ define('game/gamePlay',[
 
 		start: function (canvas) {
 			console.log('ODIN RAZ');
-			this.gameStarted = true;			
+			this.gameStarted = true;
 			ws = gameWebSocket.initConnect();
 			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
@@ -5274,14 +5390,14 @@ define('game/gamePlay',[
 					$(".first-player").html(data.first.name);
 					$(".second-player").html(data.second.name);
 
-					if(data.first.name == User.get("login")){
+					if (data.first.name == User.get("login")) {
 						self.playerName = data.first.name;
 						self.playerNum = 1;
 					}
 					else {
 						self.playerName = data.second.name;
 						self.playerNum = 2;
-					}					
+					}
 				}
 
 				if (data.status == "finish") {
@@ -5296,12 +5412,12 @@ define('game/gamePlay',[
 				if (data.status == "incrementScore") {
 					$(".my-score").html(data.first.score);
 					$(".enemy-score").html(data.second.score);
-					if(self.playerNum == 1){
+					if (self.playerNum == 1) {
 						self.playerScore = data.first.score;
 					}
 					else {
-						self.playerScore = data.second.score;	
-					}					
+						self.playerScore = data.second.score;
+					}
 				}
 			}
 		}
@@ -5309,7 +5425,7 @@ define('game/gamePlay',[
 
 	return new Game();
 });
-define('views/game',[
+define('views/game', [
 	'backbone',
 	'game/socket',
 	'tmpl/game',
@@ -5409,7 +5525,7 @@ define('views/game',[
  * of control over the experience.
  */
 
-;(function (window, document, undefined) {
+(function (window, document, undefined) {
 	var tests = [];
 
 
@@ -5487,8 +5603,6 @@ define('views/game',[
 	function is(obj, type) {
 		return typeof obj === type;
 	}
-	;
-
 	/**
 	 * Run through all tests and detect their support in the current UA.
 	 *
@@ -5547,7 +5661,7 @@ define('views/game',[
 						// cast to a Boolean, if not one already
 						/* jshint -W053 */
 						if (Modernizr[featureNameSplit[0]] && !(Modernizr[featureNameSplit[0]] instanceof Boolean)) {
-							Modernizr[featureNameSplit[0]] = new Boolean(Modernizr[featureNameSplit[0]]);
+							Modernizr[featureNameSplit[0]] = Boolean(Modernizr[featureNameSplit[0]]);
 						}
 
 						Modernizr[featureNameSplit[0]][featureNameSplit[1]] = result;
@@ -5558,8 +5672,6 @@ define('views/game',[
 			}
 		}
 	}
-	;
-
 	/**
 	 * docElement is a convenience wrapper to grab the root element of the document
 	 *
@@ -5613,7 +5725,6 @@ define('views/game',[
 
 	}
 
-	;
 	/*!
 	 {
 	 "name": "Event Listener",
@@ -5694,8 +5805,6 @@ define('views/game',[
 		}
 	}
 
-	;
-
 	/**
 	 * getBody returns the body of a document, or an element that can stand in for
 	 * the body if a real body does not exist
@@ -5718,8 +5827,6 @@ define('views/game',[
 
 		return body;
 	}
-
-	;
 
 	/**
 	 * injectElementWithStyles injects an element with style element and some CSS rules
@@ -5792,8 +5899,6 @@ define('views/game',[
 		return !!ret;
 
 	}
-
-	;
 
 	/**
 	 * testStyles injects an element with style element and some CSS rules
@@ -5954,18 +6059,137 @@ define('views/game',[
 	window.Modernizr = Modernizr;
 
 
-	;
-
 })(window, document);
 define("modernizr", (function (global) {
-    return function () {
-        var ret, fn;
-        return ret || global.Modernizr;
-    };
+	return function () {
+		var ret, fn;
+		return ret || global.Modernizr;
+	};
 }(this)));
 
-define('tmpl/mobile',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div class=\"game-field\"><div class=\"game-field__errors alert alert-danger\">Sorry, connection refused</div><div class=\"game-wait\"><p>Hello, ");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "7");}__fest_buf+=("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas><div class=\"game-play__move-buttons\"><img src=\"img\/left-btn.png\" class=\"btn-left\"/><img src=\"img\/right-btn.png\" class=\"btn-right\"/></div></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"game-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context0);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('game/mobilePlay',[
+define('tmpl/mobile', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var json = __fest_context;
+		__fest_buf += ("<div class=\"game-field\"><div class=\"game-field__errors alert alert-danger\">Sorry, connection refused</div><div class=\"game-wait\"><p>Hello, ");
+		try {
+			__fest_buf += (__fest_escapeHTML(json.login))
+		} catch (e) {
+			__fest_log_error(e.message + "7");
+		}
+		__fest_buf += ("</p><p>Prepare yourself. Wait for enemy!</p></div><div class=\"game-play\"><p class=\"game-play__info game-play__info_first-player\"><span class=\"first-player\"></span>: <span class=\"my-score\">0</span></p><p class=\"game-play__info game-play__info_second-player\"><span class=\"second-player\"></span>: <span class=\"enemy-score\">0</span></p><canvas width=\"580\" height=\"700\" id=\"gamefield\"></canvas><div class=\"game-play__move-buttons\"><img src=\"img\/left-btn.png\" class=\"btn-left\"/><img src=\"img\/right-btn.png\" class=\"btn-right\"/></div></div><div class=\"game-over\"><p>Game over!</p><p>Winner: <span class=\"game-over__winner\"></span></p><p>Your result: <span class=\"game-over__result\"></span></p><a class=\"submit-btn btn btn-primary\" href=\"#game\">Restart</a></div>");
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context0);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('game/mobilePlay', [
 	'backbone',
 	'game/gameWebSocket',
 	'models/userProfile'
@@ -6061,7 +6285,7 @@ define('game/mobilePlay',[
 				var message = {
 					"status": "movePlatform",
 					"direction": "LEFT"
-				}
+				};
 				gameWebSocket.sendMessage(ws, JSON.stringify(message));
 				send = true;
 			}
@@ -6072,7 +6296,7 @@ define('game/mobilePlay',[
 			var message = {
 				"status": "movePlatform",
 				"direction": "STOP"
-			}
+			};
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
 		if (alphaRight && !left) {
@@ -6082,7 +6306,7 @@ define('game/mobilePlay',[
 				var message = {
 					"status": "movePlatform",
 					"direction": "RIGHT"
-				}
+				};
 				gameWebSocket.sendMessage(ws, JSON.stringify(message));
 				send = true;
 			}
@@ -6093,7 +6317,7 @@ define('game/mobilePlay',[
 			var message = {
 				"status": "movePlatform",
 				"direction": "STOP"
-			}
+			};
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
 	}
@@ -6106,7 +6330,7 @@ define('game/mobilePlay',[
 		playerScore: 0,
 
 		start: function (canvas) {
-			this.gameStarted = true;			
+			this.gameStarted = true;
 			ws = gameWebSocket.initConnect();
 			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
@@ -6139,17 +6363,17 @@ define('game/mobilePlay',[
 					$(".first-player").html(data.first.name);
 					$(".second-player").html(data.second.name);
 
-					if(data.first.name == User.get("login")){
+					if (data.first.name == User.get("login")) {
 						self.playerName = data.first.name;
 						self.playerNum = 1;
 					}
 					else {
 						self.playerName = data.second.name;
 						self.playerNum = 2;
-					}		
+					}
 				}
 
-				if (data.status == "finish") {					
+				if (data.status == "finish") {
 					$(".game-over").show();
 					$(".game-play").hide();
 					$(".game-over__winner").html(data.winner);
@@ -6160,13 +6384,13 @@ define('game/mobilePlay',[
 				if (data.status == "incrementScore") {
 					$(".my-score").html(data.first.score);
 					$(".enemy-score").html(data.second.score);
-					
-					if(self.playerNum == 1){
+
+					if (self.playerNum == 1) {
 						self.playerScore = data.first.score;
 					}
 					else {
-						self.playerScore = data.second.score;	
-					}	
+						self.playerScore = data.second.score;
+					}
 				}
 			}
 		},
@@ -6187,7 +6411,7 @@ define('game/mobilePlay',[
 
 	return new Game();
 });
-define('views/mobile',[
+define('views/mobile', [
 	'backbone',
 	'modernizr',
 	'game/socket',
@@ -6270,8 +6494,158 @@ define('views/mobile',[
 	return new View({model: User});
 });
 
-define('tmpl/main',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var user=__fest_context;try{var json = {title: 'Main Menu' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</div></div>");})(__fest_context0);try{Cufon.replace("h1", {fontFamily: 'CalgaryShadow-Heavy'});}catch(e){__fest_log_error(e.message);}__fest_buf+=("<div class=\"container\"><div class=\"container__preloader\"></div><div class=\"menu\"><div class=\"menu__item\"><a href=\"#scoreboard\" class=\"menu__link\">ScoreBoard</a></div>");try{__fest_if=!user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item menu__item_login\"><a href=\"#login\" class=\"menu__link\">Login</a></div><div class=\"menu__item menu__item_reg\"><a href=\"#register\" class=\"menu__link\">Registration</a></div>");}try{__fest_if=user.login}catch(e){__fest_if=false;__fest_log_error(e.message);}if(__fest_if){__fest_buf+=("<div class=\"menu__item\"><a href=\"#game\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#mobile\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item  menu__item_logout\"><a href=\"#\" class=\"menu__link\">Logout</a></div>");}__fest_buf+=("</div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('views/main',[
+define('tmpl/main', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var user = __fest_context;
+		try {
+			var json = {title: 'Main Menu'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "4");
+			}
+			__fest_buf += ("</div></div>");
+		})(__fest_context0);
+		try {
+			Cufon.replace("h1", {fontFamily: 'CalgaryShadow-Heavy'});
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		__fest_buf += ("<div class=\"container\"><div class=\"container__preloader\"></div><div class=\"menu\"><div class=\"menu__item\"><a href=\"#scoreboard\" class=\"menu__link\">ScoreBoard</a></div>");
+		try {
+			__fest_if = !user.login
+		} catch (e) {
+			__fest_if = false;
+			__fest_log_error(e.message);
+		}
+		if (__fest_if) {
+			__fest_buf += ("<div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#login\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item menu__item_login\"><a href=\"#login\" class=\"menu__link\">Login</a></div><div class=\"menu__item menu__item_reg\"><a href=\"#register\" class=\"menu__link\">Registration</a></div>");
+		}
+		try {
+			__fest_if = user.login
+		} catch (e) {
+			__fest_if = false;
+			__fest_log_error(e.message);
+		}
+		if (__fest_if) {
+			__fest_buf += ("<div class=\"menu__item\"><a href=\"#game\" class=\"menu__link\">Start Game</a></div><div class=\"menu__item\"><a href=\"#mobile\" class=\"menu__link\">Mobile Game</a></div><div class=\"menu__item  menu__item_logout\"><a href=\"#\" class=\"menu__link\">Logout</a></div>");
+		}
+		__fest_buf += ("</div></div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('views/main', [
 	'backbone',
 	'tmpl/main',
 	'models/userProfile'
@@ -6313,7 +6687,7 @@ define('views/main',[
 			var userlogin = User.get('login');
 			var userData = {
 				"login": userlogin
-			}
+			};
 			this.$el.html(this.template(userData));
 		},
 
@@ -6331,8 +6705,138 @@ define('views/main',[
 	return new Main();
 });
 
-define('tmpl/login',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var user_info=__fest_context;try{var json = {title: 'Login' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</div></div>");})(__fest_context0);__fest_buf+=("<div class=\"container\"><form class=\"form form_signin\" id=\"idFormSignin\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"password\">Password:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div><a class=\"submit-btn btn btn-primary\" href=\"#register\">Register</a></form>");(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('utils/validator',['backbone'],
+define('tmpl/login', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var user_info = __fest_context;
+		try {
+			var json = {title: 'Login'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "4");
+			}
+			__fest_buf += ("</div></div>");
+		})(__fest_context0);
+		__fest_buf += ("<div class=\"container\"><form class=\"form form_signin\" id=\"idFormSignin\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"password\">Password:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div><a class=\"submit-btn btn btn-primary\" href=\"#register\">Register</a></form>");
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('utils/validator', ['backbone'],
 	function (Backbone) {
 		// if typeForm = 1 -> it is login form, if typeForm = 0 -> register form
 		var Validator = Backbone.View.extend({
@@ -6351,7 +6855,7 @@ define('utils/validator',['backbone'],
 
 			clearErrors: function () {
 				$('.form__row_errors').text("")
-									  .css('display', 'none');
+					.css('display', 'none');
 			}
 		});
 
@@ -6419,40 +6923,40 @@ define('utils/validator',['backbone'],
 		return Validator;
 	});
 
-define('utils/showErrors',[
+define('utils/showErrors', [
 	'backbone'
 ], function (Backbone) {
 
-	var showErrors = function(){
+	var showErrors = function () {
 
-		this.signinErrors = function(response){
+		this.signinErrors = function (response) {
 			var $error = $(".form_signin .form__row_errors");
-			if(response.status == '302'){
+			if (response.status == '302') {
 				$error.append("You have been login already !");
 			}
-			else{ 
+			else {
 				$error.append("Login or password is incorrect!");
 			}
 			$error.show();
 		};
 
-		this.signupErrors =  function(response){
+		this.signupErrors = function (response) {
 			var $error = $(".form__row_errors");
-			if(response.status == '500'){
-				$error.append("INTERNAL_SERVER_ERROR");	
+			if (response.status == '500') {
+				$error.append("INTERNAL_SERVER_ERROR");
 			}
-			else{
+			else {
 				$error.append("User cann't be registrated. Try to change your input data");
 			}
 			$error.show();
 
 		};
-	}
+	};
 	return new showErrors();
 
-	
-});	
-define('views/login',[
+
+});
+define('views/login', [
 	'backbone',
 	'tmpl/login',
 	'utils/validator',
@@ -6496,7 +7000,7 @@ define('views/login',[
 				};
 				this.model.login(data, {
 					success: function (response) {
-						response = JSON.parse(response);						
+						response = JSON.parse(response);
 						if (response.status == "200") {
 							console.log(response.body.login);
 							user.set({
@@ -6505,7 +7009,7 @@ define('views/login',[
 							Backbone.history.navigate('menu', {trigger: true});
 						}
 						else {
-							showErrors.signinErrors(response);						
+							showErrors.signinErrors(response);
 						}
 					},
 				});
@@ -6515,7 +7019,7 @@ define('views/login',[
 		},
 
 		show: function () {
-			validator.clearErrors()
+			validator.clearErrors();
 			this.$el.show();
 			this.trigger("show", this);
 		},
@@ -6529,8 +7033,169 @@ define('views/login',[
 	return new View();
 });
 
-define('tmpl/scoreboard',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var scores=__fest_context;try{var json = {title: 'ScoreBoard' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</div></div>");})(__fest_context0);__fest_buf+=("<div class=\"container\"><table class=\"score-list\"><tr class=\"score-list__item score-list__item_head\"><th class=\"score-list__cell score-list__cell_head\">Player</th><th class=\"score-list__cell score-list__cell_head\">Score</th></tr>");var i,v,__fest_iterator1;try{__fest_iterator1=scores || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator1){v=__fest_iterator1[i];__fest_buf+=("<tr class=\"score-list__item\"><th class=\"score-list__cell\">");try{__fest_buf+=(__fest_escapeHTML(v.login))}catch(e){__fest_log_error(e.message + "12");}__fest_buf+=("</th><th class=\"score-list__cell\">");try{__fest_buf+=(__fest_escapeHTML(v.score))}catch(e){__fest_log_error(e.message + "15");}__fest_buf+=("</th></tr>");}__fest_buf+=("</table>");var __fest_context2;try{__fest_context2=json}catch(e){__fest_context2={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context2);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('models/score',[
+define('tmpl/scoreboard', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var scores = __fest_context;
+		try {
+			var json = {title: 'ScoreBoard'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "4");
+			}
+			__fest_buf += ("</div></div>");
+		})(__fest_context0);
+		__fest_buf += ("<div class=\"container\"><table class=\"score-list\"><tr class=\"score-list__item score-list__item_head\"><th class=\"score-list__cell score-list__cell_head\">Player</th><th class=\"score-list__cell score-list__cell_head\">Score</th></tr>");
+		var i, v, __fest_iterator1;
+		try {
+			__fest_iterator1 = scores || {};
+		} catch (e) {
+			__fest_iterator = {};
+			__fest_log_error(e.message);
+		}
+		for (i in __fest_iterator1) {
+			v = __fest_iterator1[i];
+			__fest_buf += ("<tr class=\"score-list__item\"><th class=\"score-list__cell\">");
+			try {
+				__fest_buf += (__fest_escapeHTML(v.login))
+			} catch (e) {
+				__fest_log_error(e.message + "12");
+			}
+			__fest_buf += ("</th><th class=\"score-list__cell\">");
+			try {
+				__fest_buf += (__fest_escapeHTML(v.score))
+			} catch (e) {
+				__fest_log_error(e.message + "15");
+			}
+			__fest_buf += ("</th></tr>");
+		}
+		__fest_buf += ("</table>");
+		var __fest_context2;
+		try {
+			__fest_context2 = json
+		} catch (e) {
+			__fest_context2 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context2);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('models/score', [
 	'backbone'
 ], function (Backbone) {
 
@@ -6544,7 +7209,7 @@ define('models/score',[
 	return PlayerModel;
 });
 
-define('syncs/scoreSync',[
+define('syncs/scoreSync', [
 	'backbone'
 ], function () {
 
@@ -6577,7 +7242,7 @@ define('syncs/scoreSync',[
 
 	};
 });
-define('collections/scores',[
+define('collections/scores', [
 	'backbone',
 	'models/score',
 	'syncs/scoreSync'
@@ -6604,7 +7269,7 @@ define('collections/scores',[
 	return playerCollection;
 });
 
-define('views/scoreboard',[
+define('views/scoreboard', [
 	'backbone',
 	'tmpl/scoreboard',
 	'models/score',
@@ -6643,8 +7308,145 @@ define('views/scoreboard',[
 });
 
 
-define('tmpl/register',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;try{var json = {title: 'Registration' };}catch(e){__fest_log_error(e.message);}var __fest_context0;try{__fest_context0=json}catch(e){__fest_context0={};__fest_log_error(e.message)};(function(__fest_context){var json=__fest_context;__fest_buf+=("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");try{__fest_buf+=(json.title)}catch(e){__fest_log_error(e.message + "4");}__fest_buf+=("</div></div>");})(__fest_context0);__fest_buf+=("<div class=\"container\"><form class=\"form form_signup\" id=\"idFormSignup\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login*:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"email\">Email*:<br/><input type=\"email\" class=\"form__input\" name=\"email\" id=\"email\"/></label></div><div class=\"form__row\"><label for=\"password\">Password*:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><label for=\"password2\">Password again*:<br/><input type=\"password\" class=\"form__input\" name=\"password2\" id=\"password2\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div></form>");var __fest_context1;try{__fest_context1=json}catch(e){__fest_context1={};__fest_log_error(e.message)};(function(__fest_context){__fest_buf+=("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");})(__fest_context1);__fest_buf+=("</div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
-define('views/register',[
+define('tmpl/register', [], function () {
+	return function (__fest_context) {
+		"use strict";
+		var __fest_self = this, __fest_buf = "", __fest_chunks = [], __fest_chunk, __fest_attrs = [], __fest_select, __fest_if, __fest_iterator, __fest_to, __fest_fn, __fest_html = "", __fest_blocks = {}, __fest_params, __fest_element, __fest_debug_file = "", __fest_debug_line = "", __fest_debug_block = "", __fest_htmlchars = /[&<>"]/g, __fest_htmlchars_test = /[&<>"]/, __fest_short_tags = {
+			"area": true,
+			"base": true,
+			"br": true,
+			"col": true,
+			"command": true,
+			"embed": true,
+			"hr": true,
+			"img": true,
+			"input": true,
+			"keygen": true,
+			"link": true,
+			"meta": true,
+			"param": true,
+			"source": true,
+			"wbr": true
+		}, __fest_element_stack = [], __fest_htmlhash = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			"\"": "&quot;"
+		}, __fest_jschars = /[\\'"\/\n\r\t\b\f<>]/g, __fest_jschars_test = /[\\'"\/\n\r\t\b\f<>]/, __fest_jshash = {
+			"\"": "\\\"",
+			"\\": "\\\\",
+			"/": "\\/",
+			"\n": "\\n",
+			"\r": "\\r",
+			"\t": "\\t",
+			"\b": "\\b",
+			"\f": "\\f",
+			"'": "\\'",
+			"<": "\\u003C",
+			">": "\\u003E"
+		}, ___fest_log_error;
+		if (typeof __fest_error === "undefined") {
+			___fest_log_error = (typeof console !== "undefined" && console.error) ? function () {
+				return Function.prototype.apply.call(console.error, console, arguments)
+			} : function () {
+			};
+		} else {
+			___fest_log_error = __fest_error
+		}
+		function __fest_log_error(msg) {
+			___fest_log_error(msg + "\nin block \"" + __fest_debug_block + "\" at line: " + __fest_debug_line + "\nfile: " + __fest_debug_file)
+		}
+
+		function __fest_replaceHTML(chr) {
+			return __fest_htmlhash[chr]
+		}
+
+		function __fest_replaceJS(chr) {
+			return __fest_jshash[chr]
+		}
+
+		function __fest_extend(dest, src) {
+			for (var i in src)if (src.hasOwnProperty(i))dest[i] = src[i];
+		}
+
+		function __fest_param(fn) {
+			fn.param = true;
+			return fn
+		}
+
+		function __fest_call(fn, params, cp) {
+			if (cp)for (var i in params)if (typeof params[i] == "function" && params[i].param)params[i] = params[i]();
+			return fn.call(__fest_self, params)
+		}
+
+		function __fest_escapeJS(s) {
+			if (typeof s === "string") {
+				if (__fest_jschars_test.test(s))return s.replace(__fest_jschars, __fest_replaceJS);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		function __fest_escapeHTML(s) {
+			if (typeof s === "string") {
+				if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars, __fest_replaceHTML);
+			} else if (typeof s === "undefined")return "";
+			return s;
+		}
+
+		var json = __fest_context;
+		try {
+			var json = {title: 'Registration'};
+		} catch (e) {
+			__fest_log_error(e.message);
+		}
+		var __fest_context0;
+		try {
+			__fest_context0 = json
+		} catch (e) {
+			__fest_context0 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			var json = __fest_context;
+			__fest_buf += ("<div class=\"header\"><div class=\"header__game-title\">Space Hockey</div><div class=\"header__page-title\">");
+			try {
+				__fest_buf += (json.title)
+			} catch (e) {
+				__fest_log_error(e.message + "4");
+			}
+			__fest_buf += ("</div></div>");
+		})(__fest_context0);
+		__fest_buf += ("<div class=\"container\"><form class=\"form form_signup\" id=\"idFormSignup\"><div class=\"form__row form__row_errors alert alert-danger\"></div><div class=\"form__row\"><label for=\"login\">Login*:<br/><input type=\"text\" class=\"form__input\" name=\"login\" id=\"login\"/></label></div><div class=\"form__row\"><label for=\"email\">Email*:<br/><input type=\"email\" class=\"form__input\" name=\"email\" id=\"email\"/></label></div><div class=\"form__row\"><label for=\"password\">Password*:<br/><input type=\"password\" class=\"form__input\" name=\"password\" id=\"password\"/></label></div><div class=\"form__row\"><label for=\"password2\">Password again*:<br/><input type=\"password\" class=\"form__input\" name=\"password2\" id=\"password2\"/></label></div><div class=\"form__row\"><button type=\"submit\" class=\"submit-btn submit-btn_go btn btn-success\">GO!</button></div></form>");
+		var __fest_context1;
+		try {
+			__fest_context1 = json
+		} catch (e) {
+			__fest_context1 = {};
+			__fest_log_error(e.message)
+		}
+		(function (__fest_context) {
+			__fest_buf += ("<a href=\"#\" class=\"back-button btn btn-primary\">Menu</a>");
+		})(__fest_context1);
+		__fest_buf += ("</div>");
+		__fest_to = __fest_chunks.length;
+		if (__fest_to) {
+			__fest_iterator = 0;
+			for (; __fest_iterator < __fest_to; __fest_iterator++) {
+				__fest_chunk = __fest_chunks[__fest_iterator];
+				if (typeof __fest_chunk === "string") {
+					__fest_html += __fest_chunk;
+				} else {
+					__fest_fn = __fest_blocks[__fest_chunk.name];
+					if (__fest_fn) __fest_html += __fest_call(__fest_fn, __fest_chunk.params, __fest_chunk.cp);
+				}
+			}
+			return __fest_html + __fest_buf;
+		} else {
+			return __fest_buf;
+		}
+	};
+});
+define('views/register', [
 	'backbone',
 	'tmpl/register',
 	'utils/validator',
@@ -6692,7 +7494,7 @@ define('views/register',[
 						if (parseInt(data["status"]) == "200") {
 							Backbone.history.navigate('', {trigger: true});
 						}
-						else {							
+						else {
 							showErrors.signupErrors(response);
 						}
 					}
@@ -6702,7 +7504,7 @@ define('views/register',[
 		},
 
 		show: function () {
-			validator.clearErrors()
+			validator.clearErrors();
 			this.$el.show();
 			this.trigger("show", this);
 		},
@@ -6716,7 +7518,7 @@ define('views/register',[
 	return new View();
 });
 
-define('views/manager',[
+define('views/manager', [
 	'backbone'
 ], function (Backbone) {
 
@@ -6760,7 +7562,7 @@ define('views/manager',[
 	return manager;
 });
 
-define('router',[
+define('router', [
 	'backbone',
 	'views/game',
 	'views/mobile',
@@ -6854,7 +7656,7 @@ require.config({
 	}
 });
 
-define('main',[
+define('main', [
 	'backbone',
 	'router'
 ], function (Backbone,

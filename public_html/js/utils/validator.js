@@ -1,6 +1,5 @@
 define(['backbone'],
 	function (Backbone) {
-		// if typeForm = 1 -> it is login form, if typeForm = 0 -> register form
 		var Validator = Backbone.View.extend({
 			form_valid: false,
 			type: null,
@@ -17,7 +16,7 @@ define(['backbone'],
 
 			clearErrors: function () {
 				$('.form__row_errors').text("")
-									  .css('display', 'none');
+					.css('display', 'none');
 			}
 		});
 

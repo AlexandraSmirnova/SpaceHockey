@@ -11,7 +11,6 @@ define([
 	var CANVAS_WIDTH;
 	var CANVAS_HEIGHT;
 	var ws = undefined;
-	//var gameStarted = false;
 
 	function PlayField(x, y, width, height, color) {
 		this.x = x;
@@ -76,7 +75,7 @@ define([
 				var message = {
 					"status": "movePlatform",
 					"direction": "LEFT"
-				}
+				};
 				gameWebSocket.sendMessage(ws, JSON.stringify(message));
 				send = true;
 			}
@@ -87,7 +86,7 @@ define([
 			var message = {
 				"status": "movePlatform",
 				"direction": "STOP"
-			}
+			};
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
 		if (input.isDown('RIGHT') && !left) {
@@ -97,7 +96,7 @@ define([
 				var message = {
 					"status": "movePlatform",
 					"direction": "RIGHT"
-				}
+				};
 				gameWebSocket.sendMessage(ws, JSON.stringify(message));
 				send = true;
 			}
@@ -108,7 +107,7 @@ define([
 			var message = {
 				"status": "movePlatform",
 				"direction": "STOP"
-			}
+			};
 			gameWebSocket.sendMessage(ws, JSON.stringify(message));
 		}
 	}
@@ -122,7 +121,7 @@ define([
 
 		start: function (canvas) {
 			console.log('ODIN RAZ');
-			this.gameStarted = true;			
+			this.gameStarted = true;
 			ws = gameWebSocket.initConnect();
 			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
@@ -157,14 +156,14 @@ define([
 					$(".first-player").html(data.first.name);
 					$(".second-player").html(data.second.name);
 
-					if(data.first.name == User.get("login")){
+					if (data.first.name == User.get("login")) {
 						self.playerName = data.first.name;
 						self.playerNum = 1;
 					}
 					else {
 						self.playerName = data.second.name;
 						self.playerNum = 2;
-					}					
+					}
 				}
 
 				if (data.status == "finish") {
@@ -179,12 +178,12 @@ define([
 				if (data.status == "incrementScore") {
 					$(".my-score").html(data.first.score);
 					$(".enemy-score").html(data.second.score);
-					if(self.playerNum == 1){
+					if (self.playerNum == 1) {
 						self.playerScore = data.first.score;
 					}
 					else {
-						self.playerScore = data.second.score;	
-					}					
+						self.playerScore = data.second.score;
+					}
 				}
 			}
 		}

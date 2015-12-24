@@ -13,11 +13,9 @@ define([
 			requestType = "GET";
 			successFunc = function (response) {
 				var resp = JSON.parse(response);
-				console.log(resp.body);
 				collection.set(resp.body.scoreList);
 			};
 			errorFunc = function (error) {
-				console.log(error.statusText);
 			}
 		}
 
