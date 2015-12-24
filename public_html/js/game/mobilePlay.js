@@ -135,10 +135,11 @@ define([
 	var Game = Backbone.View.extend({
 		gameStarted: false,
 		playerName: null,
+		playerNum: 0,
+		playerScore: 0,
 
 		start: function (canvas) {
-			this.gameStarted = true;
-			this.playerName = User.get("login");
+			this.gameStarted = true;			
 			ws = gameWebSocket.initConnect();
 			console.log(this.gameStarted);
 			console.log("INIT CONNECT");
@@ -168,30 +169,37 @@ define([
 				if (data.status == "start" && data.second.name != data.first.name) {
 					$(".game-wait").hide();
 					$(".game-play").show();
-
 					$(".first-player").html(data.first.name);
 					$(".second-player").html(data.second.name);
 
+					if(data.first.name == User.get("login")){
+						self.playerName = data.first.name;
+						self.playerNum = 1;
+					}
+					else {
+						self.playerName = data.second.name;
+						self.playerNum = 2;
+					}		
 				}
-				if (data.status == "finish") {
-					console.log(data);
+
+				if (data.status == "finish") {					
 					$(".game-over").show();
-					$(".game-play").hide()
-					if (data.gameState == 0)
-						$(".game-over__winner").html("dead heat!");
-					else if (data.gameState == 1)
-						$(".game-over__winner").html("first winner!");
-					else if (data.gameState == 2)
-						$(".game-over__winner").html("second winner!");
-					if (data.first.name == self.playerName)
-						$(".game-over__result").html("wwr!");
-					else
-						$(".game-over__result").html("2!");
+					$(".game-play").hide();
+					$(".game-over__winner").html(data.winner);
+					$(".game-over__result").html(self.playerScore);
 					self.gameStarted = false;
 				}
+
 				if (data.status == "incrementScore") {
 					$(".my-score").html(data.first.score);
 					$(".enemy-score").html(data.second.score);
+					
+					if(self.playerNum == 1){
+						self.playerScore = data.first.score;
+					}
+					else {
+						self.playerScore = data.second.score;	
+					}	
 				}
 			}
 		},

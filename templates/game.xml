@@ -31,7 +31,7 @@
 			</p>
 			<p>Your result:
 				<fest:space/>
-				<span class="geme-over__result"></span>
+				<span class="game-over__result"></span>
 			</p>
 			<a class="submit-btn btn btn-primary" href="#game">Restart</a>
 		</div>
