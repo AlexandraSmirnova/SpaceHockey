@@ -1,6 +1,7 @@
 @font-face {
   font-family: Canossa-Ultra;
   src: url(../js/fonts/7fonts.ru_Canossa-Ultra.ttf); }
+
 .menu__item {
   margin: 10px; }
 
@@ -62,7 +63,7 @@
   margin: 5px; }
 
 .score-list__item_head {
-  color: #C71585;
+  color: mediumvioletred;
   font-size: 20px; }
 
 .game-field {
@@ -91,6 +92,7 @@
 @keyframes scale {
   100% {
     transform: scale(4) scale(0.25); } }
+
 .game-play {
   font-size: 20px;
   display: none; }
@@ -104,6 +106,9 @@
 
 .game-play__info_first-player {
   text-align: left; }
+
+.game-play__move-buttons > img {
+  width: 70px; }
 
 .game-play__info_second-player {
   position: relative;
@@ -155,7 +160,7 @@
   border-radius: 10px; }
 
 .submit-btn_go {
-  background-color: #759D00; }
+  background-color: #759d00; }
 
 .page-preloader {
   position: fixed;
@@ -174,7 +179,7 @@
   position: absolute;
   top: 45%;
   left: 40%;
-  background: url("http://www.domination-online.info/block/57.gif") no-repeat 50% 50%; }
+  background: url("../img/57.gif") no-repeat 50% 50%; }
 
 body {
   background-image: url(../img/prosto_cosmos.jpg);
@@ -192,5 +197,3 @@ body {
   min-height: 270px;
   padding: 5px;
   border-radius: 15px; }
-
-/*# sourceMappingURL=main.css.map */
