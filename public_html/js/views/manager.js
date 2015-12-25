@@ -3,13 +3,13 @@ define([
 ], function (Backbone) {
 
 	var views = [];
-	var $page = $(".page");
 
 	var Manager = Backbone.View.extend({
 		inited: false,
+		el: $(".page"),
 
 		addView: function (currentView) {
-			$page.append(currentView.$el);
+			this.$el.append(currentView.$el);
 			views.push(currentView);
 
 			this.listenTo(currentView, 'show', function () {

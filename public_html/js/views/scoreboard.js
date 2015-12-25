@@ -10,11 +10,9 @@ define([
 
 	var ScoreBoardView = Backbone.View.extend({
 		template: tmpl,
-		collection: playerCollection,
-		tagName: 'div',
+		collection: playerCollection,		
 
 		initialize: function () {
-			console.log('initializing scoreboard view');
 			$('.page').append(this.el);
 			this.render();
 		},

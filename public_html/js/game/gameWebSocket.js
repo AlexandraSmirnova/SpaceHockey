@@ -1,9 +1,7 @@
 define([
 	'models/userProfile'
-], function (userModel) {
-	console.log('GAMEWEBSOCKET');
-	function initConnect() {
-		console.log("entered gamewebsocket initconnect");
+], function (userModel) {	
+	function initConnect() {		
 		var ws = new WebSocket("ws://localhost:8080/gameplay");
 
 		ws.onopen = function () {
