@@ -20,5 +20,4 @@
 		</table>
 		<fest:include src="./backbutton.xml" context="json"/>
 	</div>
-
 </fest:template>
